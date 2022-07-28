@@ -1,0 +1,23 @@
+<div class="toolbar-header">
+    <p-toolbar>
+      <div class="header-button p-toolbar-group-left">
+        <button pButton pRipple type="button" icon="pi pi-bars" (click)="toggleSideNav()" class="p-button-rounded"></button>
+        <div class="flex align-items-center justify-content-start p-fluid">
+          <div class="image aboslute left-0" routerLink="/welcome">
+            <img src="assets/images/logo.png" height="40px" alt="" />
+          </div>
+          <div class="ml-2 text-xl text-white" routerLink="/welcome">
+            <b>GTE Manager</b>
+          </div>
+        </div>
+      </div>
+      <div class="header-button p-toolbar-group-right">
+        <a pButton pRipple type="button" icon="pi pi-exclamation-circle" class="p-button-rounded" pTooltip="Send feedback" tooltipPosition="bottom" href="mailto:ccsw.support@capgemini.com?subject=[GTE Manager] Consulta / Feedback"></a>
+        <p-menu class="logout-menu" #menu [popup]="true" [model]="items"></p-menu>
+        <span class="p-buttonset" (click)="menu.toggle($event)">
+          <p-button class="-mr-3" icon="pi pi-user"></p-button>
+          <p-button label={{getName()}} icon="pi pi-sort-down" iconPos="right"></p-button>
+        </span>
+      </div>
+    </p-toolbar>
+</div>
