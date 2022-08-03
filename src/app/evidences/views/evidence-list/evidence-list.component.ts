@@ -18,7 +18,7 @@ export class EvidenceListComponent implements OnInit {
   }
 
   importarDatos(): void {
-    const dialogRef = this.dialogService.open(EvidenceUploadComponent, {header: "Subir archivo"});
+    const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%" });
   }
 
 }
