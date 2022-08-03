@@ -34,8 +34,9 @@ export class EvidenceUploadComponent implements OnInit {
     }
 
     onImport(event: { files: File[]; }) {
-        if (!this.file) {
+        if (!this.file || (this.file && (this.file.type != "application/vnd.ms-excel" && this.file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))) {
             this.messageService.add({ severity: 'error', summary: 'Error:', detail: 'Debe seleccionar un archivo.' });
+            this.onRemove(event);
             return;
         }
 
