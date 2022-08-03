@@ -1,10 +1,11 @@
 <div class="content">
     <div class="upload">
-        <p-fileUpload name="evidence[]" [showUploadButton]="false" [showCancelButton]="false"
+        <p-fileUpload name="evidence" [showUploadButton]="false" [showCancelButton]="false" auto="false"
             accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             invalidFileTypeMessageSummary="Error en tipo de archivo:"
             invalidFileTypeMessageDetail="Debe subir un archivo de Microsoft Excel (.xls, .xlsx)"
-            (onSelect)="onSelect($event)" (onRemove)="onRemove($event)">
+            (onSelect)="onSelect($event)" (onRemove)="onRemove($event)" chooseIcon="hidden"
+            chooseLabel="Seleccionar archivo">
         </p-fileUpload>
     </div>
     <div class="checkbox">

@@ -2,6 +2,12 @@
     margin-bottom: 10px;
 }
 
+::ng-deep .p-fileupload-buttonbar .p-button{
+    background-color: transparent;
+    color: #3F51B5;
+    border: 0 none;
+}
+
 .actions {
     text-align: right;
     margin-top: 20px;
