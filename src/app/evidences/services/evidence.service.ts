@@ -9,10 +9,12 @@ import { Upload } from "../models/Upload";
 })
 export class EvidenceService {
 
-    http: HttpClient;
+    constructor(
+        private http: HttpClient
+    ) { }
 
-    upload(upload: Upload): Observable<Upload> {
-        return this.http.put<Upload>(environment.server + "/evidence", upload);
+    upload(upload: FormData): Observable<FormData> {
+        return this.http.put<FormData>(environment.server + "/evidence", upload);
     }
 
 }

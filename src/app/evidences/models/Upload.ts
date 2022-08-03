@@ -1,4 +1,4 @@
-export class Upload{
-    file: BinaryData;
+export class Upload {
+    file: FormData;
     deleteComments: boolean;
 }
