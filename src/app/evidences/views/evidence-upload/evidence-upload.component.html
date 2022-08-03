@@ -1,0 +1,10 @@
+<p-fileUpload name="evidence[]" [showUploadButton]="false" [showCancelButton]="false"
+    accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    invalidFileTypeMessageSummary="Error en tipo de archivo:"
+    invalidFileTypeMessageDetail="Debe subir un archivo de Microsoft Excel (.xls, .xlsx)" (onSelect)="onSelect($event)"
+    (onRemove)="onRemove($event)">
+</p-fileUpload>
+<p-checkbox name="deleteComments" label="Eliminar comentarios de las evidencias" [(ngModel)]="deleteComments"
+    [binary]="true"></p-checkbox>
+<button pButton label="Cancelar" class="p-button-secondary" (click)="onCancel($event)"></button>
+<button pButton label="Importar" (click)="onImport($event)"></button>
