@@ -8,9 +8,9 @@ describe('EvidenceListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EvidenceListComponent ]
+      declarations: [EvidenceListComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,4 +1,8 @@
+<!-- author: cavire -->
+
+<!-- Sección contenido -->
 <div class="content">
+    <!-- Elemento PrimeNg FileUpload -->
     <div class="upload">
         <p-fileUpload name="evidence" [showUploadButton]="false" [showCancelButton]="false" auto="false"
             accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -8,12 +12,15 @@
             chooseLabel="Seleccionar archivo">
         </p-fileUpload>
     </div>
+
+    <!-- Checkbox para control de borrado de comentarios -->
     <div class="checkbox">
         <p-checkbox name="deleteComments" label="Eliminar comentarios de las evidencias" [(ngModel)]="deleteComments"
             [binary]="true"></p-checkbox>
     </div>
 </div>
 
+<!-- Sección botones de acción -->
 <div class="actions">
     <button pButton label="Cancelar" class="p-button-secondary" (click)="onCancel($event)"></button>
     <button pButton label="Importar" (click)="onImport($event)"></button>

@@ -1,6 +1,11 @@
-import { HttpClient, HttpHandler } from '@angular/common/http';
+/**
+ * Tests para EvidenceService.
+ * @author cavire
+ */
+
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { environment } from 'src/environments/environment';
 
 import { EvidenceService } from './evidence.service';
 
@@ -18,10 +23,12 @@ describe('EvidenceService', () => {
     http = TestBed.inject(HttpTestingController);
   });
 
+  /** Servicio debería crearse */
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
+  /** Servicio debería devolver error con archivo incorrecto */
   it('should return error on invalid file', () => {
     let ok: boolean;
     let file = new Blob([null], { type: "application/pdf" });
@@ -44,14 +51,15 @@ describe('EvidenceService', () => {
 
     const request = http.expectOne({
       method: 'PUT',
-      url: "http://localhost:8080/evidence",
+      url: environment.server + "/evidence",
     });
 
-    request.flush(formData, { status: 400, statusText: 'Bad Request' });
+    request.flush(formData, { status: 400, statusText: 'BAD REQUEST' });
 
-    expect(ok).not.toEqual(true);
+    expect(ok).toBeFalse();
   });
 
+  /** Servicio debería funcionar con archivo correcto */
   it('should return ok on valid file', () => {
     let ok: boolean;
     let file = new Blob([null], { type: "application/vnd.ms-excel" });
@@ -74,11 +82,11 @@ describe('EvidenceService', () => {
 
     const request = http.expectOne({
       method: 'PUT',
-      url: "http://localhost:8080/evidence",
+      url: environment.server + "/evidence",
     });
 
-    request.flush(formData);
+    request.flush(formData, { status: 200, statusText: 'OK' });
 
-    expect(ok).toEqual(true);
+    expect(ok).toBeTrue();
   });
 });

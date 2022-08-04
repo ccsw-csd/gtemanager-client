@@ -3,6 +3,10 @@ import { MessageService } from "primeng/api";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { EvidenceService } from "../../services/evidence.service";
 
+/**
+ * Componente EvidenceUpload
+ * @author cavire
+ */
 @Component({
     selector: 'app-evidence-upload',
     templateUrl: './evidence-upload.component.html',
@@ -13,6 +17,7 @@ export class EvidenceUploadComponent implements OnInit {
     file: File;
     deleteComments: boolean;
 
+    /** Constructor */
     constructor(
         private evidenceService: EvidenceService,
         public dialogRef: DynamicDialogRef,
@@ -20,19 +25,23 @@ export class EvidenceUploadComponent implements OnInit {
         private messageService: MessageService
     ) { }
 
+    /** Init: limpiar variable deleteComments */
     ngOnInit(): void {
         this.deleteComments = false;
     }
 
+    /** Seleccionar archivo */
     onSelect(event: { files: File[]; }) {
         this.file = event.files[0];
     }
 
+    /** Eliminar archivo seleccionado */
     onRemove(event) {
         this.file = null;
         this.deleteComments = false;
     }
 
+    /** Importar archivo seleccionado */
     onImport(event: { files: File[]; }) {
         if (!this.file || (this.file && (this.file.type != "application/vnd.ms-excel" && this.file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))) {
             this.messageService.add({ severity: 'error', summary: 'Error:', detail: 'Debe seleccionar un archivo.' });
@@ -48,7 +57,7 @@ export class EvidenceUploadComponent implements OnInit {
             result => {
                 console.log("OK");
                 this.messageService.add({ severity: 'success', summary: 'Archivo subido correctamente.' });
-                this.dialogRef.close();
+                this.close();
             },
             error => {
                 console.log("KO: " + error.message);
@@ -57,7 +66,13 @@ export class EvidenceUploadComponent implements OnInit {
         );
     }
 
+    /** Cancelar subida */
     onCancel(event) {
+        this.close();
+    }
+
+    /** Cerrar componente */
+    close() {
         this.dialogRef.close();
     }
 }
