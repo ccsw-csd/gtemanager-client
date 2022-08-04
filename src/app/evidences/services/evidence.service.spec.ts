@@ -36,18 +36,18 @@ describe('EvidenceService', () => {
     formData.append("file", file);
     formData.append("deleteComments", JSON.stringify(false));
 
-    service.upload(formData).subscribe(
-      result => {
+    service.upload(formData).subscribe({
+      next: result => {
         ok = true;
         console.log("OK");
         expect(result).toBeFalsy();
       },
-      error => {
+      error: error => {
         ok = false;
         console.log("KO: " + error.message);
         expect(error).toBeTruthy();
       }
-    );
+    });
 
     const request = http.expectOne({
       method: 'PUT',
@@ -67,18 +67,18 @@ describe('EvidenceService', () => {
     formData.append("file", file);
     formData.append("deleteComments", JSON.stringify(false));
 
-    service.upload(formData).subscribe(
-      result => {
+    service.upload(formData).subscribe({
+      next: result => {
         ok = true;
         console.log("OK");
         expect(result).toBeTruthy();
       },
-      error => {
+      error: error => {
         ok = false;
         console.log("KO: " + error.message);
         expect(error).toBeFalsy();
       }
-    );
+    });
 
     const request = http.expectOne({
       method: 'PUT',
