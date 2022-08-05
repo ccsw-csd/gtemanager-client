@@ -18,8 +18,8 @@ export class EvidenceService {
     ) { }
 
     /** PUT: Enviar archivo a backend */
-    upload(upload: FormData): Observable<FormData> {
-        return this.http.put<FormData>(environment.server + "/evidence", upload);
+    uploadEvidence(formData: FormData): Observable<FormData> {
+        return this.http.put<FormData>(environment.server + "/evidence", formData);
     }
 
 }

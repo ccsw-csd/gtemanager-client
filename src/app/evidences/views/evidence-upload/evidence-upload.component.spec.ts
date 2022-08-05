@@ -15,6 +15,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
+import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EvidenceService } from '../../services/evidence.service';
 
@@ -25,6 +26,7 @@ describe('EvidenceUploadComponent', () => {
   let fixture: ComponentFixture<EvidenceUploadComponent>;
   let debugElement: DebugElement;
 
+  let mockEvidenceService;
   let http: HttpTestingController;
 
   beforeEach(async () => {
@@ -52,6 +54,7 @@ describe('EvidenceUploadComponent', () => {
     })
       .compileComponents();
 
+    mockEvidenceService = jasmine.createSpyObj(["uploadEvidence"]);
     fixture = TestBed.createComponent(EvidenceUploadComponent);
     debugElement = fixture.debugElement;
 
@@ -63,6 +66,7 @@ describe('EvidenceUploadComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     spyOn(component, "close");
+    spyOn(component, "onRemove");
   });
 
   /** Componente debería tener archivo seleccionado */
@@ -71,14 +75,17 @@ describe('EvidenceUploadComponent', () => {
     let event = { files };
     event.files.push(new File([new Blob([null], { type: "application/vnd.ms-excel" })], "text.xls"));
     component.onSelect(event);
+
     expect(component.file).toBeTruthy();
   });
 
   /** Componente debería eliminar archivo seleccionado */
   it('should remove file', () => {
     component.onRemove(null);
+
+    expect(component.onRemove).toHaveBeenCalled();
     expect(component.file).toBeFalsy();
-    expect(fixture.componentInstance.deleteComments).toBeFalse();
+    expect(component.deleteComments).toBeFalse();
   });
 
   /** Componente debería importar archivo válido */
@@ -88,18 +95,22 @@ describe('EvidenceUploadComponent', () => {
     component.file = null;
     event.files.push(new File([null], "test.xls", { type: "application/vnd.ms-excel" }));
     component.file = event.files[0];
+    component.deleteComments = true;
     component.onImport(event);
-
-    const request = http.expectOne({
-      method: 'PUT',
-      url: environment.server + "/evidence",
-    });
 
     let formData = new FormData;
     formData.append("file", component.file);
     formData.append("deleteComments", JSON.stringify(component.deleteComments));
-    request.flush(formData, { status: 200, statusText: 'OK' });
+    http.expectOne({
+      method: 'PUT',
+      url: environment.server + "/evidence",
+    }).flush(formData);
 
+    mockEvidenceService.uploadEvidence.and.returnValue(of(true));
+
+    expect(mockEvidenceService.uploadEvidence(formData)).toBeTruthy();
+    expect(mockEvidenceService.uploadEvidence).toHaveBeenCalledWith(formData);
+    expect(component.onRemove).not.toHaveBeenCalled();
     expect(component.close).toHaveBeenCalled();
   });
 
@@ -110,8 +121,11 @@ describe('EvidenceUploadComponent', () => {
     component.file = null;
     event.files.push(new File([null], "test.pdf", { type: "application/pdf" }));
     component.file = event.files[0];
+    component.deleteComments = true;
     component.onImport(event);
 
+    expect(mockEvidenceService.uploadEvidence).not.toHaveBeenCalled();
+    expect(component.onRemove).toHaveBeenCalled();
     expect(component.close).not.toHaveBeenCalled();
   });
 

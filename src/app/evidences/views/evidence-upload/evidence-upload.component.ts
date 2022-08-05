@@ -53,7 +53,7 @@ export class EvidenceUploadComponent implements OnInit {
         formData.append("file", this.file);
         formData.append("deleteComments", JSON.stringify(this.deleteComments));
 
-        this.evidenceService.upload(formData).subscribe({
+        this.evidenceService.uploadEvidence(formData).subscribe({
             next: () => {
                 console.log("OK");
                 this.messageService.add({ severity: 'success', summary: 'Archivo subido correctamente.' });

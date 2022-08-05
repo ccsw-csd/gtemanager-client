@@ -36,7 +36,7 @@ describe('EvidenceService', () => {
     formData.append("file", file);
     formData.append("deleteComments", JSON.stringify(false));
 
-    service.upload(formData).subscribe({
+    service.uploadEvidence(formData).subscribe({
       next: result => {
         ok = true;
         console.log("OK");
@@ -49,12 +49,10 @@ describe('EvidenceService', () => {
       }
     });
 
-    const request = http.expectOne({
+    http.expectOne({
       method: 'PUT',
       url: environment.server + "/evidence",
-    });
-
-    request.flush(formData, { status: 400, statusText: 'BAD REQUEST' });
+    }).flush(formData, { status: 400, statusText: 'BAD REQUEST' });
 
     expect(ok).toBeFalse();
   });
@@ -67,7 +65,7 @@ describe('EvidenceService', () => {
     formData.append("file", file);
     formData.append("deleteComments", JSON.stringify(false));
 
-    service.upload(formData).subscribe({
+    service.uploadEvidence(formData).subscribe({
       next: result => {
         ok = true;
         console.log("OK");
@@ -80,12 +78,10 @@ describe('EvidenceService', () => {
       }
     });
 
-    const request = http.expectOne({
+    http.expectOne({
       method: 'PUT',
       url: environment.server + "/evidence",
-    });
-
-    request.flush(formData, { status: 200, statusText: 'OK' });
+    }).flush(formData, { status: 200, statusText: 'OK' });
 
     expect(ok).toBeTrue();
   });
