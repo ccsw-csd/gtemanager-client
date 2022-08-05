@@ -39,12 +39,10 @@ describe('EvidenceService', () => {
     service.uploadEvidence(formData).subscribe({
       next: result => {
         ok = true;
-        console.log("OK");
         expect(result).toBeFalsy();
       },
       error: error => {
         ok = false;
-        console.log("KO: " + error.message);
         expect(error).toBeTruthy();
       }
     });
@@ -68,12 +66,10 @@ describe('EvidenceService', () => {
     service.uploadEvidence(formData).subscribe({
       next: result => {
         ok = true;
-        console.log("OK");
         expect(result).toBeTruthy();
       },
       error: error => {
         ok = false;
-        console.log("KO: " + error.message);
         expect(error).toBeFalsy();
       }
     });
