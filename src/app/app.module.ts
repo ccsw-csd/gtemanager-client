@@ -10,12 +10,14 @@ import { LoginModule } from './login/login.module';
 
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { AccessManagementListComponent } from './access-management/views/access-management-list.component';
 
 registerLocaleData(localeEs,'es');
 
 @NgModule({
   declarations: [
     AppComponent,
+    AccessManagementListComponent,
   ],
   imports: [
     BrowserModule,
