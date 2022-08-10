@@ -23,12 +23,16 @@ describe('EvidenceService', () => {
     http = TestBed.inject(HttpTestingController);
   });
 
-  /** Servicio debería crearse */
+  /**
+   * Servicio debería crearse.
+   */
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  /** Servicio debería devolver error con archivo incorrecto */
+  /**
+   *  Servicio debería devolver error con archivo incorrecto.
+   */
   it('should return error on invalid file', () => {
     let ok: boolean;
     let file = new Blob([null], { type: "application/pdf" });
@@ -55,7 +59,9 @@ describe('EvidenceService', () => {
     expect(ok).toBeFalse();
   });
 
-  /** Servicio debería funcionar con archivo correcto */
+  /**
+   *  Servicio debería funcionar con archivo correcto.
+   */
   it('should return ok on valid file', () => {
     let ok: boolean;
     let file = new Blob([null], { type: "application/vnd.ms-excel" });

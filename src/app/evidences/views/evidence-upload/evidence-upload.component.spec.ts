@@ -69,7 +69,9 @@ describe('EvidenceUploadComponent', () => {
     spyOn(component, "onRemove");
   });
 
-  /** Componente debería tener archivo seleccionado */
+  /**
+   * Componente debería tener archivo seleccionado.
+   */
   it('should select file', () => {
     let files: File[] = [];
     let event = { files };
@@ -79,7 +81,9 @@ describe('EvidenceUploadComponent', () => {
     expect(component.file).toBeTruthy();
   });
 
-  /** Componente debería eliminar archivo seleccionado */
+  /**
+   * Componente debería eliminar archivo seleccionado.
+   */
   it('should remove file', () => {
     component.onRemove(null);
 
@@ -88,7 +92,9 @@ describe('EvidenceUploadComponent', () => {
     expect(component.deleteComments).toBeFalse();
   });
 
-  /** Componente debería importar archivo válido */
+  /**
+   * Componente debería importar archivo válido.
+   */
   it('should import valid file', () => {
     let files: File[] = [];
     let event = { files };
@@ -114,7 +120,9 @@ describe('EvidenceUploadComponent', () => {
     expect(component.close).toHaveBeenCalled();
   });
 
-  /** Componente no debería importar archivo no válido */
+  /**
+   * Componente no debería importar archivo no válido.
+   */
   it('should not import invalid file', () => {
     let files: File[] = [];
     let event = { files };
@@ -129,7 +137,9 @@ describe('EvidenceUploadComponent', () => {
     expect(component.close).not.toHaveBeenCalled();
   });
 
-  /** Componente debería cerrarse al cancelar */
+  /**
+   * Componente debería cerrarse al cancelar.
+   */
   it('should close on cancel', () => {
     component.onCancel(null);
 

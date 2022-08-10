@@ -2,7 +2,6 @@
 
 <!-- Sección contenido -->
 <div class="mb-5">
-    <!-- Elemento PrimeNg FileUpload -->
     <p-fileUpload name="evidence" [showUploadButton]="false" [showCancelButton]="false" auto="false"
         accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         invalidFileTypeMessageSummary="Error en tipo de archivo:"
@@ -11,7 +10,6 @@
         chooseLabel="Seleccionar archivo">
     </p-fileUpload>
 
-    <!-- Checkbox para control de borrado de comentarios -->
     <p-checkbox name="deleteComments" class="mt-3" label="Eliminar comentarios de las evidencias"
         [(ngModel)]="deleteComments" [binary]="true"></p-checkbox>
 </div>

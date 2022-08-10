@@ -4,7 +4,8 @@ import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { EvidenceService } from "../../services/evidence.service";
 
 /**
- * Componente EvidenceUpload
+ * Componente EvidenceUpload: diálogo de selección de archivo de hoja de cálculo de evidencias para su subida a la aplicación.
+ * 
  * @author cavire
  */
 @Component({
@@ -17,7 +18,14 @@ export class EvidenceUploadComponent implements OnInit {
     file: File;
     deleteComments: boolean;
 
-    /** Constructor */
+    /**
+     * Constructor: inicializa servicios necesarios para comunicación y manejo de datos en pantalla.
+     * 
+     * @param evidenceService Servicio EvidenceService para envío de datos a backend
+     * @param dialogRef DynamicDialogRef, referencia al diálogo de la ventana Upload
+     * @param config DynamicDialogCongig, configuración del diálogo de la ventana Upload
+     * @param messageService Servicio MessageService para muestra de notificaciones o avisos en pantalla
+     */
     constructor(
         private evidenceService: EvidenceService,
         public dialogRef: DynamicDialogRef,
@@ -25,23 +33,40 @@ export class EvidenceUploadComponent implements OnInit {
         private messageService: MessageService
     ) { }
 
-    /** Init: limpiar variable deleteComments */
+    /**
+     * Inicializar componente: reset de deleteComments.
+     */
     ngOnInit(): void {
         this.deleteComments = false;
     }
 
-    /** Seleccionar archivo */
+    /**
+     * Asignar el archivo subido a través de fileUpload a variable local file.
+     * 
+     * @param event Evento recibido tras selección de archivo
+     */
     onSelect(event: { files: File[]; }) {
         this.file = event.files[0];
     }
 
-    /** Eliminar archivo seleccionado */
+    /**
+     * Eliminar archivo seleccionado de variable local, y resetear valor deleteComments.
+     * 
+     * @param event Evento recibido tras eliminación de archivo
+     */
     onRemove(event) {
         this.file = null;
         this.deleteComments = false;
     }
 
-    /** Importar archivo seleccionado */
+    /**
+     * Validar y enviar archivo seleccionado y valor de deleteComments al backend a través de EvidenceService.
+     * 
+     * Se valida que se haya seleccionado un archivo, y que sea de formato .xls o .xlsx.
+     * Se muestra un error en pantalla en caso de recibir un archivo no válido o de producirse un fallo durante el envío.
+     * 
+     * @param event Evento recibido tras confirmación de subida de archivo
+     */
     onImport(event: { files: File[]; }) {
         if (!this.file || (this.file && (this.file.type != "application/vnd.ms-excel" && this.file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))) {
             this.messageService.add({ severity: 'error', summary: 'Error:', detail: 'Debe seleccionar un archivo.' });
@@ -64,12 +89,18 @@ export class EvidenceUploadComponent implements OnInit {
         });
     }
 
-    /** Cancelar subida */
+    /**
+     * En caso de cancelar el proceso, cerrar el diálogo.
+     * 
+     * @param event Evento recibido tras cancelación de subida
+     */
     onCancel(event) {
         this.close();
     }
 
-    /** Cerrar componente */
+    /**
+     * Cerrar diálogo.
+     */
     close() {
         this.dialogRef.close();
     }
