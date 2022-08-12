@@ -5,7 +5,7 @@ import { UserResolverService } from './core/services/user-resolver.service';
 import { LayoutComponent } from './core/views/layout/layout.component';
 import { LoginComponent } from './login/views/login/login.component';
 import { EvidenceListComponent } from './evidences/views/evidence-list/evidence-list.component';
-import { AccessManagementListComponent } from './access-management/views/access-management-list.component';
+import { UserListComponent } from './access-management/views/user-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,7 +16,7 @@ const routes: Routes = [
     resolve: {user: UserResolverService},
     children: [
       { path: 'main', component: EvidenceListComponent },
-      { path: 'access', component: AccessManagementListComponent },
+      { path: 'access', component: UserListComponent },
       { path: '**', redirectTo: 'main', pathMatch: 'full' },
     ]
   },  

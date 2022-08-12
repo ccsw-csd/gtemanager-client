@@ -6,12 +6,11 @@ import { UserPage } from '../model/UserPage';
 import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'app-access-management-list',
-  templateUrl: './access-management-list.component.html',
-  styleUrls: ['./access-management-list.component.scss']
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.scss']
 })
-export class AccessManagementListComponent implements OnInit {
-
+export class UserListComponent implements OnInit {
 
   pageable: Pageable = {
     pageNumber: 0,
