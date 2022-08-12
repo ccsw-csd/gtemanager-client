@@ -10,6 +10,7 @@ import { LoginModule } from './login/login.module';
 
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { EvidencesModule } from './evidences/evidences.module';
 
 registerLocaleData(localeEs,'es');
 
@@ -23,6 +24,7 @@ registerLocaleData(localeEs,'es');
     BrowserAnimationsModule,
     CoreModule,
     LoginModule,
+    EvidencesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
