@@ -45,35 +45,27 @@ export class EvidenceUploadComponent implements OnInit {
      * 
      * @param event Evento recibido tras selección de archivo
      */
-    onSelect(event: { files: File[]; }) {
-        this.file = event.files[0];
+    onSelect(event: { currentFiles: File[]; }) {
+        this.file = event.currentFiles[0];
+        this.deleteComments = false;
     }
 
     /**
      * Eliminar archivo seleccionado de variable local, y resetear valor deleteComments.
-     * 
-     * @param event Evento recibido tras eliminación de archivo
      */
-    onRemove(event) {
+    onRemove() {
         this.file = null;
         this.deleteComments = false;
     }
 
     /**
-     * Validar y enviar archivo seleccionado y valor de deleteComments al backend a través de EvidenceService.
+     * Enviar archivo seleccionado y valor de deleteComments al backend a través de EvidenceService.
      * 
-     * Se valida que se haya seleccionado un archivo, y que sea de formato .xls o .xlsx.
+     * Se asume que se ha seleccionado un archivo, y que es de formato .xls o .xlsx.
      * Se muestra un error en pantalla en caso de recibir un archivo no válido o de producirse un fallo durante el envío.
-     * 
-     * @param event Evento recibido tras confirmación de subida de archivo
+     * Este método no se ejecutará si no se ha seleccionado un archivo (botón deshabilitado).
      */
-    onImport(event: { files: File[]; }) {
-        if (!this.file || (this.file && (this.file.type != "application/vnd.ms-excel" && this.file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))) {
-            this.messageService.add({ severity: 'error', summary: 'Error:', detail: 'Debe seleccionar un archivo.' });
-            this.onRemove(event);
-            return;
-        }
-
+    onImport() {
         let formData = new FormData;
         formData.append("file", this.file);
         formData.append("deleteComments", JSON.stringify(this.deleteComments));
@@ -91,10 +83,8 @@ export class EvidenceUploadComponent implements OnInit {
 
     /**
      * En caso de cancelar el proceso, cerrar el diálogo.
-     * 
-     * @param event Evento recibido tras cancelación de subida
      */
-    onCancel(event) {
+    onCancel() {
         this.close();
     }
 

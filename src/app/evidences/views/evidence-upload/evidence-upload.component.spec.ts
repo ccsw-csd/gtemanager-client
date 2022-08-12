@@ -4,7 +4,6 @@
  */
 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
@@ -24,7 +23,6 @@ import { EvidenceUploadComponent } from './evidence-upload.component';
 describe('EvidenceUploadComponent', () => {
   let component: EvidenceUploadComponent;
   let fixture: ComponentFixture<EvidenceUploadComponent>;
-  let debugElement: DebugElement;
 
   let mockEvidenceService;
   let http: HttpTestingController;
@@ -56,7 +54,6 @@ describe('EvidenceUploadComponent', () => {
 
     mockEvidenceService = jasmine.createSpyObj(["uploadEvidence"]);
     fixture = TestBed.createComponent(EvidenceUploadComponent);
-    debugElement = fixture.debugElement;
 
     http = TestBed.inject(HttpTestingController);
   });
@@ -74,8 +71,8 @@ describe('EvidenceUploadComponent', () => {
    */
   it('should select file', () => {
     let files: File[] = [];
-    let event = { files };
-    event.files.push(new File([new Blob([null], { type: "application/vnd.ms-excel" })], "text.xls"));
+    let event = { currentFiles: files };
+    event.currentFiles.push(new File([new Blob([null], { type: "application/vnd.ms-excel" })], "text.xls"));
     component.onSelect(event);
 
     expect(component.file).toBeTruthy();
@@ -85,7 +82,7 @@ describe('EvidenceUploadComponent', () => {
    * Componente debería eliminar archivo seleccionado.
    */
   it('should remove file', () => {
-    component.onRemove(null);
+    component.onRemove();
 
     expect(component.onRemove).toHaveBeenCalled();
     expect(component.file).toBeFalsy();
@@ -102,7 +99,7 @@ describe('EvidenceUploadComponent', () => {
     event.files.push(new File([null], "test.xls", { type: "application/vnd.ms-excel" }));
     component.file = event.files[0];
     component.deleteComments = true;
-    component.onImport(event);
+    component.onImport();
 
     let formData = new FormData;
     formData.append("file", component.file);
@@ -125,23 +122,20 @@ describe('EvidenceUploadComponent', () => {
    */
   it('should not import invalid file', () => {
     let files: File[] = [];
-    let event = { files };
+    let currentFiles: File[] = [];
+    let event = { files, currentFiles };
     component.file = null;
     event.files.push(new File([null], "test.pdf", { type: "application/pdf" }));
-    component.file = event.files[0];
-    component.deleteComments = true;
-    component.onImport(event);
+    component.onSelect(event);
 
-    expect(mockEvidenceService.uploadEvidence).not.toHaveBeenCalled();
-    expect(component.onRemove).toHaveBeenCalled();
-    expect(component.close).not.toHaveBeenCalled();
+    expect(component.file).toBeFalsy();
   });
 
   /**
    * Componente debería cerrarse al cancelar.
    */
   it('should close on cancel', () => {
-    component.onCancel(null);
+    component.onCancel();
 
     expect(component.close).toHaveBeenCalled();
   });
