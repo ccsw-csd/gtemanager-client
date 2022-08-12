@@ -105,7 +105,7 @@ describe('EvidenceUploadComponent', () => {
     formData.append("file", component.file);
     formData.append("deleteComments", JSON.stringify(component.deleteComments));
     http.expectOne({
-      method: 'PUT',
+      method: 'POST',
       url: environment.server + "/evidence",
     }).flush(formData);
 

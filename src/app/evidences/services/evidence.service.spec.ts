@@ -52,7 +52,7 @@ describe('EvidenceService', () => {
     });
 
     http.expectOne({
-      method: 'PUT',
+      method: 'POST',
       url: environment.server + "/evidence",
     }).flush(formData, { status: 400, statusText: 'BAD REQUEST' });
 
@@ -81,7 +81,7 @@ describe('EvidenceService', () => {
     });
 
     http.expectOne({
-      method: 'PUT',
+      method: 'POST',
       url: environment.server + "/evidence",
     }).flush(formData, { status: 200, statusText: 'OK' });
 
