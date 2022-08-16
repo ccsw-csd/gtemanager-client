@@ -1,5 +1,6 @@
+<p-toast key="userMessage" position="top-center"></p-toast>
+<p-confirmDialog header="Confirmation" [transitionOptions]="'0.1ms'" icon="pi pi-exclamation-triangle" ></p-confirmDialog>
 <div class="flex-column">
-
     <div class="grid p-fluid p-inputtext-sm">
       <div class="col-12 md:col-4">
         <div class="p-float-label field">
@@ -46,8 +47,14 @@
           <td>{{element.lastName}}</td>
           <td style='flex: 0 0 150px;'>
             <div>
-              <button pButton type="button" icon="pi pi-pencil"
-                      class="p-button-rounded p-button-text p-button-plain icon"></button>
+              <button pButton type="button" icon="pi pi-pencil" 
+                      class="p-button-rounded p-button-text p-button-plain icon">
+              </button>
+            </div>
+            <div>
+              <button pButton type="button" icon="pi pi-trash" (click)="deleteUser(element)"
+                      class="p-button-rounded p-button-text p-button-plain icon">
+              </button>
             </div>
           </td>
         </tr>

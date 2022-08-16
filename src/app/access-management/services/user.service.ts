@@ -16,4 +16,8 @@ export class UserService {
     return this.http.post<UserPage>(environment.server + "/user/findPage", {pageable:pageable, username:username, name:name});
   }
 
+  deleteUserById(userId: number): Observable<any> {
+    return this.http.delete(environment.server+'/user/'+userId);
+  }  
+
 }

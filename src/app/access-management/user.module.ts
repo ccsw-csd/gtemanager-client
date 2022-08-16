@@ -6,6 +6,7 @@ import { ToastModule } from 'primeng/toast';
 import {TableModule} from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { PaginatorModule } from 'primeng/paginator';
     TableModule,
     ButtonModule,
     PaginatorModule,
+    ConfirmDialogModule,
   ]
 })
 export class UserModule { }
