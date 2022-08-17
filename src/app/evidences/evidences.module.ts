@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TableModule } from 'primeng/table';
 import { EvidenceListComponent } from './views/evidence-list/evidence-list.component';
 
 
@@ -9,7 +10,8 @@ import { EvidenceListComponent } from './views/evidence-list/evidence-list.compo
     EvidenceListComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    TableModule
   ]
 })
 export class EvidencesModule { }

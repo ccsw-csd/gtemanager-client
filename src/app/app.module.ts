@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from './core/core.module';
 import { LoginModule } from './login/login.module';
+import { EvidencesModule } from './evidences/evidences.module';
 
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
@@ -23,6 +24,7 @@ registerLocaleData(localeEs,'es');
     BrowserAnimationsModule,
     CoreModule,
     LoginModule,
+    EvidencesModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
