@@ -52,7 +52,7 @@ export class UserListComponent implements OnInit {
   }
 
   loadPage(event?:LazyLoadEvent) {
-
+    
     if (event != null) {
       this.lastTableLazyLoadEvent = event;
       this.pageable.pageSize = event.rows;
@@ -80,7 +80,7 @@ export class UserListComponent implements OnInit {
   deleteUser(user: User) {
     this.confirmationService.confirm({
       header: "Confirmación",
-      message: 'Atención, se eliminará el acceso del usuario'+ user.username + '. ¿Está seguro de que desea eliminar el acceso al usuario?',
+      message: 'Atención, se eliminará el acceso del usuario "'+ user.username + '". ¿Está seguro de que desea eliminar el acceso al usuario?',
       acceptLabel:"Aceptar" ,
       rejectLabel:"Cancelar",
       rejectButtonStyleClass:"p-button-secondary",
@@ -89,11 +89,15 @@ export class UserListComponent implements OnInit {
         this.userService.deleteUserById(user.id).subscribe({
           next: () =>{
             this.showMessageDeleted()
-            this.loadPage()
+            this.loadPage(this.lastTableLazyLoadEvent);
+                      
           },
           error:() =>{            
             this.showMessageError();
-            this.loadPage()
+            this.loadPage(this.lastTableLazyLoadEvent);
+          },
+          complete:() =>{
+            this.loadPage(this.lastTableLazyLoadEvent);
           }
         })
       },
@@ -103,9 +107,10 @@ export class UserListComponent implements OnInit {
     })
    }
 
-   showMessageError(){
+  showMessageError(){
     this.messageService.add({key: 'userMessage', severity:'error', summary: 'ERROR', detail: 'No puedes borrar este usuario'});
   }
+  
   showMessageDeleted(){
     this.messageService.add({key: 'userMessage', severity:'success', summary: 'Confirmado', detail: 'El usuario ha sido borrado con éxito'});
   }

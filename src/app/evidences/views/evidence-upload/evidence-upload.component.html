@@ -1,0 +1,21 @@
+<!-- author: cavire -->
+
+<!-- Sección contenido -->
+<div class="mb-5">
+    <p-fileUpload name="evidence" [showUploadButton]="false" [showCancelButton]="false" auto="false"
+        accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        invalidFileTypeMessageSummary="Error en tipo de archivo:"
+        invalidFileTypeMessageDetail="Debe subir un archivo de Microsoft Excel (.xls, .xlsx)"
+        (onSelect)="onSelect($event)" (onRemove)="onRemove()" chooseIcon="hidden"
+        chooseLabel="Seleccionar archivo">
+    </p-fileUpload>
+
+    <p-checkbox name="deleteComments" class="mt-3" label="Eliminar comentarios de las evidencias"
+        [(ngModel)]="deleteComments" [binary]="true" [disabled]="this.file == null"></p-checkbox>
+</div>
+
+<!-- Sección botones de acción -->
+<div class="flex justify-content-end gap-3">
+    <button pButton label="Cancelar" class="p-button-secondary" (click)="onCancel()"></button>
+    <button pButton label="Importar" class="p-button-primary" (click)="onImport()" [disabled]="this.file == null || this.deleteComments == null"></button>
+</div>

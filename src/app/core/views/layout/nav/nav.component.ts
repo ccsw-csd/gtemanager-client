@@ -26,7 +26,7 @@ export class NavComponent implements OnInit {
 
     this.items = [
       {label: "Evidencias", routerLink: '/main'},
-      {label: "Gestión de accesos", routerLink: '/access'},
+      {label: "Gestión de accesos", routerLink: '/user'},
     ];
 
     this.utilsService.getAppVersion().subscribe((result: any) => {

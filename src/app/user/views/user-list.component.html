@@ -14,10 +14,10 @@
           <label for="name">Name</label>
         </div>
       </div>
-      <div class="col-12 md:col-1">
+      <div class="md:col-1">
         <button pButton type="button" label="Filtrar" (click)="loadPage(lastTableLazyLoadEvent)"></button>
       </div>
-      <div class="col-12 md:col-1">
+      <div class="md:col-1">
         <button pButton type="button" label="Limpiar" class="p-button-danger" (click)="onCleanFilter()"></button>
       </div>
     </div>
@@ -28,7 +28,7 @@
              paginatorPosition="bottom">
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="username">Username<p-sortIcon field="username"></p-sortIcon>
+          <th pSortableCol  umn="username">Username<p-sortIcon field="username"></p-sortIcon>
           </th>
           <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon>
           </th>
