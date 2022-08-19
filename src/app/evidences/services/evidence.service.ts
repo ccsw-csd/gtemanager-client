@@ -2,11 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { Evidence } from "../model/Evidence";
 
-/**
- * Servicio de datos de evidencias
- * @author cavire
- */
 @Injectable({
     providedIn: 'root'
 })
@@ -20,6 +17,10 @@ export class EvidenceService {
     constructor(
         private http: HttpClient
     ) { }
+
+    findAll(): Observable<Evidence[]> {
+        return this.http.get<Evidence[]>(environment.server + "/evidence/");
+    }
 
     /**
      * POST: Enviar archivo y variable de borrado de comentarios al backend a través del endpoint en /evidence.

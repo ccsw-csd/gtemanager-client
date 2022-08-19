@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Evidence } from '../../model/Evidence';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EvidenceUploadComponent } from '../evidence-upload/evidence-upload.component';
+import { EvidenceService } from '../../services/evidence.service';
 
 @Component({
   selector: 'app-evidence-list',
@@ -12,7 +13,7 @@ import { EvidenceUploadComponent } from '../evidence-upload/evidence-upload.comp
 export class EvidenceListComponent implements OnInit {
 
   evidenceList: Evidence[];
-  isLoading: boolean;
+  isLoading: boolean = false;
 
   /**
    * Constructor: inicializa servicio DialogService para componente EvidenceUpload.
@@ -20,11 +21,25 @@ export class EvidenceListComponent implements OnInit {
    * @param dialogService Servicio DialogService
    */
   constructor(
+    private evidenceService: EvidenceService,
     public dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
+    this.findAll();
+  }
 
+  findAll() {
+    this.isLoading = true;
+    this.evidenceService.findAll().subscribe({
+      next: (res: Evidence[]) => {
+        this.evidenceList = res;
+      },
+      error: () => {},
+      complete: ()  => {
+        this.isLoading = false;
+      }
+    });
   }
 
   /**
