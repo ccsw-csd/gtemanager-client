@@ -1,0 +1,63 @@
+<p-toast key="userMessage" position="top-center"></p-toast>
+<p-confirmDialog header="Confirmation" [transitionOptions]="'0.1ms'" icon="pi pi-exclamation-triangle" ></p-confirmDialog>
+<div class="flex-column">
+    <div class="grid p-fluid p-inputtext-sm">
+      <div class="col-12 md:col-4">
+        <div class="p-float-label field">
+          <input id="username" type="username" pInputText [(ngModel)]="filterUsername"/>
+          <label for="username">Username</label>
+        </div>
+      </div>
+      <div class="col-12 md:col-4">
+        <div class="p-float-label field">
+          <input id="name" type="username" pInputText [(ngModel)]="filterName"/>
+          <label for="name">Name</label>
+        </div>
+      </div>
+      <div class="md:col-1">
+        <button pButton type="button" label="Filtrar" (click)="loadPage(lastTableLazyLoadEvent)"></button>
+      </div>
+      <div class="md:col-1">
+        <button pButton type="button" label="Limpiar" class="p-button-danger" (click)="onCleanFilter()"></button>
+      </div>
+    </div>
+  
+    <p-table [value]="listOfData" [lazy]="true" (onLazyLoad)="loadPage($event)" [loading]="isloading" scrollable="true"
+             scrollHeight="calc(90vh - 200px)" responsiveLayout="scroll" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]"
+             [totalRecords]="totalElements" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} / {totalRecords}"
+             paginatorPosition="bottom">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableCol  umn="username">Username<p-sortIcon field="username"></p-sortIcon>
+          </th>
+          <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon>
+          </th>
+          <th pSortableColumn="firstName">Nombre<p-sortIcon field="firstName"></p-sortIcon>
+          </th>
+          <th pSortableColumn="lastName">Apellidos<p-sortIcon field="lastName"></p-sortIcon>
+          </th>
+          <th style='flex: 0 0 150px;'>Editar</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-element>
+        <tr>
+          <td>{{element.username}}</td>
+          <td>{{element.email}}</td>
+          <td>{{element.firstName}}</td>
+          <td>{{element.lastName}}</td>
+          <td style='flex: 0 0 150px;'>
+            <div>
+              <button pButton type="button" icon="pi pi-pencil" 
+                      class="p-button-rounded p-button-text p-button-plain icon">
+              </button>
+            </div>
+            <div>
+              <button pButton type="button" icon="pi pi-trash" (click)="deleteUser(element)"
+                      class="p-button-rounded p-button-text p-button-plain icon">
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
