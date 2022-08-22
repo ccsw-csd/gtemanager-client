@@ -19,3 +19,8 @@
     <button pButton label="Cancelar" class="p-button-secondary" (click)="onCancel()"></button>
     <button pButton label="Importar" class="p-button-primary" (click)="onImport()" [disabled]="this.file == null || this.deleteComments == null"></button>
 </div>
+
+<!-- Mostrar animación en proceso de carga -->
+<div class="loadWrapper flex align-items-center flex-column justify-content-center" *ngIf="isLoading">
+    <p-progressSpinner></p-progressSpinner>
+</div>
