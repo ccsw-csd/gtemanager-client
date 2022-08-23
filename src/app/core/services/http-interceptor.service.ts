@@ -26,19 +26,18 @@ export class HttpInterceptorService implements HttpInterceptor {
           switch (error.status) {
             case 401:
               this.auth.logout();
-              errorMessage = 'Token has expired';
+              errorMessage = 'Token expirado.';
               break;
-            case 400:
             case 404:
               this.router.navigateByUrl('/main');
-              errorMessage = 'Resource not found';
+              errorMessage = 'Recurso no encontrado.';
               break;
             case 500:
               this.router.navigateByUrl('/main');
-              errorMessage = 'Server-side error: ' + error.error.message;
+              errorMessage = 'Error de servidor: ' + error.error;
               break;
             default:
-              errorMessage = 'An error has ocurred';
+              errorMessage = 'Se ha producido un error: ' + error.error;
           }
           return throwError(() => new Error(errorMessage));
         })

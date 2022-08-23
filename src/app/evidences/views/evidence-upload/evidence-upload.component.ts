@@ -73,13 +73,16 @@ export class EvidenceUploadComponent implements OnInit {
         formData.append("deleteComments", JSON.stringify(this.deleteComments));
         this.isLoading = true;
         this.evidenceService.uploadEvidence(formData).subscribe({
-            next: () => {
-                this.snackbarService.showMessage("Archivo subido correctamente.");
+            next: result => {
+                if (result)
+                    this.snackbarService.showMessage("Archivo subido correctamente. " + result);
+                else
+                    this.snackbarService.showMessage("Archivo subido correctamente. ");
                 this.isLoading = false;
                 this.close();
             },
             error: error => {
-                this.snackbarService.error("Se ha producido un error subiendo el archivo: " + error.error);
+                this.snackbarService.error(error);
                 this.isLoading = false;
             }
         });
