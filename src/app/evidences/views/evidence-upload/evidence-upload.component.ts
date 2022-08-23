@@ -35,7 +35,7 @@ export class EvidenceUploadComponent implements OnInit {
     ) { }
 
     /**
-     * Inicializar componente: reset de deleteComments.
+     * Inicializar componente: reset de deleteComments y ocultar animación de carga.
      */
     ngOnInit(): void {
         this.deleteComments = false;
@@ -63,6 +63,7 @@ export class EvidenceUploadComponent implements OnInit {
     /**
      * Enviar archivo seleccionado y valor de deleteComments al backend a través de EvidenceService.
      * 
+     * Se habilita la animación de carga hasta recibir una respuesta de backend.
      * Se asume que se ha seleccionado un archivo, y que es de formato .xls o .xlsx.
      * Se muestra un error en pantalla en caso de recibir un archivo no válido o de producirse un fallo durante el envío.
      * Este método no se ejecutará si no se ha seleccionado un archivo (botón deshabilitado).
