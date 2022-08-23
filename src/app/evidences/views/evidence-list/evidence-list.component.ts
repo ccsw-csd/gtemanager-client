@@ -26,14 +26,15 @@ export class EvidenceListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.findAll();
+    this.findEvidence();
   }
 
-  findAll() {
+  findEvidence() {
     this.isLoading = true;
-    this.evidenceService.findAll().subscribe({
+    this.evidenceService.findEvidenceByGeography().subscribe({
       next: (res: Evidence[]) => {
         this.evidenceList = res;
+        console.log(this.evidenceList);
       },
       error: () => {},
       complete: ()  => {

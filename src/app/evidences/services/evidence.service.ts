@@ -22,6 +22,15 @@ export class EvidenceService {
         return this.http.get<Evidence[]>(environment.server + "/evidence/");
     }
 
+    findEvidenceByGeography(idGeography?: number): Observable<Evidence[]> {
+        let path = "/evidence/";
+
+        if (idGeography != null)
+            path = "/evidence/?geography=" + idGeography;
+
+        return this.http.get<Evidence[]>(environment.server + path);
+    }
+
     /**
      * POST: Enviar archivo y variable de borrado de comentarios al backend a través del endpoint en /evidence.
      * 
