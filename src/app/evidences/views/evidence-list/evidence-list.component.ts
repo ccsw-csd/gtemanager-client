@@ -14,6 +14,7 @@ export class EvidenceListComponent implements OnInit {
 
   evidenceList: Evidence[];
   isLoading: boolean = false;
+  comments: boolean = false;
 
   /**
    * Constructor: inicializa servicio DialogService para componente EvidenceUpload.

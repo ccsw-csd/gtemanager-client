@@ -2,7 +2,7 @@
 
 </div>
 
-<div> <!-- Tabla - center -->
+<div class="mt-3 flex justify-content-end"> <!-- Tabla - center -->
     <p-table [value]="evidenceList" [loading]="isLoading">
         <ng-template pTemplate="header">
             <tr>
@@ -34,14 +34,16 @@
                 <td *ngIf="evidenceItem.evidenceTypeW6 != null; else elseBlock">{{evidenceItem.evidenceTypeW6.name}}</td>
                 <ng-template #elseBlock><td>-</td></ng-template>
 
-                <td><button pButton icon="pi pi-comment" class="p-button-rounded p-button-plain p-button-text icon"></button></td>
+                <td><button pButton icon="pi pi-comments" class="p-button-rounded p-button-plain p-button-text icon"
+                    *ngIf="comments == true; else noComments"></button>
+                <ng-template #noComments><button pButton icon="pi pi-comment" class="p-button-rounded p-button-plain p-button-text icon"></button></ng-template></td>
             </tr>
         </ng-template>
     </p-table>
 </div>
 
-<div> <!-- Botones - right -->
-    <button #b pButton type="button" (click)="importarDatos()">Importar datos</button>
+<div class="mt-3 flex justify-content-end"> <!-- Botones - right -->
+    <button #b pButton type="button" class="p-3" (click)="importarDatos()">Importar datos</button>
 </div>
 
 <p-toast></p-toast>
