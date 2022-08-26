@@ -1,8 +1,8 @@
 import { LazyLoadEvent } from 'primeng/api';
 import { of } from 'rxjs';
 import { Pageable } from 'src/app/core/models/Pageable';
-import { User } from '../model/User';
-import { UserPage } from '../model/UserPage';
+import { User } from '../../model/User';
+import { UserPage } from '../../model/UserPage';
 
 import { UserListComponent } from './user-list.component';
 
@@ -11,25 +11,25 @@ describe('UserListComponent', () => {
   let userListComponent;
   let cdRef;
   let mockUserService;
-  let mockConfirmationService;
-  let mockMessageService;
+  let mockSnackbarService;
+  let mockDialogService;
 
   let USER_ITEM = [
-    new User({id: 11, username: "angeherr", email: "angeherr@capgemini.com",first_name:"Angello", last_name: "Herrera"}),
-    new User({id: 12, username: "olagoang", email: "olagoang@capgemini.com",first_name:"Oscar", last_name: "Lago"})
+    new User({id: 11, username: "angeherr", email: "angeherr@capgemini.com",firstName:"Angello", lastName: "Herrera"}),
+    new User({id: 12, username: "olagoang", email: "olagoang@capgemini.com",firstName:"Oscar", lastName: "Lago"})
   ];
 
   let USER_ITEM_DELETED = [
-    new User({id: 12, username: "olagoang", email: "olagoang@capgemini.com",first_name:"Oscar", last_name: "Lago"})
+    new User({id: 12, username: "olagoang", email: "olagoang@capgemini.com",firstName:"Oscar", lastName: "Lago"})
   ];
 
   beforeEach(()=>{
-    mockUserService = jasmine.createSpyObj(["findPage", "deleteUserById"]);
+    mockUserService = jasmine.createSpyObj(["findPage", "deleteUserById", "saveUser"]);
     cdRef = jasmine.createSpyObj([""]);
-    mockConfirmationService = jasmine.createSpyObj(["confirm","close"]);
-    mockMessageService = jasmine.createSpyObj([""])
+    mockSnackbarService = jasmine.createSpyObj(["showMessage","error","onCloseDialog"])
+    mockDialogService = jasmine.createSpyObj([""])
 
-    userListComponent = new UserListComponent(cdRef,mockConfirmationService, mockUserService, mockMessageService);
+    userListComponent = new UserListComponent(cdRef, mockUserService, mockSnackbarService, mockDialogService);
   })
 
   it("findPageShouldReturnUserPage", ()=>{
@@ -74,11 +74,14 @@ describe('UserListComponent', () => {
     let userPage = new UserPage()
     userPage.content = USER_ITEM_DELETED;
     userPage.pageable = pageable;
-    
+
+    userListComponent.user=1
+
     mockUserService.findPage.and.returnValue(of(userPage))
     mockUserService.deleteUserById.and.returnValue(of(userListComponent.ngOnInit()))
     userListComponent.loadPage(event);
-    userListComponent.deleteUser(USER_ITEM[0])
+    
+    userListComponent.deleteUser()
     expect(userListComponent.userPage.pageable.pageNumber).toEqual(userPage.pageable.pageNumber)
     expect(userListComponent.listOfData).toEqual(USER_ITEM_DELETED);
   })

@@ -1,15 +1,18 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
+import { LazyLoadEvent } from 'primeng/api';
 import { Pageable } from 'src/app/core/models/Pageable';
-import { User } from '../model/User';
-import { UserPage } from '../model/UserPage';
-import { UserService } from '../services/user.service';
+import { User } from '../../model/User';
+import { UserPage } from '../../model/UserPage';
+import { UserService } from '../../services/user.service';
+import { DialogService } from 'primeng/dynamicdialog';
+import { UserEditComponent } from '../user-edit/user-edit.component';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
+
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
-  providers:[ConfirmationService]
 })
 export class UserListComponent implements OnInit {
 
@@ -22,6 +25,8 @@ export class UserListComponent implements OnInit {
     }]
   }
 
+  isDelete : boolean = false
+  user: User
   userPage: UserPage;
   listOfData : User[];
   totalElements: number;
@@ -32,9 +37,9 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private cdRef : ChangeDetectorRef,
-    private confirmationService: ConfirmationService,
     private userService: UserService,
-    private messageService: MessageService
+    private snackbarService: SnackbarService,
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -77,41 +82,45 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  deleteUser(user: User) {
-    this.confirmationService.confirm({
-      header: "Confirmación",
-      message: 'Atención, se eliminará el acceso del usuario "'+ user.username + '". ¿Está seguro de que desea eliminar el acceso al usuario?',
-      acceptLabel:"Aceptar" ,
-      rejectLabel:"Cancelar",
-      rejectButtonStyleClass:"p-button-secondary",
-      accept: () => 
-      {
-        this.userService.deleteUserById(user.id).subscribe({
-          next: () =>{
-            this.showMessageDeleted()
-            this.loadPage(this.lastTableLazyLoadEvent);
-                      
-          },
-          error:() =>{            
-            this.showMessageError();
-            this.loadPage(this.lastTableLazyLoadEvent);
-          },
-          complete:() =>{
-            this.loadPage(this.lastTableLazyLoadEvent);
-          }
-        })
+  saveUser(){
+    const ref = this.dialogService.open(UserEditComponent, {
+      width: '40%',
+      height: '95%',
+      closable:false,
+      showHeader:false,
+    })
+    ref.onClose.subscribe(() => {
+      this.loadPage(this.lastTableLazyLoadEvent)     
+    });
+  }
+
+  deleteUser() {
+    this.isDelete=true
+    this.userService.deleteUserById(this.user.id).subscribe({
+      next: () =>{
+        this.snackbarService.showMessage("El usuario se ha borrado con éxito")
       },
-      reject: () =>{
-        this.loadPage()
+      error:() =>{
+        this.snackbarService.error("No se puede borrar el usuario")
+        this.onCloseDialog()
+      },
+      complete:() =>{
+        this.isDelete=false
+        this.onCloseDialog()
       }
     })
    }
 
-  showMessageError(){
-    this.messageService.add({key: 'userMessage', severity:'error', summary: 'ERROR', detail: 'No puedes borrar este usuario'});
-  }
-  
-  showMessageDeleted(){
-    this.messageService.add({key: 'userMessage', severity:'success', summary: 'Confirmado', detail: 'El usuario ha sido borrado con éxito'});
-  }
+   openDialog(element){
+    this.user=element
+    this.snackbarService.showConfirmDialog()
+   }
+
+   onCloseDialog(){
+      this.snackbarService.onCloseDialog()
+      if(!this.isDelete){
+        this.loadPage(this.lastTableLazyLoadEvent)
+      }
+   }
+
 }

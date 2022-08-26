@@ -1,0 +1,43 @@
+<h2>Crear Nuevo Usuario</h2>
+<div >
+    <h5>Busqueda por Nombre o Usuario</h5>
+    <span class="p-fluid">
+        <p-autoComplete  [(ngModel)]="selectedPerson" (onSelect)="selectPerson()" [showEmptyMessage]="true" [suggestions]="filteredPersons" 
+                (completeMethod)="filterPossiblePersons($event)" field="description" [minLength]="1">
+        </p-autoComplete>
+    </span>
+</div>
+<div>
+    <h5>Campos del usuario (autorrellenables)</h5>
+    <span class="p-float-label">
+        <input id="float-input" class="w-full " type="text" disabled pInputText required [(ngModel)]="user.username" name="username" > 
+        <label for="float-input">Nombre de usuario</label>
+    </span>
+    <br />
+    <span class="p-float-label">
+        <input id="float-input" class="w-full" type="text" disabled pInputText required [(ngModel)]="user.firstName" name="first_name">
+        <label for="float-input">Nombre</label>
+    </span>
+    <br />
+    <span class="p-float-label">
+        <input id="float-input" class="w-full" type="text" disabled pInputText required [(ngModel)]="user.lastName" name="last_name">
+        <label for="float-input">Apellidos</label>
+    </span>
+    <br />
+    <span class="p-float-label">
+        <input id="float-input" class="w-full" type="text" disabled pInputText required [(ngModel)]="user.email" name="email">
+        <label for="float-input">Email</label>
+    </span>
+</div>
+<br>
+<div class="flex flex-row-reverse w-auto">
+    <div>    
+        <button type="button" [disabled]="user.username==null || user.firstName==null 
+                || user.lastName==null || user.email==null" 
+                pButton label="Guardar" class="w-6rem " (click)="onSave(user)">
+        </button>
+    </div>
+    <div class="px-2">
+        <button type="button" pButton label="Cerrar" class="p-button-secondary w-6rem " (click)="onClose()"></button>
+    </div>
+</div>

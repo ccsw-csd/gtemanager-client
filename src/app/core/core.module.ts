@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,8 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import {MenuModule} from 'primeng/menu';
-import { MessageService } from 'primeng/api';
-
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { LayoutComponent } from './views/layout/layout.component';
 import { HeaderComponent } from './views/layout/header/header.component';
 import { NavComponent } from './views/layout/nav/nav.component';
@@ -50,7 +47,8 @@ import { NavComponent } from './views/layout/nav/nav.component';
     JwtHelperService,
     UserResolverService,
     DialogService,
-    MessageService
+    MessageService,
+    ConfirmationService,
   ],
 })
 export class CoreModule { }
