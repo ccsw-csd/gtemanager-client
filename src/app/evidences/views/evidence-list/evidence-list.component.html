@@ -6,36 +6,36 @@
     <p-table [value]="evidenceList" [loading]="isLoading">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="nombre"> Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
-                <th pSortableColumn="apellidos"> Apellidos <p-sortIcon field="apellidos"></p-sortIcon></th>
-                <th pSortableColumn="email"> Email <p-sortIcon field="email"></p-sortIcon></th>
-                <th pSortableColumn="geografia"> Geografía <p-sortIcon field="geografia"></p-sortIcon></th>
-                <th pSortableColumn="w1"> Semana 1 <p-sortIcon field="w1"></p-sortIcon></th>
-                <th pSortableColumn="w2"> Semana 2 <p-sortIcon field="w2"></p-sortIcon></th>
-                <th pSortableColumn="w3"> Semana 3 <p-sortIcon field="w3"></p-sortIcon></th>
-                <th pSortableColumn="w4"> Semana 4 <p-sortIcon field="w4"></p-sortIcon></th>
-                <th pSortableColumn="w5"> Semana 5 <p-sortIcon field="w5"></p-sortIcon></th>
-                <th pSortableColumn="w6"> Semana 6 <p-sortIcon field="w6"></p-sortIcon></th>
+                <th pSortableColumn="evidence.person.name"> Nombre <p-sortIcon field="evidence.person.name"></p-sortIcon></th>
+                <th pSortableColumn="evidence.person.lastName"> Apellidos <p-sortIcon field="evidence.person.lastName"></p-sortIcon></th>
+                <th pSortableColumn="evidence.person.email"> Email <p-sortIcon field="evidence.person.email"></p-sortIcon></th>
+                <th pSortableColumn="evidence.person.center.name"> Geografía <p-sortIcon field="evidence.person.center.name"></p-sortIcon></th>
+                <th pSortableColumn="evidenteTypeW1.name"> Semana 1 <p-sortIcon field="evidenteTypeW1.name"></p-sortIcon></th>
+                <th pSortableColumn="evidenteTypeW2.name"> Semana 2 <p-sortIcon field="evidenteTypeW2.name"></p-sortIcon></th>
+                <th pSortableColumn="evidenteTypeW3.name"> Semana 3 <p-sortIcon field="evidenteTypeW3.name"></p-sortIcon></th>
+                <th pSortableColumn="evidenteTypeW4.name"> Semana 4 <p-sortIcon field="evidenteTypeW4.name"></p-sortIcon></th>
+                <th pSortableColumn="evidenteTypeW5.name"> Semana 5 <p-sortIcon field="evidenteTypeW5.name"></p-sortIcon></th>
+                <th pSortableColumn="evidenteTypeW6.name"> Semana 6 <p-sortIcon field="evidenteTypeW6.name"></p-sortIcon></th>
                 <th></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-evidenceItem>
             <tr>
-                <td>{{evidenceItem.person.name}}</td>
-                <td>{{evidenceItem.person.lastName}}</td>
-                <td>{{evidenceItem.person.email}}</td>
-                <td>{{evidenceItem.person.center.name}}</td>
+                <td>{{evidenceItem.evidence.person.name}}</td>
+                <td>{{evidenceItem.evidence.person.lastName}}</td>
+                <td>{{evidenceItem.evidence.person.email}}</td>
+                <td>{{evidenceItem.evidence.person.center.name}}</td>
                 
-                <td *ngIf="evidenceItem.evidenceTypeW1 != null; else elseBlock">{{evidenceItem.evidenceTypeW1.name}}</td>
-                <td *ngIf="evidenceItem.evidenceTypeW2 != null; else elseBlock">{{evidenceItem.evidenceTypeW2.name}}</td>
-                <td *ngIf="evidenceItem.evidenceTypeW3 != null; else elseBlock">{{evidenceItem.evidenceTypeW3.name}}</td>
-                <td *ngIf="evidenceItem.evidenceTypeW4 != null; else elseBlock">{{evidenceItem.evidenceTypeW4.name}}</td>
-                <td *ngIf="evidenceItem.evidenceTypeW5 != null; else elseBlock">{{evidenceItem.evidenceTypeW5.name}}</td>
-                <td *ngIf="evidenceItem.evidenceTypeW6 != null; else elseBlock">{{evidenceItem.evidenceTypeW6.name}}</td>
+                <td *ngIf="evidenceItem.evidenteTypeW1 != null; else elseBlock">{{evidenceItem.evidenteTypeW1.name}}</td>
+                <td *ngIf="evidenceItem.evidenteTypeW2 != null; else elseBlock">{{evidenceItem.evidenteTypeW2.name}}</td>
+                <td *ngIf="evidenceItem.evidenteTypeW3 != null; else elseBlock">{{evidenceItem.evidenteTypeW3.name}}</td>
+                <td *ngIf="evidenceItem.evidenteTypeW4 != null; else elseBlock">{{evidenceItem.evidenteTypeW4.name}}</td>
+                <td *ngIf="evidenceItem.evidenteTypeW5 != null; else elseBlock">{{evidenceItem.evidenteTypeW5.name}}</td>
+                <td *ngIf="evidenceItem.evidenteTypeW6 != null; else elseBlock">{{evidenceItem.evidenteTypeW6.name}}</td>
                 <ng-template #elseBlock><td>-</td></ng-template>
 
                 <td><button pButton icon="pi pi-comments" class="p-button-rounded p-button-plain p-button-text icon"
-                    *ngIf="comments == true; else noComments"></button>
+                    *ngIf="evidenceItem.comment != null; else noComments"></button>
                 <ng-template #noComments><button pButton icon="pi pi-comment" class="p-button-rounded p-button-plain p-button-text icon"></button></ng-template></td>
             </tr>
         </ng-template>

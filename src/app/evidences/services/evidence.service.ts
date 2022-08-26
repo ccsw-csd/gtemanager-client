@@ -19,14 +19,14 @@ export class EvidenceService {
     ) { }
 
     findAll(): Observable<Evidence[]> {
-        return this.http.get<Evidence[]>(environment.server + "/evidence/");
+        return this.http.get<Evidence[]>(environment.server + "/evidence-view/");
     }
 
     findEvidenceByGeography(idGeography?: number): Observable<Evidence[]> {
-        let path = "/evidence/";
+        let path = "/evidence-view/";
 
         if (idGeography != null)
-            path = "/evidence/?geography=" + idGeography;
+            path = "/evidence-view/?geography=" + idGeography;
 
         return this.http.get<Evidence[]>(environment.server + path);
     }
