@@ -33,7 +33,7 @@ export class EvidenceListComponent implements OnInit {
    * Se ajusta título del diálogo y anchura al 50% del espacio disponible.
    */
   importarDatos(): void {
-    const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%" });
+    const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
   }
 
 }

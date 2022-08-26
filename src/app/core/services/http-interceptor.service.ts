@@ -29,9 +29,8 @@ export class HttpInterceptorService implements HttpInterceptor {
               break;
             case 401:
               this.auth.logout();
-              errorMessage = 'Token has expired';
+              errorMessage = 'Token expirado.';
               break;
-            case 400:
             case 404:
               errorMessage = 'Recurso no encontrado.';
               break;
