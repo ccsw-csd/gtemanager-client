@@ -35,7 +35,7 @@ export class EvidenceListComponent implements OnInit {
     this.evidenceService.findEvidenceByGeography().subscribe({
       next: (res: Evidence[]) => {
         this.evidenceList = res;
-        console.log(this.evidenceList);
+        //console.log(this.evidenceList);
       },
       error: () => {},
       complete: ()  => {

@@ -28,6 +28,10 @@ export class EvidenceService {
         if (idGeography != null)
             path = "/evidence-view/?geography=" + idGeography;
 
+        this.http.get<Evidence[]>(environment.server + path).forEach(element => {
+            console.log(element);
+        });
+
         return this.http.get<Evidence[]>(environment.server + path);
     }
 
