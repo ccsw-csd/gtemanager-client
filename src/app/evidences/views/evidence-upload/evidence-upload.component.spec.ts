@@ -1,6 +1,5 @@
 /**
  * Tests para EvidenceUpload.
- * @author cavire
  */
 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -99,7 +98,13 @@ describe('EvidenceUploadComponent', () => {
     event.files.push(new File([null], "test.xls", { type: "application/vnd.ms-excel" }));
     component.file = event.files[0];
     component.deleteComments = true;
+
+    expect(component.isLoading).toBe(false);
+
     component.onImport();
+
+    fixture.detectChanges();
+    expect(component.isLoading).toBe(true);
 
     let formData = new FormData;
     formData.append("file", component.file);
@@ -109,12 +114,18 @@ describe('EvidenceUploadComponent', () => {
       url: environment.server + "/evidence",
     }).flush(formData);
 
+    fixture.detectChanges();
+    expect(component.isLoading).toBe(false);
+    
     mockEvidenceService.uploadEvidence.and.returnValue(of(true));
 
     expect(mockEvidenceService.uploadEvidence(formData)).toBeTruthy();
     expect(mockEvidenceService.uploadEvidence).toHaveBeenCalledWith(formData);
     expect(component.onRemove).not.toHaveBeenCalled();
     expect(component.close).toHaveBeenCalled();
+
+    fixture.detectChanges();
+    expect(component.isLoading).toBe(false);
   });
 
   /**

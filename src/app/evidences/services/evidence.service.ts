@@ -5,7 +5,6 @@ import { environment } from "src/environments/environment";
 
 /**
  * Servicio de datos de evidencias
- * @author cavire
  */
 @Injectable({
     providedIn: 'root'
