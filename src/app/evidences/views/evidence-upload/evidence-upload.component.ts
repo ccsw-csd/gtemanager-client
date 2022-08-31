@@ -5,8 +5,6 @@ import { EvidenceService } from "../../services/evidence.service";
 
 /**
  * Componente EvidenceUpload: diálogo de selección de archivo de hoja de cálculo de evidencias para su subida a la aplicación.
- * 
- * @author cavire
  */
 @Component({
     selector: 'app-evidence-upload',

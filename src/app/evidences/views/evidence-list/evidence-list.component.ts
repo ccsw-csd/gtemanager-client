@@ -4,8 +4,6 @@ import { EvidenceUploadComponent } from '../evidence-upload/evidence-upload.comp
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
- * 
- * @author cavire
  */
 @Component({
   selector: 'app-evidence-list',

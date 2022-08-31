@@ -1,6 +1,5 @@
 /**
  * Tests para EvidenceUpload.
- * @author cavire
  */
 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
