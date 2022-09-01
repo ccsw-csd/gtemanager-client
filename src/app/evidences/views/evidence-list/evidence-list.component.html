@@ -1,49 +1,34 @@
-<div> <!-- Filtros - top -->
+<div class="flex-column"> <!-- Filtros - top -->
+    <div class="grid p-fluid p-inputtext-sm"></div>
 
+    <div class="inline-flex justify-content-end flex-column"> <!-- Botones - right -->
+        <button #b pButton type="button" class="p-3 block mt-3 ml-3" (click)="importarDatos()">Importar datos</button>
+        <button #b pButton type="button" class="p-3 block mt-3 ml-3">Enviar correos</button>  
+    </div>
 </div>
 
-<div class="mt-3 flex justify-content-end"> <!-- Tabla - center -->
-    <p-table [value]="evidenceList" [loading]="isLoading">
-        <ng-template pTemplate="header">
+<div class="mt-3 inline-flex justify-content-start"> <!-- Tabla - center -->
+    <p-table class="flex" [columns]="cols" [value]="prueba" [loading]="isLoading" [scrollable]="true" [autoLayout]="true" scrollHeight="calc(100vh - 135px)" responsiveLayout="scroll">
+        <ng-template pTemplate="header" let-columns>
             <tr>
-                <th pSortableColumn="person.name"> Nombre <p-sortIcon field="person.name"></p-sortIcon></th>
-                <th pSortableColumn="person.lastName"> Apellidos <p-sortIcon field="person.lastName"></p-sortIcon></th>
-                <th pSortableColumn="person.email"> Email <p-sortIcon field="person.email"></p-sortIcon></th>
-                <th pSortableColumn="person.center.name"> Geografía <p-sortIcon field="person.center.name"></p-sortIcon></th>
-                <th pSortableColumn="evidenceTypeW1.name"> Semana 1 <p-sortIcon field="evidenceTypeW1.name"></p-sortIcon></th>
-                <th pSortableColumn="evidenceTypeW2.name"> Semana 2 <p-sortIcon field="evidenceTypeW2.name"></p-sortIcon></th>
-                <th pSortableColumn="evidenceTypeW3.name"> Semana 3 <p-sortIcon field="evidenceTypeW3.name"></p-sortIcon></th>
-                <th pSortableColumn="evidenceTypeW4.name"> Semana 4 <p-sortIcon field="evidenceTypeW4.name"></p-sortIcon></th>
-                <th pSortableColumn="evidenceTypeW5.name"> Semana 5 <p-sortIcon field="evidenceTypeW5.name"></p-sortIcon></th>
-                <th pSortableColumn="evidenceTypeW6.name"> Semana 6 <p-sortIcon field="evidenceTypeW6.name"></p-sortIcon></th>
-                <th></th>
+                <th *ngFor="let col of columns" pSortableColumn="{{col.field}}" class="{{col.width}}">
+                    {{col.header}}
+                    <p-sortIcon field="{{col.field}}"></p-sortIcon>
+                </th>
+                <th class="w-1rem"></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-evidenceItem>
+        <ng-template pTemplate="body" let-evidenceItem let-columns="columns">
             <tr>
-                <td>{{evidenceItem.person.name}}</td>
-                <td>{{evidenceItem.person.lastName}}</td>
-                <td>{{evidenceItem.person.email}}</td>
-                <td>{{evidenceItem.person.center.name}}</td>
-                
-                <td *ngIf="evidenceItem.evidenceTypeW1 != null; else elseBlock">{{evidenceItem.evidenceTypeW1.name}}</td>
-                <td *ngIf="evidenceItem.evidenceTypeW2 != null; else elseBlock">{{evidenceItem.evidenceTypeW2.name}}</td>
-                <td *ngIf="evidenceItem.evidenceTypeW3 != null; else elseBlock">{{evidenceItem.evidenceTypeW3.name}}</td>
-                <td *ngIf="evidenceItem.evidenceTypeW4 != null; else elseBlock">{{evidenceItem.evidenceTypeW4.name}}</td>
-                <td *ngIf="evidenceItem.evidenceTypeW5 != null; else elseBlock">{{evidenceItem.evidenceTypeW5.name}}</td>
-                <td *ngIf="evidenceItem.evidenceTypeW6 != null; else elseBlock">{{evidenceItem.evidenceTypeW6.name}}</td>
-                <ng-template #elseBlock><td>-</td></ng-template>
-
-                <td><button pButton icon="pi pi-comments" class="p-button-rounded p-button-plain p-button-text icon"
+                <td *ngFor="let col of columns" class="flex {{col.width}} white-space-normal overflow-hidden text-overflow-clip">
+                    {{evidenceItem[col.field]}}
+                </td>
+                <td class="w-1rem"><button pButton icon="pi pi-comments" class="p-button-rounded p-button-plain p-button-text icon"
                     *ngIf="evidenceItem.comment != null; else noComments"></button>
                 <ng-template #noComments><button pButton icon="pi pi-comment" class="p-button-rounded p-button-plain p-button-text icon"></button></ng-template></td>
             </tr>
         </ng-template>
     </p-table>
-</div>
-
-<div class="mt-3 flex justify-content-end"> <!-- Botones - right -->
-    <button #b pButton type="button" class="p-3" (click)="importarDatos()">Importar datos</button>
 </div>
 
 <p-toast></p-toast>

@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Properties } from "src/app/properties/model/Properties";
 import { environment } from "src/environments/environment";
 import { Evidence } from "../model/Evidence";
 
@@ -34,6 +35,10 @@ export class EvidenceService {
 
         return this.http.get<Evidence[]>(environment.server + path);
     }
+
+    // getProperties(): Observable<Properties> {
+
+    // }
 
     /**
      * POST: Enviar archivo y variable de borrado de comentarios al backend a través del endpoint en /evidence.

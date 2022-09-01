@@ -3,18 +3,21 @@ import { Comment } from "./Comment";
 import { Person } from "./Person";
 
 export class Evidence {
-    // evidence: EvidenceId;
     id: number;
     person: Person;
     comment: Comment;
-    evidenteTypeW1: EvidenceType;
-    evidenteTypeW2: EvidenceType;
-    evidenteTypeW3: EvidenceType;
-    evidenteTypeW4: EvidenceType;
-    evidenteTypeW5: EvidenceType;
-    evidenteTypeW6: EvidenceType;
+    evidenceTypeW1: EvidenceType;
+    evidenceTypeW2: EvidenceType;
+    evidenceTypeW3: EvidenceType;
+    evidenceTypeW4: EvidenceType;
+    evidenceTypeW5: EvidenceType;
+    evidenceTypeW6: EvidenceType;
 
     public constructor(init?:Partial<Evidence>) {
         Object.assign(this, init);
+    }
+
+    public getName(): String {
+        return this.person.name;
     }
 }
