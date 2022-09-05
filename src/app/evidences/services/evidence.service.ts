@@ -1,9 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Properties } from "src/app/properties/model/Properties";
+import { Properties } from "../model/Properties";
 import { environment } from "src/environments/environment";
+import { Comment } from "../model/Comment";
 import { Evidence } from "../model/Evidence";
+import { Person } from "../model/Person";
 
 @Injectable({
     providedIn: 'root'
@@ -20,20 +22,27 @@ export class EvidenceService {
     ) { }
 
     findAll(): Observable<Evidence[]> {
+
         return this.http.get<Evidence[]>(environment.server + "/evidence-view/");
     }
 
     findEvidenceByGeography(idGeography?: number): Observable<Evidence[]> {
+
         let path = "/evidence-view/";
 
         if (idGeography != null)
             path = "/evidence-view/?geography=" + idGeography;
 
-        this.http.get<Evidence[]>(environment.server + path).forEach(element => {
-            console.log(element);
-        });
-
         return this.http.get<Evidence[]>(environment.server + path);
+    }
+
+    // getComment(idPerson: number): Observable<Comment> {
+        
+    //     return this.http.get<Comment>(environment.server + "/comment?id=" + idPerson);
+    // }
+
+    getPersonById(idPerson: number): Observable<Person> {
+        return this.http.get<Person>(environment.server + "/person?id=" + idPerson);
     }
 
     // getProperties(): Observable<Properties> {
@@ -47,7 +56,7 @@ export class EvidenceService {
      * @returns Observable para manejo de la petición
      */
     uploadEvidence(formData: FormData): Observable<FormData> {
+
         return this.http.post<FormData>(environment.server + "/evidence", formData);
     }
-
 }

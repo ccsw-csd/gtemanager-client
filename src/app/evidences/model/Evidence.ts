@@ -16,8 +16,4 @@ export class Evidence {
     public constructor(init?:Partial<Evidence>) {
         Object.assign(this, init);
     }
-
-    public getName(): String {
-        return this.person.name;
-    }
 }

@@ -12,11 +12,15 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
 import { HttpClientModule } from '@angular/common/http';
+import { CommentComponent } from './views/comment/comment.component';
+import { InputTextareaModule }  from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
     EvidenceListComponent,
-    EvidenceUploadComponent
+    EvidenceUploadComponent,
+    CommentComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +33,9 @@ import { HttpClientModule } from '@angular/common/http';
     MessagesModule,
     MessageModule,
     ToastModule,
-    HttpClientModule
+    HttpClientModule,
+    InputTextareaModule,
+    DropdownModule
   ]
 })
 export class EvidencesModule { }

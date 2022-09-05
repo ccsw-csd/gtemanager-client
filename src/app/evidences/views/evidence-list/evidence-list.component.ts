@@ -3,7 +3,11 @@ import { Evidence } from '../../model/Evidence';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EvidenceUploadComponent } from '../evidence-upload/evidence-upload.component';
 import { EvidenceService } from '../../services/evidence.service';
-import { Properties } from 'src/app/properties/model/Properties';
+import { CenterService } from '../../services/center.service';
+import { Properties } from '../../model/Properties';
+import { Comment } from '../../model/Comment';
+import { CommentComponent } from '../comment/comment.component'; 
+import { Center } from '../../model/Center';
 
 @Component({
   selector: 'app-evidence-list',
@@ -14,11 +18,13 @@ import { Properties } from 'src/app/properties/model/Properties';
 export class EvidenceListComponent implements OnInit {
 
   evidenceList: Evidence[];
-  prueba: any[];
+  data: any[];
   properties: Properties;
   isLoading: boolean = false;
   weeks: any[];
   cols: any[];
+  geografia: Center;
+  localizaciones: Center[];
 
   /**
    * Constructor: inicializa servicio DialogService para componente EvidenceUpload.
@@ -27,12 +33,13 @@ export class EvidenceListComponent implements OnInit {
    */
   constructor(
     private evidenceService: EvidenceService,
+    private centerService: CenterService,
     public dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
     this.cols = [
-      { field: "name", sort: "person.name", header: "Nombre", width: "flex-1" },
+      { field: "name", header: "Nombre", width: "flex-1" },
       { field: "lastName", header: "Apellidos", width: "flex-1" },
       { field: "email", header: "Email", width: "flex-1" },
       { field: "geografia", field3: "name", header: "Geografía", width: "flex-1" }
@@ -47,9 +54,9 @@ export class EvidenceListComponent implements OnInit {
       { field: "evidenceTypeW6", header: "Semana 6", width: "w-6rem" },
     ];
 
-    this.cols = this.cols.concat(this.weeks.slice(0, 6));
-    console.log(this.cols);
+    this.cols = this.cols.concat(this.weeks.slice(0, 5));
     this.findEvidences();
+    this.findCenters();
   }
 
   findEvidences() {
@@ -57,27 +64,42 @@ export class EvidenceListComponent implements OnInit {
     this.evidenceService.findEvidenceByGeography().subscribe({
       next: (res: Evidence[]) => {
         this.evidenceList = res;
-        this.prueba = [];
-        
+        this.data = [];
       },
       error: () => {},
       complete: ()  => {
         this.isLoading = false;
         this.evidenceList.forEach(e => {
-          this.prueba.push({
+          this.data.push({
+            personId: e.person.id,
             name: e.person.name, 
             lastName: e.person.lastName, 
             email: e.person.email,
             geografia: e.person.center.name, 
-            evidenceTypeW1: (e.evidenceTypeW1 != null) ? e.evidenceTypeW1.name : "-", 
-            evidenceTypeW2: (e.evidenceTypeW2 != null) ? e.evidenceTypeW2.name : "-",
-            evidenceTypeW3: (e.evidenceTypeW3 != null) ? e.evidenceTypeW3.name : "-", 
-            evidenceTypeW4: (e.evidenceTypeW4 != null) ? e.evidenceTypeW4.name : "-", 
-            evidenceTypeW5: (e.evidenceTypeW5 != null) ? e.evidenceTypeW5.name : "-",
-            evidenceTypeW6: (e.evidenceTypeW6 != null) ? e.evidenceTypeW6.name : "-",
+            evidenceTypeW1: (e.evidenceTypeW1 != null) ? e.evidenceTypeW1.name : "", 
+            evidenceTypeW2: (e.evidenceTypeW2 != null) ? e.evidenceTypeW2.name : "",
+            evidenceTypeW3: (e.evidenceTypeW3 != null) ? e.evidenceTypeW3.name : "", 
+            evidenceTypeW4: (e.evidenceTypeW4 != null) ? e.evidenceTypeW4.name : "", 
+            evidenceTypeW5: (e.evidenceTypeW5 != null) ? e.evidenceTypeW5.name : "",
+            evidenceTypeW6: (e.evidenceTypeW6 != null) ? e.evidenceTypeW6.name : "",
             comment: e.comment});
         });
       }
+    });
+  }
+
+  findCenters() {
+    this.centerService.findAll().subscribe( res =>
+      this.localizaciones = res);
+  }
+
+  showComment(personId: number, name: String, lastName: String, comment?: Comment) {
+
+    const ref = this.dialogService.open(CommentComponent, {
+      header: "Editar comentario de " + name + " " + lastName,
+      width: "40%",
+      data: {commentData: (comment != null) ? comment : null, id: personId},
+      closable: false,
     });
   }
 
