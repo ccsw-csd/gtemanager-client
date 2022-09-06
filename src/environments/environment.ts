@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  server: 'http://localhost:8080'
+  appCode: 'gteManager',
+  server: 'http://localhost:8080',
+  sso: 'http://frparccsw/dev/sso'
 };
 
 /*
