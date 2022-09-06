@@ -2,14 +2,9 @@
     <div class="inline-flex justify-content-start"> <!-- Dropdown -->
         <span class="p-float-label">
             <p-dropdown [options]="localizaciones" [(ngModel)]="filterCenter" placeholder="Selecciona geografía" 
-            optionLabel="name" [showClear]="true" class="p-3 block"></p-dropdown>
+            optionLabel="name" [showClear]="true" class="p-3 block" (onChange)="onSearch()"></p-dropdown>
         </span>
         
-    </div>
-    
-    <div class="inline-flex justify-content-start"> <!-- Botones de filtro -->
-        <button pButton type="button" class="p-button-primary p-3 block mt-3 ml-3" (click)="onSearch()">Filtrar</button>
-        <button pButton type="button" class="p-button-primary p-3 block mt-3 ml-3" (click)="onClear()">Borrar filtro</button>  
     </div>
 
     <div class="inline-flex justify-content-end"> <!-- Botones de acción -->
