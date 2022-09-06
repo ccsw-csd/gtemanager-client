@@ -23,7 +23,7 @@ export class EvidenceListComponent implements OnInit {
   isLoading: boolean = false;
   weeks: any[];
   cols: any[];
-  geografia: Center;
+  filterCenter: Center;
   localizaciones: Center[];
 
   /**
@@ -44,7 +44,7 @@ export class EvidenceListComponent implements OnInit {
       { field: "email", header: "Email", width: "flex-1" },
       { field: "geografia", field3: "name", header: "Geografía", width: "flex-1" }
     ];
-
+    // cambiar nombres al de properties - bucle?
     this.weeks = [
       { field: "evidenceTypeW1", header: "Semana 1", width: "w-6rem" },
       { field: "evidenceTypeW2", header: "Semana 2", width: "w-6rem" },
@@ -55,13 +55,14 @@ export class EvidenceListComponent implements OnInit {
     ];
 
     this.cols = this.cols.concat(this.weeks.slice(0, 5));
-    this.findEvidences();
+    this.filterCenter = null;
+    this.onSearch();
     this.findCenters();
   }
 
   findEvidences() {
     this.isLoading = true;
-    this.evidenceService.findEvidenceByGeography().subscribe({
+    this.evidenceService.getEvidences().subscribe({
       next: (res: Evidence[]) => {
         this.evidenceList = res;
         this.data = [];
@@ -93,8 +94,45 @@ export class EvidenceListComponent implements OnInit {
       this.localizaciones = res);
   }
 
-  showComment(personId: number, name: String, lastName: String, comment?: Comment) {
+  onSearch(): void {
+    let centerId = this.filterCenter != null ? this.filterCenter.id : null;
 
+    this.isLoading = true;
+    this.evidenceService.getEvidences(centerId).subscribe({
+      next: (res: Evidence[]) => {
+        this.evidenceList = res;
+        this.data = [];
+      },
+      error: () => {},
+      complete: ()  => {
+        this.isLoading = false;
+        this.evidenceList.forEach(e => {
+          this.data.push({
+            personId: e.person.id,
+            name: e.person.name, 
+            lastName: e.person.lastName, 
+            email: e.person.email,
+            geografia: e.person.center.name, 
+            evidenceTypeW1: (e.evidenceTypeW1 != null) ? e.evidenceTypeW1.name : "", 
+            evidenceTypeW2: (e.evidenceTypeW2 != null) ? e.evidenceTypeW2.name : "",
+            evidenceTypeW3: (e.evidenceTypeW3 != null) ? e.evidenceTypeW3.name : "", 
+            evidenceTypeW4: (e.evidenceTypeW4 != null) ? e.evidenceTypeW4.name : "", 
+            evidenceTypeW5: (e.evidenceTypeW5 != null) ? e.evidenceTypeW5.name : "",
+            evidenceTypeW6: (e.evidenceTypeW6 != null) ? e.evidenceTypeW6.name : "",
+            comment: e.comment});
+        });
+      }
+    });
+  }
+
+  onClear(): void {
+    this.filterCenter = null;
+    console.log("borrando filtro");
+    this.onSearch();
+    console.log("despues de onsearch");
+  }
+
+  showComment(personId: number, name: String, lastName: String, comment?: Comment) {
     const ref = this.dialogService.open(CommentComponent, {
       header: "Editar comentario de " + name + " " + lastName,
       width: "40%",

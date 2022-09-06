@@ -6,6 +6,7 @@ import { environment } from "src/environments/environment";
 import { Comment } from "../model/Comment";
 import { Evidence } from "../model/Evidence";
 import { Person } from "../model/Person";
+import { Center } from "../model/Center";
 
 @Injectable({
     providedIn: 'root'
@@ -26,12 +27,12 @@ export class EvidenceService {
         return this.http.get<Evidence[]>(environment.server + "/evidence-view/");
     }
 
-    findEvidenceByGeography(idGeography?: number): Observable<Evidence[]> {
+    getEvidences(center?: number): Observable<Evidence[]> {
 
         let path = "/evidence-view/";
 
-        if (idGeography != null)
-            path = "/evidence-view/?geography=" + idGeography;
+        if (center != null)
+            path += "?geography=" + center;
 
         return this.http.get<Evidence[]>(environment.server + path);
     }

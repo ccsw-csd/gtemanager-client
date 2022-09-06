@@ -1,20 +1,26 @@
 <div class="flex-column"> <!-- Filtros y botones - top -->
-    <div class="inline-flex justify-content-start">
+    <div class="inline-flex justify-content-start"> <!-- Dropdown -->
         <span class="p-float-label">
-            <p-dropdown [options]="localizaciones" [(ngModel)]="geografia" placeholder="Selecciona geografía" 
-            optionLabel="name" [showClear]="true" class="p-3 block mt-3"></p-dropdown>
+            <p-dropdown [options]="localizaciones" [(ngModel)]="filterCenter" placeholder="Selecciona geografía" 
+            optionLabel="name" [showClear]="true" class="p-3 block"></p-dropdown>
         </span>
+        
+    </div>
+    
+    <div class="inline-flex justify-content-start"> <!-- Botones de filtro -->
+        <button pButton type="button" class="p-button-primary p-3 block mt-3 ml-3" (click)="onSearch()">Filtrar</button>
+        <button pButton type="button" class="p-button-primary p-3 block mt-3 ml-3" (click)="onClear()">Borrar filtro</button>  
     </div>
 
-    <div class="inline-flex justify-content-end">
-        <button #b pButton type="button" class="p-button-primary p-3 block mt-3" (click)="importarDatos()">Importar datos</button>
+    <div class="inline-flex justify-content-end"> <!-- Botones de acción -->
+        <button #b pButton type="button" class="p-button-primary p-3 block mt-3 ml-3" (click)="importarDatos()">Importar datos</button>
         <button #b pButton type="button" class="p-button-primary p-3 block mt-3 ml-3">Enviar correos</button>  
     </div>
 </div>
 
 <div class="mt-3 inline-flex justify-content-start"> <!-- Tabla - center -->
     <p-table class="flex" [columns]="cols" [value]="data" [loading]="isLoading" [scrollable]="true" 
-        [autoLayout]="true" scrollHeight="calc(100vh - 200px)" responsiveLayout="scroll">
+        [autoLayout]="true" scrollHeight="calc(100vh - 215px)" responsiveLayout="scroll">
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th *ngFor="let col of columns" pSortableColumn="{{col.field}}" class="flex {{col.width}}">
