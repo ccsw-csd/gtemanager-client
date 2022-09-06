@@ -10,6 +10,9 @@ import { CommentComponent } from '../comment/comment.component';
 import { Center } from '../../model/Center';
 import { PropertiesService } from '../../services/properties.service';
 
+/**
+ * EvidenceListComponent: componente de lista de evidencias.
+ */
 @Component({
   selector: 'app-evidence-list',
   templateUrl: './evidence-list.component.html',
@@ -137,7 +140,6 @@ export class EvidenceListComponent implements OnInit {
    * Se ajusta título del diálogo y anchura al 50% del espacio disponible.
    */
   importarDatos(): void {
-    const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%" });
+    const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
   }
-
 }

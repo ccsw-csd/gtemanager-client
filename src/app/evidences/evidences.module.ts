@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommentComponent } from './views/comment/comment.component';
 import { InputTextareaModule }  from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { DropdownModule } from 'primeng/dropdown';
     ToastModule,
     HttpClientModule,
     InputTextareaModule,
-    DropdownModule
+    DropdownModule,
+    ProgressSpinnerModule,
+    HttpClientModule
   ]
 })
 export class EvidencesModule { }

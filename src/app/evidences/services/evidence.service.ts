@@ -8,6 +8,9 @@ import { Evidence } from "../model/Evidence";
 import { Person } from "../model/Person";
 import { Center } from "../model/Center";
 
+/**
+ * Servicio de datos de evidencias
+ */
 @Injectable({
     providedIn: 'root'
 })

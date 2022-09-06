@@ -1,6 +1,6 @@
-export class User {
+export class UserInfoDetailed {
     id: number;
     username: string; 
     displayName: string;
-    role: string;
+    roles: string;
 }

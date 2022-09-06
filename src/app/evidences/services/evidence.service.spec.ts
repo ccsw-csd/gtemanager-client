@@ -1,6 +1,5 @@
 /**
  * Tests para EvidenceService.
- * @author cavire
  */
 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';

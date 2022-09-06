@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ResponseCredentials } from 'src/app/core/models/ResponseCredentials';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { environment } from 'src/environments/environment';
 import { LoginService } from '../../services/login.service';
 
 
@@ -25,8 +26,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if(this.auth.getToken() != null){
-      this.router.navigate(['main']);
+    if(this.auth.isTokenValid() && this.auth.getSSOToken() != null){
+      this.accessIntoApp();
     }
   }
 
@@ -35,18 +36,49 @@ export class LoginComponent implements OnInit {
     if (this.user == "" || this.password == "") return;
     
     this.isloading = true;
-    this.loginService.login(this.user, this.password).subscribe({
-      next: (res: ResponseCredentials) => { 
-        this.loginService.putCredentials(res);
+    this.authenticate();
+  }
+
+  private authenticate() {
+
+    this.loginService.authenticate(this.user, this.password).subscribe({
+      next: (res: ResponseCredentials) => {         
+        this.loginService.putSSOCredentials(res);
+        this.accessIntoApp();
       },
       error: () => {
-        this.snackbarService.error('Wrong credentials.');
+        this.snackbarService.error('Credenciales erróneas. Asegúrate de haber puesto el username (no el email) y el password corporativo.');
         this.isloading = false;
       },
-      complete: () => {
-        this.isloading = false;
-        this.router.navigate(['main']);
-      }     
     });
+
+  }
+
+  private accessIntoApp() : void {    
+    this.isloading = false;
+
+    let roles = this.auth.getRoles();
+    if (roles == null || roles.length == 0) {
+      this.snackbarService.error('El usuario no tiene permisos válidos en la aplicación.');
+      return;
+    }    
+    
+    this.router.navigate(['main']);
+  }
+
+  public getEmail() : string {
+    let gitWord2 = "pge";
+    let gitWord4 = "i";
+    let gitWord3 = "min";
+    let gitWord1 = "ca";
+
+    let gitWord = gitWord1+gitWord2+gitWord3+gitWord4;
+
+    return "ccsw.support@"+gitWord+".com";
+  }
+
+
+  public getEmailRef() : string {
+    return "mailto:"+this.getEmail()+"?subject=["+environment.appCode+"] Consulta / Feedback";
   }
 }

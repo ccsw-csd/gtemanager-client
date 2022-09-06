@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output  } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import { User } from '../../../models/User';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MenuItem } from 'primeng/api';
+import { UserInfoSSO } from 'src/app/core/models/UserInfoSSO';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ import { MenuItem } from 'primeng/api';
 })
 export class HeaderComponent implements OnInit {
 
-  user : User | null = null;
+  user : UserInfoSSO | null = null;
   navOpen = true;
   isloading : boolean = false;
   @Output() navOpenEvent = new EventEmitter();
@@ -44,5 +45,16 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.auth.logout();
   }
+
+  getEmailRef() {
+    let gitWord2 = "ge";
+    let gitWord4 = "i";
+    let gitWord3 = "min";
+    let gitWord1 = "cap";
+
+    let gitWord = gitWord1+gitWord2+gitWord3+gitWord4;
+
+    return "mailto:ccsw.support@"+gitWord+".com?subject=["+environment.appCode+"] Consulta / Feedback";
+  }  
 
 }
