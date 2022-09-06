@@ -1,7 +1,7 @@
 export class Properties {
     id: number;
-    key: String;
-    value: String;
+    key: string;
+    value: string;
 
     public constructor(init?:Partial<Properties>) {
         Object.assign(this, init);

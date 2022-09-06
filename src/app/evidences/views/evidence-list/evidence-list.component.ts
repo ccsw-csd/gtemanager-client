@@ -8,6 +8,7 @@ import { Properties } from '../../model/Properties';
 import { Comment } from '../../model/Comment';
 import { CommentComponent } from '../comment/comment.component'; 
 import { Center } from '../../model/Center';
+import { PropertiesService } from '../../services/properties.service';
 
 @Component({
   selector: 'app-evidence-list',
@@ -19,12 +20,15 @@ export class EvidenceListComponent implements OnInit {
 
   evidenceList: Evidence[];
   data: any[];
-  properties: Properties;
-  isLoading: boolean = false;
   weeks: any[];
   cols: any[];
+  isLoading: boolean = false;
+
   filterCenter: Center;
   localizaciones: Center[];
+  
+  properties: Properties[];
+  loadWeeks: number;
 
   /**
    * Constructor: inicializa servicio DialogService para componente EvidenceUpload.
@@ -34,6 +38,7 @@ export class EvidenceListComponent implements OnInit {
   constructor(
     private evidenceService: EvidenceService,
     private centerService: CenterService,
+    private propertiesService: PropertiesService,
     public dialogService: DialogService
   ) { }
 
@@ -44,7 +49,7 @@ export class EvidenceListComponent implements OnInit {
       { field: "email", header: "Email", width: "flex-1" },
       { field: "geografia", field3: "name", header: "Geografía", width: "flex-1" }
     ];
-    // cambiar nombres al de properties - bucle?
+    
     this.weeks = [
       { field: "evidenceTypeW1", header: "Semana 1", width: "w-6rem" },
       { field: "evidenceTypeW2", header: "Semana 2", width: "w-6rem" },
@@ -53,14 +58,18 @@ export class EvidenceListComponent implements OnInit {
       { field: "evidenceTypeW5", header: "Semana 5", width: "w-6rem" },
       { field: "evidenceTypeW6", header: "Semana 6", width: "w-6rem" },
     ];
+    
+    this.getProperties();
+    console.log(this.loadWeeks);
+    
 
-    this.cols = this.cols.concat(this.weeks.slice(0, 5));
     this.filterCenter = null;
     this.onSearch();
-    this.findCenters();
+
+    this.getCenters();
   }
 
-  findCenters() {
+  getCenters() {
     this.centerService.findAll().subscribe( res =>
       this.localizaciones = res);
   }
@@ -92,6 +101,23 @@ export class EvidenceListComponent implements OnInit {
             evidenceTypeW6: (e.evidenceTypeW6 != null) ? e.evidenceTypeW6.name : "",
             comment: e.comment});
         });
+      }
+    });
+  }
+
+  getProperties() {
+    this.propertiesService.findAll().subscribe({
+      next: (res: Properties[]) => {
+        this.properties = res;
+      },
+      error: () => {},
+      complete: () => {
+        this.properties.forEach(res => {
+          if (res.key == "LOAD_WEEKS") {
+            this.loadWeeks = parseInt(res.value);
+          }
+        });
+        this.cols = this.cols.concat(this.weeks.slice(0, this.loadWeeks));
       }
     });
   }
