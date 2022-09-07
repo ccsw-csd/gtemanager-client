@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
+import { EvidenceEmailComponent } from '../evidence-email/evidence-email.component';
 import { EvidenceUploadComponent } from '../evidence-upload/evidence-upload.component';
 
 /**
@@ -32,6 +33,11 @@ export class EvidenceListComponent implements OnInit {
    */
   importarDatos(): void {
     const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
+  }
+
+  /** TODO DOCS */
+  evidenceEmails(): void {
+    const dialogRef = this.dialogService.open(EvidenceEmailComponent, { header: "Notificar evidencias pendientes", width: "50%", closable: false });
   }
 
 }
