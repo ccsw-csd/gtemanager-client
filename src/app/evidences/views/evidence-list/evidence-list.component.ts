@@ -46,6 +46,10 @@ export class EvidenceListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.findAll();
+  }
+
+  findAll() {
     this.cols = [
       { field: "name", header: "Nombre", width: "flex-1" },
       { field: "lastName", header: "Apellidos", width: "flex-1" },
@@ -62,9 +66,7 @@ export class EvidenceListComponent implements OnInit {
       { field: "evidenceTypeW6", header: "Semana 6", width: "w-6rem" },
     ];
     
-    this.getProperties();
-    console.log(this.loadWeeks);
-    
+    this.getProperties();    
 
     this.filterCenter = null;
     this.onSearch();
@@ -131,6 +133,10 @@ export class EvidenceListComponent implements OnInit {
       width: "40%",
       data: {commentData: (comment != null) ? comment : null, id: personId},
       closable: false,
+    });
+
+    ref.onClose.subscribe( res => {
+      this.findAll();
     });
   }
 
