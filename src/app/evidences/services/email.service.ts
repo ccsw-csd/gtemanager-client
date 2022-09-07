@@ -29,7 +29,7 @@ export class EmailService {
   * TODO DOCS
   */
   private composeFindUrl(closingDate: Date, centerId: number) {
-    let url = environment.server + "/email/send";
+    let url = environment.server + "/email/sendReminders";
     let params = "closingDate=" + this.pipe.transform(closingDate, "yyyy-MM-dd") + "&" + "centerId=" + centerId;
     return url + "?" + params;
   }
