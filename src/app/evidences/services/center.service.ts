@@ -11,8 +11,6 @@ export class CenterService {
 
   /**
    * Constructor: inicializa servicio HttpClient para comunicación con backend.
-   * 
-   TODO DOCS
    */
   constructor(
     private http: HttpClient

@@ -13,22 +13,24 @@ export class EmailService {
   /**
    * Constructor: inicializa servicio HttpClient para comunicación con backend.
    * 
-   TODO DOCS
+   * Incluye DatePipe para procesamiento de fechas.
    */
   constructor(
     private http: HttpClient,
     private pipe: DatePipe
   ) { }
 
-  /** TODO DOCS */
+  /** 
+   * POST: enviar fecha de cierre e ID de centro a backend para procesar y enviar los correos electrónicos de esa geografía.
+   */
   sendEmails(closingDate: Date, centerId: number): Observable<any> {
-    return this.http.post<any>(this.composeFindUrl(closingDate, centerId), null);
+    return this.http.post<any>(this.composeUrl(closingDate, centerId), null);
   }
 
   /**
-  * TODO DOCS
+  * Componer parámetros de URL dada una fecha de cierre e ID de centro.
   */
-  private composeFindUrl(closingDate: Date, centerId: number) {
+  composeUrl(closingDate: Date, centerId: number) {
     let url = environment.server + "/email/sendReminders";
     let params = "closingDate=" + this.pipe.transform(closingDate, "yyyy-MM-dd") + "&" + "centerId=" + centerId;
     return url + "?" + params;

@@ -3,10 +3,11 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Center } from 'src/app/evidences/models/Center';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { EmailService } from '../../services/email.service';
-import { DropdownModule } from 'primeng/dropdown';
 import { CenterService } from '../../services/center.service';
-import { CalendarModule } from 'primeng/calendar';
 
+/**
+ * EvidenceEmailComponent: TODO
+ */
 @Component({
   selector: 'app-evidence-email',
   templateUrl: './evidence-email.component.html',
@@ -20,6 +21,15 @@ export class EvidenceEmailComponent implements OnInit {
   center: Center;
   isLoading: boolean;
 
+  /**
+   * Constructor: inicializar servicios.
+   * 
+   * @param emailService 
+   * @param centerService 
+   * @param dialogRef 
+   * @param config 
+   * @param snackbarService 
+   */
   constructor(
     public emailService: EmailService,
     public centerService: CenterService,
@@ -28,6 +38,9 @@ export class EvidenceEmailComponent implements OnInit {
     private snackbarService: SnackbarService
   ) { }
 
+  /**
+   * Obtener listado de centros al inicializar.
+   */
   ngOnInit(): void {
     this.isLoading = true;
     this.centerService.getCenters().subscribe({
@@ -43,6 +56,9 @@ export class EvidenceEmailComponent implements OnInit {
     );
   }
 
+  /**
+   * En caso de pulsar botón enviar, realizar petición a backend para enviar recordatorios.
+   */
   onSend() {
     this.isLoading = true;
     this.emailService.sendEmails(this.closingDate, this.center.id).subscribe({
