@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Reminder } from '../models/Reminder';
 
 /**
  * Servicio de datos de envío de correos electrónicos
@@ -25,22 +26,10 @@ export class EmailService {
   /** 
    * POST: enviar fecha de cierre e ID de centro a backend para procesar y enviar los correos electrónicos de esa geografía.
    * 
-   * @param closingDate Fecha de cierre
-   * @param centerId ID del centro por el que filtrar
+   * @param reminder Objeto Reminder con fecha de cierre e ID de centro para procesado de correos electrónicos.
    */
-  sendEmails(closingDate: Date, centerId: number): Observable<any> {
-    return this.http.post<any>(this.composeUrl(closingDate, centerId), null);
+  sendEmails(reminder: Reminder): Observable<any> {
+    return this.http.post<any>(environment.server + "/email/sendReminders", reminder);
   }
 
-  /**
-  * Componer parámetros de URL dada una fecha de cierre e ID de centro.
-  * 
-  * @param closingDate Fecha de cierre
-  * @param centerId ID del centro por el que filtrar
-  */
-  composeUrl(closingDate: Date, centerId: number) {
-    let url = environment.server + "/email/sendReminders";
-    let params = "closingDate=" + this.pipe.transform(closingDate, "yyyy-MM-dd") + "&" + "centerId=" + centerId;
-    return url + "?" + params;
-  }
 }

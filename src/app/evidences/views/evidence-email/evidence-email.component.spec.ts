@@ -12,7 +12,9 @@ import { DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'prim
 import { ToastModule } from 'primeng/toast';
 import { of } from 'rxjs';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { environment } from 'src/environments/environment';
 import { Center } from '../../models/Center';
+import { Reminder } from '../../models/Reminder';
 import { CenterService } from '../../services/center.service';
 import { EmailService } from '../../services/email.service';
 
@@ -56,7 +58,7 @@ describe('EvidenceEmailComponent', () => {
     })
       .compileComponents();
 
-    mockEmailService = jasmine.createSpyObj("EmailService", ["sendEmails", "composeUrl"]);
+    mockEmailService = jasmine.createSpyObj("EmailService", ["sendEmails"]);
     mockCenterService = jasmine.createSpyObj("CenterService", ["getCenters"]);
     fixture = TestBed.createComponent(EvidenceEmailComponent);
     http = TestBed.inject(HttpTestingController);
@@ -86,10 +88,14 @@ describe('EvidenceEmailComponent', () => {
     fixture.detectChanges();
     expect(component.isLoading).toBe(true);
 
+    let reminder = new Reminder();
+    reminder.closingDate = component.closingDate;
+    reminder.centerId = component.center.id;
+
     http.expectOne({
       method: 'POST',
-      url: mockEmailService.composeUrl(component.closingDate, component.center.id)
-    }).flush(null, { status: 200, statusText: 'OK' });
+      url: environment.server + "/email/sendReminders"
+    }).flush(reminder, { status: 200, statusText: 'OK' });
 
     fixture.detectChanges();
     expect(component.isLoading).toBe(false);

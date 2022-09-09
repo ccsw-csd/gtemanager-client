@@ -4,6 +4,7 @@ import { Center } from 'src/app/evidences/models/Center';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { EmailService } from '../../services/email.service';
 import { CenterService } from '../../services/center.service';
+import { Reminder } from '../../models/Reminder';
 
 /**
  * Componente EvidenceEmail: diálogo de selección de geografía y fecha de cierre para envío de correos electrónicos recordatorios desde la aplicación.
@@ -66,7 +67,12 @@ export class EvidenceEmailComponent implements OnInit {
    */
   onSend() {
     this.isLoading = true;
-    this.emailService.sendEmails(this.closingDate, this.center.id).subscribe({
+
+    let reminder = new Reminder();
+    reminder.closingDate = this.closingDate;
+    reminder.centerId = this.center.id;
+
+    this.emailService.sendEmails(reminder).subscribe({
       next: result => {
         if (result)
           this.snackbarService.showMessage("Recordatorios enviados. " + result);
