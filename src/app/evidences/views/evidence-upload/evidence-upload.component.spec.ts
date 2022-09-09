@@ -14,6 +14,7 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { of } from 'rxjs';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { environment } from 'src/environments/environment';
 import { EvidenceService } from '../../services/evidence.service';
 
@@ -38,14 +39,13 @@ describe('EvidenceUploadComponent', () => {
         DynamicDialogModule,
         CheckboxModule,
         FormsModule,
-        MessagesModule,
-        MessageModule,
         ToastModule
       ],
       providers: [
         EvidenceService,
         DynamicDialogRef,
         DynamicDialogConfig,
+        SnackbarService,
         MessageService
       ]
     })

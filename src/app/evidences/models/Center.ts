@@ -1,3 +1,6 @@
+/**
+ * Center: clase para manejo de datos de centros.
+ */
 export class Center {
     id: number;
     name: String;
