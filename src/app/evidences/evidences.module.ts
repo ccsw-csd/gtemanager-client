@@ -12,11 +12,15 @@ import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { EvidenceEmailComponent } from './views/evidence-email/evidence-email.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
     EvidenceListComponent,
-    EvidenceUploadComponent
+    EvidenceUploadComponent,
+    EvidenceEmailComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +33,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     MessageModule,
     ToastModule,
     ProgressSpinnerModule,
+    DropdownModule,
+    CalendarModule,
     HttpClientModule
   ]
 })
