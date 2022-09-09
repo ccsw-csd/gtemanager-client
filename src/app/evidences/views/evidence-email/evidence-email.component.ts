@@ -69,7 +69,7 @@ export class EvidenceEmailComponent implements OnInit {
     this.isLoading = true;
 
     let reminder = new Reminder();
-    reminder.closingDate = this.closingDate;
+    reminder.closingDate = new Date(Date.UTC(this.closingDate.getFullYear(), this.closingDate.getMonth(), this.closingDate.getDate()));
     reminder.centerId = this.center.id;
 
     this.emailService.sendEmails(reminder).subscribe({
