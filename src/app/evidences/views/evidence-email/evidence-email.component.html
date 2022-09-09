@@ -1,12 +1,12 @@
 <!-- Sección contenido -->
 <div class="flex flex-column mb-5">
     <p>Geografía:</p>
-    <p-dropdown appendTo="body" [options]="centers" [(ngModel)]="center" optionLabel="name"
+    <p-dropdown styleClass="w-full" ngDefaultControl appendTo="body" [options]="centers" [(ngModel)]="center" optionLabel="name"
         placeholder="Seleccione centro" [filter]="true" filterBy="name" [disabled]="this.isLoading">
     </p-dropdown>
 
     <p class="mt-3">Fecha de cierre:</p>
-    <p-calendar appendTo="body" [(ngModel)]="closingDate" dateFormat="dd/mm/yy" [disabled]="this.isLoading">
+    <p-calendar styleClass="w-full" ngDefaultControl appendTo="body" [(ngModel)]="closingDate" dateFormat="dd/mm/yy" firstDayOfWeek="1" [disabled]="this.isLoading">
     </p-calendar>
 </div>
 
@@ -15,7 +15,7 @@
     <button pButton label="Cancelar" class="p-button-secondary" (click)="onCancel()"
         [disabled]="this.isLoading"></button>
     <button pButton label="Enviar" class="p-button-primary" (click)="onSend()"
-        [disabled]="this.center == null || this.closingDate == null ||this.isLoading"></button>
+        [disabled]="this.center == null || this.closingDate == null || this.isLoading"></button>
 </div>
 
 <!-- Mostrar animación en proceso de carga -->

@@ -76,7 +76,7 @@ export class EvidenceUploadComponent implements OnInit {
                 if (result)
                     this.snackbarService.showMessage("Archivo subido correctamente. " + result);
                 else
-                    this.snackbarService.showMessage("Archivo subido correctamente. ");
+                    this.snackbarService.showMessage("Archivo subido correctamente.");
                 this.isLoading = false;
                 this.close();
             },
