@@ -10,8 +10,6 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FileUploadModule } from 'primeng/fileupload';
-import { MessageModule } from 'primeng/message';
-import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { of } from 'rxjs';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';

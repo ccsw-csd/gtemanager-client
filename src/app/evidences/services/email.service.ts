@@ -2,9 +2,11 @@ import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Center } from 'src/app/evidences/models/Center';
 import { environment } from 'src/environments/environment';
 
+/**
+ * Servicio de datos de envío de correos electrónicos
+ */
 @Injectable({
   providedIn: 'root'
 })

@@ -24,11 +24,11 @@ export class EvidenceEmailComponent implements OnInit {
   /**
    * Constructor: inicializar servicios.
    * 
-   * @param emailService 
-   * @param centerService 
-   * @param dialogRef 
-   * @param config 
-   * @param snackbarService 
+   * @param emailService Servicio EmailService para envío de datos a backend
+   * @param centerService Servicio Center service para obtención de centros desde backend
+   * @param dialogRef DynamicDialogRef, referencia al diálogo de la ventana Email
+   * @param config DynamicDialogCongig, configuración del diálogo de la ventana Email
+   * @param snackbarService Servicio SnackbarService para muestra de notificaciones o avisos en pantalla
    */
   constructor(
     public emailService: EmailService,

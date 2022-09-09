@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Center } from '../models/Center';
 
+/**
+ * Servicio de datos de centros
+ */
 @Injectable({
   providedIn: 'root'
 })
