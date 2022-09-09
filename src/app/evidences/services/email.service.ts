@@ -24,6 +24,9 @@ export class EmailService {
 
   /** 
    * POST: enviar fecha de cierre e ID de centro a backend para procesar y enviar los correos electrónicos de esa geografía.
+   * 
+   * @param closingDate Fecha de cierre
+   * @param centerId ID del centro por el que filtrar
    */
   sendEmails(closingDate: Date, centerId: number): Observable<any> {
     return this.http.post<any>(this.composeUrl(closingDate, centerId), null);
@@ -31,6 +34,9 @@ export class EmailService {
 
   /**
   * Componer parámetros de URL dada una fecha de cierre e ID de centro.
+  * 
+  * @param closingDate Fecha de cierre
+  * @param centerId ID del centro por el que filtrar
   */
   composeUrl(closingDate: Date, centerId: number) {
     let url = environment.server + "/email/sendReminders";
