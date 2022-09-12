@@ -2,12 +2,12 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { Center } from "../model/Center";
+import { Comment } from "../model/Comment";
 
 @Injectable({
     providedIn: 'root'
 })
-export class CenterService {
+export class CommentService {
 
     /**
      * Constructor: inicializa servicio HttpClient para comunicación con backend.
@@ -18,8 +18,7 @@ export class CenterService {
         private http: HttpClient
     ) { }
 
-    findAll(): Observable<Center[]> {
-
-        return this.http.get<Center[]>(environment.server + "/center/");
+    saveComment(comment: Comment): Observable<void> {
+        return this.http.put<void>(environment.server + "/comment", comment);
     }
 }
