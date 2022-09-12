@@ -3,7 +3,7 @@ import { Center } from "./Center";
 
 export class Person {
     id: number;
-    saga: PersonSaga;
+    saga: String;
     username: string;
     email: string;
     name: string;

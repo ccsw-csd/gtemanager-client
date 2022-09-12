@@ -66,7 +66,7 @@ export class EvidenceListComponent implements OnInit {
       { field: "evidenceTypeW6", header: "Semana 6", width: "w-6rem" },
     ];
     
-    this.getProperties();    
+    this.getProperties();
 
     this.filterCenter = null;
     this.onSearch();

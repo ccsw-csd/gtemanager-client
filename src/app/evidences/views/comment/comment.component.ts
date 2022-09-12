@@ -37,7 +37,6 @@ export class CommentComponent implements OnInit {
   }
 
   editComment(item: Comment) {
-    console.log(item);
     if (this.data.comment != "") {
       this.commentService.saveComment(item).subscribe({
         next: () => {

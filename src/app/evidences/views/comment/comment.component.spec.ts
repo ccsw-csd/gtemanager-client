@@ -1,25 +1,73 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CommentComponent } from './comment.component';
+import { of, throwError } from 'rxjs';
+import { Center } from '../../model/Center';
+import { Comment } from "../../model/Comment";
+import { Properties } from '../../model/Properties';
+import { CommentComponent } from "./comment.component";
 
 describe('CommentComponent', () => {
-  let component: CommentComponent;
-  let fixture: ComponentFixture<CommentComponent>;
+  let commentComponent: CommentComponent;
+  let mockEvidenceService;
+  let mockCommentService;
+  let mockDynamicDialogRef;
+  let mockDynamicDialogConfig;
+  let mockSnackbarService;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ CommentComponent ]
-    })
-    .compileComponents();
-  });
+  let COMMENT = new Comment({
+    id:1,
+    person:{
+      id:1,
+      saga:null,
+      username:null,
+      email:null,
+      name:null,
+      lastName:null,
+      center:null,
+      businessCode:null,
+      grade:null,
+      active:null
+    }, 
+    comment:"Comment"});
+
+      let COMMENT_EDITED: Comment[];
+      let COMMENT_SAVED: Comment[];
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommentComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+
+    mockEvidenceService = jasmine.createSpyObj(["getPersonById"]);
+    mockCommentService = jasmine.createSpyObj(["saveComment"]);
+    mockDynamicDialogRef = jasmine.createSpyObj(["close", "onClose"]);
+    mockDynamicDialogConfig = jasmine.createSpyObj([""]);
+    mockSnackbarService = jasmine.createSpyObj(["showMessage", "error"]);
+
+    commentComponent = new CommentComponent(mockEvidenceService, 
+      mockCommentService, mockDynamicDialogRef,
+      mockDynamicDialogConfig, mockSnackbarService);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('editCommentShouldUpdate', () => {
+    let editedComment = new Comment({id:1, 
+      person:{
+        id:1,
+        saga:null,
+        username:null,
+        email:null,
+        name:null,
+        lastName:null,
+        center:null,
+        businessCode:null,
+        grade:null,
+        active:null
+      }, 
+      comment:"New comment"});
+
+    mockDynamicDialogConfig.data = COMMENT;
+    mockEvidenceService.getPersonById.and.returnValue(of(editedComment.person));
+    mockCommentService.saveComment.and.returnValue(of(true));
+    mockDynamicDialogRef.close.and.returnValue(of(true));
+    commentComponent.editComment(editedComment);
+
+    expect(commentComponent.editComment(editedComment)).not.toBeNull();
   });
 });
