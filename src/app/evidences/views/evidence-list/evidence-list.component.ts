@@ -52,19 +52,19 @@ export class EvidenceListComponent implements OnInit {
 
   findAll() {
     this.cols = [
-      { field: "name", header: "Nombre", width: "flex-1" },
-      { field: "lastName", header: "Apellidos", width: "flex-1" },
+      { field: "name", header: "Nombre", width: "w-14rem flex-none" },
+      { field: "lastName", header: "Apellidos", width: "w-20rem flex-none" },
       { field: "email", header: "Email", width: "flex-1" },
-      { field: "geografia", field3: "name", header: "Geografía", width: "flex-1" }
+      { field: "geografia", field3: "name", header: "Geografía", width: "w-10rem flex-none" }
     ];
     
     this.weeks = [
-      { field: "evidenceTypeW1", header: "Semana 1", width: "w-6rem" },
-      { field: "evidenceTypeW2", header: "Semana 2", width: "w-6rem" },
-      { field: "evidenceTypeW3", header: "Semana 3", width: "w-6rem" },
-      { field: "evidenceTypeW4", header: "Semana 4", width: "w-6rem" },
-      { field: "evidenceTypeW5", header: "Semana 5", width: "w-6rem" },
-      { field: "evidenceTypeW6", header: "Semana 6", width: "w-6rem" },
+      { field: "evidenceTypeW1", header: "Semana 1", width: "w-8rem flex-none" },
+      { field: "evidenceTypeW2", header: "Semana 2", width: "w-8rem flex-none" },
+      { field: "evidenceTypeW3", header: "Semana 3", width: "w-8rem flex-none" },
+      { field: "evidenceTypeW4", header: "Semana 4", width: "w-8rem flex-none" },
+      { field: "evidenceTypeW5", header: "Semana 5", width: "w-8rem flex-none" },
+      { field: "evidenceTypeW6", header: "Semana 6", width: "w-8rem flex-none" },
     ];
     
     this.getProperties();
