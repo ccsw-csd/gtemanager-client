@@ -44,7 +44,7 @@ export class EvidenceEmailComponent implements OnInit {
    */
   ngOnInit(): void {
     this.isLoading = true;
-    this.centerService.getCenters().subscribe({
+    this.centerService.findAll().subscribe({
       next: centers => {
         this.centers = centers;
         this.isLoading = false;
