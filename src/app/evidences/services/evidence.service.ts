@@ -40,18 +40,9 @@ export class EvidenceService {
         return this.http.get<Evidence[]>(environment.server + path);
     }
 
-    // getComment(idPerson: number): Observable<Comment> {
-        
-    //     return this.http.get<Comment>(environment.server + "/comment?id=" + idPerson);
-    // }
-
     getPersonById(idPerson: number): Observable<Person> {
         return this.http.get<Person>(environment.server + "/person?id=" + idPerson);
     }
-
-    // getProperties(): Observable<Properties> {
-
-    // }
 
     /**
      * POST: Enviar archivo y variable de borrado de comentarios al backend a través del endpoint en /evidence.
