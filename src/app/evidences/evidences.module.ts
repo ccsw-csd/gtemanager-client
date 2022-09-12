@@ -14,14 +14,17 @@ import { ToastModule } from 'primeng/toast';
 import { HttpClientModule } from '@angular/common/http';
 import { CommentComponent } from './views/comment/comment.component';
 import { InputTextareaModule }  from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { EvidenceEmailComponent } from './views/evidence-email/evidence-email.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
     EvidenceListComponent,
     EvidenceUploadComponent,
-    CommentComponent
+    CommentComponent,
+    EvidenceEmailComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +41,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputTextareaModule,
     DropdownModule,
     ProgressSpinnerModule,
+    DropdownModule,
+    CalendarModule,
     HttpClientModule
   ]
 })

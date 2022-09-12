@@ -1,0 +1,25 @@
+<!-- Sección contenido -->
+<div class="flex flex-column mb-5">
+    <p>Geografía:</p>
+    <p-dropdown styleClass="w-full" ngDefaultControl appendTo="body" [options]="centers" [(ngModel)]="center" optionLabel="name"
+        placeholder="Seleccione centro" [filter]="true" filterBy="name" [disabled]="this.isLoading">
+    </p-dropdown>
+
+    <p class="mt-3">Fecha de cierre:</p>
+    <p-calendar styleClass="w-full" ngDefaultControl appendTo="body" [(ngModel)]="closingDate" dateFormat="dd/mm/yy" firstDayOfWeek="1" [disabled]="this.isLoading">
+    </p-calendar>
+</div>
+
+<!-- Sección botones de acción -->
+<div class="flex justify-content-end gap-3">
+    <button pButton label="Cancelar" class="p-button-secondary" (click)="onCancel()"
+        [disabled]="this.isLoading"></button>
+    <button pButton label="Enviar" class="p-button-primary" (click)="onSend()"
+        [disabled]="this.center == null || this.closingDate == null || this.isLoading"></button>
+</div>
+
+<!-- Mostrar animación en proceso de carga -->
+<div class="absolute m-auto right-0 left-0 top-0 bottom-0 bg-white-alpha-50 flex align-self-center align-items-center flex-column justify-content-center"
+    *ngIf="isLoading">
+    <p-progressSpinner></p-progressSpinner>
+</div>

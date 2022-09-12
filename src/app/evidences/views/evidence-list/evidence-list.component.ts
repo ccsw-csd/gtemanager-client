@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Evidence } from '../../model/Evidence';
 import { DialogService } from 'primeng/dynamicdialog';
+import { EvidenceEmailComponent } from '../evidence-email/evidence-email.component';
 import { EvidenceUploadComponent } from '../evidence-upload/evidence-upload.component';
 import { EvidenceService } from '../../services/evidence.service';
 import { CenterService } from '../../services/center.service';
@@ -148,4 +149,14 @@ export class EvidenceListComponent implements OnInit {
   importarDatos(): void {
     const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
   }
+
+  /**
+   * Inicia componente EvidenceEmail tras pulsar botón de envío de recordatorios.
+   * 
+   * Se ajusta título del diálogo y anchura al 25% del espacio disponible.
+   */
+  evidenceEmails(): void {
+    const dialogRef = this.dialogService.open(EvidenceEmailComponent, { header: "Notificar evidencias pendientes", width: "25%", closable: false });
+  }
+
 }
