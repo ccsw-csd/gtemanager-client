@@ -1,10 +1,7 @@
 <textarea class="flex w-12" pInputTextarea [(ngModel)]="data.comment" autoResize="autoResize"></textarea>
 <br>
-<div class="flex flex-row-reverse w-auto">
-    <div>
-        <button type="button" pButton label="Guardar" class="p-button-primary w-6rem" [disabled]='data.comment == ""' (click)="editComment(data)"></button>
-    </div>
-    <div class="px-2">
-        <button type="button" pButton label="Cerrar" class="p-button-secondary w-6rem" (click)="onClose()"></button>
-    </div>
+<div class="flex justify-content-end gap-3">
+    <button type="button" pButton label="Cerrar" class="p-button-secondary" (click)="onClose()"></button>
+    <button type="button" pButton label="Guardar" class="p-button-primary" [disabled]='!data.comment'
+        (click)="editComment(data)"></button>
 </div>
