@@ -63,7 +63,8 @@ describe('CommentComponent', () => {
       comment:"New comment"});
 
     mockDynamicDialogConfig.data = COMMENT;
-    mockEvidenceService.getPersonById.and.returnValue(of(editedComment.person));
+    commentComponent.data = COMMENT;
+    mockEvidenceService.getPersonById.and.returnValue(of(COMMENT.person));
     mockCommentService.saveComment.and.returnValue(of(true));
     mockDynamicDialogRef.close.and.returnValue(of(true));
     commentComponent.editComment(editedComment);
