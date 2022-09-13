@@ -104,5 +104,4 @@ describe('EvidenceListComponent', () => {
 
     expect(evidenceListComponent.evidenceList).toEqual(DATA_LIST);
   });
-
 });
