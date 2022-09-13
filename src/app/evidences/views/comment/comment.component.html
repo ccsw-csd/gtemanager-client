@@ -1,7 +1,12 @@
-<textarea class="flex w-12" pInputTextarea [(ngModel)]="data.comment" autoResize="autoResize"></textarea>
-<br>
-<div class="flex justify-content-end gap-3">
-    <button type="button" pButton label="Cerrar" class="p-button-secondary" (click)="onClose()"></button>
-    <button type="button" pButton label="Guardar" class="p-button-primary" [disabled]='!data.comment'
+<textarea class="flex w-12" pInputTextarea [(ngModel)]="data.comment" autoResize="autoResize" [disabled]="this.isLoading"></textarea>
+
+<div class="flex justify-content-end gap-3 mt-3">
+    <button type="button" pButton label="Cerrar" class="p-button-secondary" (click)="onClose()" [disabled]="this.isLoading"></button>
+    <button type="button" pButton label="Guardar" class="p-button-primary" [disabled]='!data.comment || this.isLoading'
         (click)="editComment(data)"></button>
+</div>
+
+<!-- Mostrar animación en proceso de carga -->
+<div class="absolute m-auto right-0 left-0 top-0 bottom-0 bg-white-alpha-50 flex align-self-center align-items-center flex-column justify-content-center" *ngIf="isLoading">
+    <p-progressSpinner></p-progressSpinner>
 </div>
