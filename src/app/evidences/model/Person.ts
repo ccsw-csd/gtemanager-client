@@ -1,4 +1,3 @@
-import { PersonSaga } from "./PersonSaga";
 import { Center } from "./Center";
 
 export class Person {
