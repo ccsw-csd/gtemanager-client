@@ -10,6 +10,7 @@ import { Comment } from '../../model/Comment';
 import { CommentComponent } from '../comment/comment.component'; 
 import { Center } from '../../model/Center';
 import { PropertiesService } from '../../services/properties.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -43,7 +44,8 @@ export class EvidenceListComponent implements OnInit {
     private evidenceService: EvidenceService,
     private centerService: CenterService,
     private propertiesService: PropertiesService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -70,19 +72,38 @@ export class EvidenceListComponent implements OnInit {
     this.getProperties();
 
     this.filterCenter = null;
+    this.getCenters();
     this.onSearch();
 
-    this.getCenters();
   }
-
+  
   getCenters() {
-    this.centerService.findAll().subscribe( res =>
-      this.localizaciones = res);
+    this.centerService.findAll().subscribe( res => {
+      this.localizaciones = res
+      this.getUserCenter();});
+    }
+    
+  getUserCenter() {
+    let userCenter : String;
+    let name : string;
+    let id : number;
+
+    userCenter = this.authService.getUserInfo().officeName;
+
+    if (userCenter.includes("VLC")) {
+      this.filterCenter = new Center();
+      name = "Valencia";
+      this.localizaciones.forEach(e => {
+        if (e.name == "Valencia")
+          id = e.id;
+      })
+      this.filterCenter.id = id;
+      this.filterCenter.name = name;
+    }
   }
 
   onSearch(): void {
     let centerId = this.filterCenter != null ? this.filterCenter.id : null;
-
     this.isLoading = true;
     this.evidenceService.getEvidences(centerId).subscribe({
       next: (res: Evidence[]) => {
