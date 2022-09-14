@@ -73,33 +73,28 @@ export class EvidenceListComponent implements OnInit {
 
     this.filterCenter = null;
     this.getCenters();
-    this.onSearch();
-
   }
   
   getCenters() {
     this.centerService.findAll().subscribe( res => {
       this.localizaciones = res
-      this.getUserCenter();});
-    }
+      setTimeout(() => {this.getUserCenter();}, 1);
+    });
+  }
     
   getUserCenter() {
     let userCenter : String;
-    let name : string;
-    let id : number;
 
     userCenter = this.authService.getUserInfo().officeName;
 
     if (userCenter.includes("VLC")) {
-      this.filterCenter = new Center();
-      name = "Valencia";
       this.localizaciones.forEach(e => {
         if (e.name == "Valencia")
-          id = e.id;
-      })
-      this.filterCenter.id = id;
-      this.filterCenter.name = name;
+          this.filterCenter = e;
+      });
     }
+    
+    this.onSearch();
   }
 
   onSearch(): void {
@@ -130,6 +125,7 @@ export class EvidenceListComponent implements OnInit {
         });
       }
     });
+    console.log(this.filterCenter);
   }
 
   getProperties() {
