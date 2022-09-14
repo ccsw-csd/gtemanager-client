@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  appCode: 'gteManagerQuest',
+  appCode: 'gteManager',
   server: '../gtemanager-data',
-  sso: '../sso'};
+  sso: '../sso'
+};
