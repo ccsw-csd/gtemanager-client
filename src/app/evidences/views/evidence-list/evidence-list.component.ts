@@ -34,6 +34,8 @@ export class EvidenceListComponent implements OnInit {
   
   properties: Properties[];
   loadWeeks: number;
+  loadDate: Date;
+  loadUser: String;
 
   /**
    * Constructor: inicializa servicio DialogService para componente EvidenceUpload.
@@ -54,19 +56,19 @@ export class EvidenceListComponent implements OnInit {
 
   findAll() {
     this.cols = [
-      { field: "name", header: "Nombre", width: "w-14rem flex-none" },
-      { field: "lastName", header: "Apellidos", width: "w-20rem flex-none" },
-      { field: "email", header: "Email", width: "flex-1" },
-      { field: "geografia", field3: "name", header: "Geografía", width: "w-10rem flex-none" }
+      { field: "name", header: "Nombre", width: "w-14rem flex-none"},
+      { field: "lastName", header: "Apellidos", width: "w-20rem flex-none"},
+      { field: "email", header: "Email", width: "flex-1"},
+      { field: "geografia", field3: "name", header: "Geografía", width: "w-10rem flex-none"}
     ];
     
     this.weeks = [
-      { field: "evidenceTypeW1", header: "Semana 1", width: "w-8rem flex-none" },
-      { field: "evidenceTypeW2", header: "Semana 2", width: "w-8rem flex-none" },
-      { field: "evidenceTypeW3", header: "Semana 3", width: "w-8rem flex-none" },
-      { field: "evidenceTypeW4", header: "Semana 4", width: "w-8rem flex-none" },
-      { field: "evidenceTypeW5", header: "Semana 5", width: "w-8rem flex-none" },
-      { field: "evidenceTypeW6", header: "Semana 6", width: "w-8rem flex-none" },
+      { field: "evidenceTypeW1", header: "Semana 1", width: "w-8rem flex-none"},
+      { field: "evidenceTypeW2", header: "Semana 2", width: "w-8rem flex-none"},
+      { field: "evidenceTypeW3", header: "Semana 3", width: "w-8rem flex-none"},
+      { field: "evidenceTypeW4", header: "Semana 4", width: "w-8rem flex-none"},
+      { field: "evidenceTypeW5", header: "Semana 5", width: "w-8rem flex-none"},
+      { field: "evidenceTypeW6", header: "Semana 6", width: "w-8rem flex-none"},
     ];
     
     this.getProperties();
@@ -125,7 +127,6 @@ export class EvidenceListComponent implements OnInit {
         });
       }
     });
-    console.log(this.filterCenter);
   }
 
   getProperties() {
@@ -139,6 +140,18 @@ export class EvidenceListComponent implements OnInit {
           if (res.key == "LOAD_WEEKS") {
             this.loadWeeks = parseInt(res.value);
           }
+          if (res.key == "LOAD_USERNAME") {
+            this.loadUser = res.value;
+          }
+          if (res.key == "LOAD_DATE") {
+            let auxDate = res.value.split(" ");
+            let dd = parseInt(auxDate[0].split("/")[0]);
+            let mm = parseInt(auxDate[0].split("/")[1]) - 1;
+            let yy = parseInt(auxDate[0].split("/")[2]);
+            let h = parseInt(auxDate[1].split(":")[0]);
+            let m = parseInt(auxDate[1].split(":")[1]);
+            this.loadDate = new Date(yy, mm, dd, h, m);
+          }
         });
         this.cols = this.cols.concat(this.weeks.slice(0, this.loadWeeks));
       }
@@ -148,9 +161,10 @@ export class EvidenceListComponent implements OnInit {
   showComment(personId: number, name: String, lastName: String, comment?: Comment) {
     const ref = this.dialogService.open(CommentComponent, {
       header: "Editar comentario de " + name + " " + lastName,
+      height: "30%",
       width: "40%",
       data: {commentData: (comment != null) ? comment : null, id: personId},
-      closable: false,
+      closable: false
     });
 
     ref.onClose.subscribe( res => {

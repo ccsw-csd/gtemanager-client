@@ -1,4 +1,4 @@
-<textarea class="flex w-12" pInputTextarea [(ngModel)]="data.comment" autoResize="autoResize" [disabled]="this.isLoading"></textarea>
+<textarea class="flex w-12" pInputTextarea [(ngModel)]="data.comment" rows="5" [disabled]="this.isLoading"></textarea>
 
 <div class="flex justify-content-end gap-3 mt-3">
     <button type="button" pButton label="Cerrar" class="p-button-secondary" (click)="onClose()" [disabled]="this.isLoading"></button>
