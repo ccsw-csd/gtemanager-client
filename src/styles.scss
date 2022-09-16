@@ -2,3 +2,24 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap");
 html, body { height: 100%; }
 body { margin: 0; font-family: "Source Sans Pro", sans-serif; }
+
+
+/* Estilos de la ventana fileupload */ 
+.p-fileupload-buttonbar {
+    border: 0px !important;
+}
+
+.p-fileupload {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.p-fileupload-content {
+    padding: 0px !important;
+    flex:1;
+}
+
+.p-fileupload-row>div {
+    flex: content !important;
+}
+
