@@ -73,14 +73,14 @@ export class EvidenceListComponent implements OnInit {
     
     this.getProperties();
 
-    this.filterCenter = null;
     this.getCenters();
   }
   
   getCenters() {
     this.centerService.findAll().subscribe( res => {
       this.localizaciones = res
-      setTimeout(() => {this.getUserCenter();}, 1);
+      if (this.filterCenter == null)
+        setTimeout(() => {this.getUserCenter();}, 1);
     });
   }
     
