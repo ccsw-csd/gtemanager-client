@@ -5,6 +5,10 @@
                 optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" (onChange)="onSearch()"></p-dropdown>
         </div>
                 
+        <div class="flex flex-row">
+            <p> Última carga: {{loadDate | date:'dd/LL/YYYY HH:mm:ss'}} - {{loadUser}} </p>
+        </div>
+
         <div class="gap-3 flex flex-row"> <!-- Botones de acción -->
             <button #b pButton type="button" class="p-button-outlined" (click)="importarDatos()">Importar datos</button>
             <button #b pButton type="button" class="p-button-outlined" (click)="evidenceEmails()">Notificar pendientes</button>
@@ -13,7 +17,7 @@
 
     <div class="mt-3 flex-1 flex-row justify-content-start"> <!-- Tabla - center -->
         <p-table class="flex-1" [columns]="cols" [value]="data" [loading]="isLoading" [scrollable]="true" 
-            [autoLayout]="true" scrollHeight="calc(100vh - 225px)" responsiveLayout="scroll">
+            [autoLayout]="true" scrollHeight="calc(100vh - 200px)" responsiveLayout="scroll" sortField="email" [sortOrder]="1">
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th *ngFor="let col of columns" pSortableColumn="{{col.field}}" class="{{col.width}}">

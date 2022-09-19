@@ -10,6 +10,7 @@ import { Comment } from '../../model/Comment';
 import { CommentComponent } from '../comment/comment.component'; 
 import { Center } from '../../model/Center';
 import { PropertiesService } from '../../services/properties.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -33,6 +34,8 @@ export class EvidenceListComponent implements OnInit {
   
   properties: Properties[];
   loadWeeks: number;
+  loadDate: Date;
+  loadUser: String;
 
   /**
    * Constructor: inicializa servicio DialogService para componente EvidenceUpload.
@@ -43,7 +46,8 @@ export class EvidenceListComponent implements OnInit {
     private evidenceService: EvidenceService,
     private centerService: CenterService,
     private propertiesService: PropertiesService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -52,37 +56,63 @@ export class EvidenceListComponent implements OnInit {
 
   findAll() {
     this.cols = [
-      { field: "name", header: "Nombre", width: "w-14rem flex-none" },
-      { field: "lastName", header: "Apellidos", width: "w-20rem flex-none" },
-      { field: "email", header: "Email", width: "flex-1" },
-      { field: "geografia", field3: "name", header: "Geografía", width: "w-10rem flex-none" }
+      { field: "name", header: "Nombre", width: "w-14rem flex-none"},
+      { field: "lastName", header: "Apellidos", width: "w-20rem flex-none"},
+      { field: "email", header: "Email", width: "flex-1"},
+      { field: "geografia", field3: "name", header: "Geografía", width: "w-10rem flex-none"}
     ];
     
     this.weeks = [
-      { field: "evidenceTypeW1", header: "Semana 1", width: "w-8rem flex-none" },
-      { field: "evidenceTypeW2", header: "Semana 2", width: "w-8rem flex-none" },
-      { field: "evidenceTypeW3", header: "Semana 3", width: "w-8rem flex-none" },
-      { field: "evidenceTypeW4", header: "Semana 4", width: "w-8rem flex-none" },
-      { field: "evidenceTypeW5", header: "Semana 5", width: "w-8rem flex-none" },
-      { field: "evidenceTypeW6", header: "Semana 6", width: "w-8rem flex-none" },
+      { field: "evidenceTypeW1", header: "Semana 1", width: "w-8rem flex-none"},
+      { field: "evidenceTypeW2", header: "Semana 2", width: "w-8rem flex-none"},
+      { field: "evidenceTypeW3", header: "Semana 3", width: "w-8rem flex-none"},
+      { field: "evidenceTypeW4", header: "Semana 4", width: "w-8rem flex-none"},
+      { field: "evidenceTypeW5", header: "Semana 5", width: "w-8rem flex-none"},
+      { field: "evidenceTypeW6", header: "Semana 6", width: "w-8rem flex-none"},
     ];
     
     this.getProperties();
 
-    this.filterCenter = null;
-    this.onSearch();
-
     this.getCenters();
   }
-
+  
   getCenters() {
-    this.centerService.findAll().subscribe( res =>
-      this.localizaciones = res);
+    this.centerService.findAll().subscribe( res => {
+      this.localizaciones = res
+      if (this.filterCenter == null)
+        setTimeout(() => {this.getUserCenter();}, 1);
+    });
+  }
+    
+  getUserCenter() {
+    let userCenter : String;
+
+    userCenter = this.authService.getUserInfo().officeName;
+
+    if (userCenter.includes("VLC")) {
+      this.localizaciones.forEach(e => {
+        if (e.name == "Valencia")
+          this.filterCenter = e;
+      });
+    }
+    if (userCenter.includes("BCN")) {
+      this.localizaciones.forEach(e => {
+        if (e.name == "Barcelona")
+          this.filterCenter = e;
+      });
+    }
+    if (userCenter.includes("MAD")) {
+      this.localizaciones.forEach(e => {
+        if (e.name == "Madrid")
+          this.filterCenter = e;
+      });
+    }
+    
+    this.onSearch();
   }
 
   onSearch(): void {
     let centerId = this.filterCenter != null ? this.filterCenter.id : null;
-
     this.isLoading = true;
     this.evidenceService.getEvidences(centerId).subscribe({
       next: (res: Evidence[]) => {
@@ -122,6 +152,18 @@ export class EvidenceListComponent implements OnInit {
           if (res.key == "LOAD_WEEKS") {
             this.loadWeeks = parseInt(res.value);
           }
+          if (res.key == "LOAD_USERNAME") {
+            this.loadUser = res.value;
+          }
+          if (res.key == "LOAD_DATE") {
+            let auxDate = res.value.split(" ");
+            let dd = parseInt(auxDate[0].split("/")[0]);
+            let mm = parseInt(auxDate[0].split("/")[1]) - 1;
+            let yy = parseInt(auxDate[0].split("/")[2]);
+            let h = parseInt(auxDate[1].split(":")[0]);
+            let m = parseInt(auxDate[1].split(":")[1]);
+            this.loadDate = new Date(yy, mm, dd, h, m);
+          }
         });
         this.cols = this.cols.concat(this.weeks.slice(0, this.loadWeeks));
       }
@@ -131,9 +173,10 @@ export class EvidenceListComponent implements OnInit {
   showComment(personId: number, name: String, lastName: String, comment?: Comment) {
     const ref = this.dialogService.open(CommentComponent, {
       header: "Editar comentario de " + name + " " + lastName,
+      height: "300px",
       width: "40%",
       data: {commentData: (comment != null) ? comment : null, id: personId},
-      closable: false,
+      closable: false
     });
 
     ref.onClose.subscribe( res => {

@@ -12,6 +12,7 @@ describe('EvidenceListComponent', () => {
   let mockCenterService;
   let mockPropertiesService;
   let mockDynamicDialogService;
+  let mockAuthService;
 
   let DATA_LIST = [
     new Evidence({
@@ -87,11 +88,13 @@ describe('EvidenceListComponent', () => {
     mockEvidenceService = jasmine.createSpyObj(["findAll", "getEvidences"]);
     mockCenterService = jasmine.createSpyObj(["findAll"]);
     mockPropertiesService = jasmine.createSpyObj(["findAll"]);
+    mockAuthService = jasmine.createSpyObj(["getUserInfo"]);
     evidenceListComponent = new EvidenceListComponent(
       mockEvidenceService,
       mockCenterService,
       mockPropertiesService,
-      mockDynamicDialogService
+      mockDynamicDialogService,
+      mockAuthService
     );
   });
 
