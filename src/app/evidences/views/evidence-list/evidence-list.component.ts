@@ -95,6 +95,18 @@ export class EvidenceListComponent implements OnInit {
           this.filterCenter = e;
       });
     }
+    if (userCenter.includes("BCN")) {
+      this.localizaciones.forEach(e => {
+        if (e.name == "Barcelona")
+          this.filterCenter = e;
+      });
+    }
+    if (userCenter.includes("MAD")) {
+      this.localizaciones.forEach(e => {
+        if (e.name == "Madrid")
+          this.filterCenter = e;
+      });
+    }
     
     this.onSearch();
   }
@@ -161,7 +173,7 @@ export class EvidenceListComponent implements OnInit {
   showComment(personId: number, name: String, lastName: String, comment?: Comment) {
     const ref = this.dialogService.open(CommentComponent, {
       header: "Editar comentario de " + name + " " + lastName,
-      height: "30%",
+      height: "300px",
       width: "40%",
       data: {commentData: (comment != null) ? comment : null, id: personId},
       closable: false
