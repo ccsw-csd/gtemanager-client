@@ -4,7 +4,7 @@ export class EvidenceError {
     saga: string;
     email: string;
     period: string;
-    error_message: string;
+    message: string;
 
     public constructor(init?:Partial<EvidenceError>) {
         Object.assign(this, init);
