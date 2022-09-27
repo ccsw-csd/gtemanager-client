@@ -4,6 +4,7 @@ import { AuthGuard } from './core/services/auth.guard';
 import { LayoutComponent } from './core/views/layout/layout.component';
 import { LoginComponent } from './login/views/login/login.component';
 import { EvidenceListComponent } from './evidences/views/evidence-list/evidence-list.component';
+import { ErrorListComponent } from './evidences/views/error-list/error-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'main', component: EvidenceListComponent },
+      { path: 'errors', component: ErrorListComponent},
       { path: '**', redirectTo: 'main', pathMatch: 'full' },
     ]
   },  

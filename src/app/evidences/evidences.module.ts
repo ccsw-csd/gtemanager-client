@@ -18,13 +18,15 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { EvidenceEmailComponent } from './views/evidence-email/evidence-email.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { ErrorListComponent } from './views/error-list/error-list.component';
 
 @NgModule({
   declarations: [
     EvidenceListComponent,
     EvidenceUploadComponent,
     CommentComponent,
-    EvidenceEmailComponent
+    EvidenceEmailComponent,
+    ErrorListComponent
   ],
   imports: [
     CommonModule,
