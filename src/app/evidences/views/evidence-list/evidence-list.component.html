@@ -17,7 +17,8 @@
 
     <div class="mt-3 flex-1 flex-row justify-content-start"> <!-- Tabla - center -->
         <p-table class="flex-1" [columns]="cols" [value]="data" [loading]="isLoading" [scrollable]="true" 
-            [autoLayout]="true" scrollHeight="calc(100vh - 200px)" responsiveLayout="scroll" sortField="email" [sortOrder]="1">
+            [autoLayout]="true" scrollHeight="calc(100vh - 200px)" responsiveLayout="scroll" sortField="email" [sortOrder]="1"
+            styleClass="p-datatable-striped">
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th *ngFor="let col of columns" pSortableColumn="{{col.field}}" class="{{col.width}}">
@@ -29,10 +30,10 @@
             </ng-template>
             <ng-template pTemplate="body" let-evidenceItem let-columns="columns">
                 <tr>
-                    <td *ngFor="let col of columns" class="{{col.width}} white-space-normal overflow-hidden text-overflow-clip">
+                    <td *ngFor="let col of columns" [style.color]="evidenceItem.id % 2 == 0 ? red : green" class="{{col.width}} h-1rem white-space-normal overflow-hidden text-overflow-clip">
                         {{evidenceItem[col.field]}}
                     </td>
-                    <td style="flex: 0 0 68px">
+                    <td style="flex: 0 0 68px" class="h-1rem">
                         <button pButton icon="pi pi-comments" class="p-button-rounded p-button-plain p-button-text icon"
                             *ngIf="evidenceItem.comment != null; else noComments" (click)="showComment(evidenceItem.personId, 
                             evidenceItem.name, evidenceItem.lastName, evidenceItem.comment)"></button>
