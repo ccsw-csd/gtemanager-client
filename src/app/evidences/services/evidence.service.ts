@@ -30,7 +30,7 @@ export class EvidenceService {
         return this.http.get<Evidence[]>(environment.server + "/evidence-view/");
     }
 
-    getEvidences(center?: number): Observable<Evidence[]> {
+    getEvidences(center?: string): Observable<Evidence[]> {
 
         let path = "/evidence-view/";
 

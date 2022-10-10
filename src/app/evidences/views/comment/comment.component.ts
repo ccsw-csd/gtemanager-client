@@ -45,7 +45,7 @@ export class CommentComponent implements OnInit {
         next: () => {
           this.snackbarService.showMessage("El registro se ha guardado con éxito");
           this.isLoading = false;
-          this.onClose();
+          this.ref.close(true);
         },
         error: () => {
           this.snackbarService.error("El registro no se ha podido guardar correctamente");
@@ -56,6 +56,6 @@ export class CommentComponent implements OnInit {
   }
 
   onClose() {
-    this.ref.close();
+    this.ref.close(false);
   }
 }

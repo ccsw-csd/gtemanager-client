@@ -11,6 +11,7 @@ import { CommentComponent } from '../comment/comment.component';
 import { Center } from '../../model/Center';
 import { PropertiesService } from '../../services/properties.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { EvidenceItemList } from '../../model/EvidenceItemList';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -24,18 +25,31 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class EvidenceListComponent implements OnInit {
 
   evidenceList: Evidence[];
-  data: any[];
-  weeks: any[];
-  cols: any[];
+  data: EvidenceItemList[];
   isLoading: boolean = false;
 
-  filterCenter: Center;
+  filterCenter: Center[];
   localizaciones: Center[];
   
   properties: Properties[];
   loadWeeks: number;
   loadDate: Date;
   loadUser: String;
+
+  cols = [
+    { field: "name", header: "Nombre", width: "w-10rem flex-none", filter: true},
+    { field: "lastName", header: "Apellidos", width: "w-15rem flex-none", filter: true},
+    { field: "email", header: "Email", width: "flex-1", filter: true},
+    { field: "geografia", field3: "name", header: "Geografía", width: "w-10rem flex-none"},
+    { field: "evidenceTypeW1", header: "Semana 1", width: "w-8rem flex-none"},
+    { field: "evidenceTypeW2", header: "Semana 2", width: "w-8rem flex-none"},
+    { field: "evidenceTypeW3", header: "Semana 3", width: "w-8rem flex-none"},
+    { field: "evidenceTypeW4", header: "Semana 4", width: "w-8rem flex-none"},
+    { field: "evidenceTypeW5", header: "Semana 5", width: "w-8rem flex-none"},
+    { field: "evidenceTypeW6", header: "Semana 6", width: "w-8rem flex-none"},
+  ];
+
+
 
   /**
    * Constructor: inicializa servicio DialogService para componente EvidenceUpload.
@@ -51,36 +65,20 @@ export class EvidenceListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.findAll();
-  }
-
-  findAll() {
-    this.cols = [
-      { field: "name", header: "Nombre", width: "w-14rem flex-none"},
-      { field: "lastName", header: "Apellidos", width: "w-20rem flex-none"},
-      { field: "email", header: "Email", width: "flex-1"},
-      { field: "geografia", field3: "name", header: "Geografía", width: "w-10rem flex-none"}
-    ];
-    
-    this.weeks = [
-      { field: "evidenceTypeW1", header: "Semana 1", width: "w-8rem flex-none"},
-      { field: "evidenceTypeW2", header: "Semana 2", width: "w-8rem flex-none"},
-      { field: "evidenceTypeW3", header: "Semana 3", width: "w-8rem flex-none"},
-      { field: "evidenceTypeW4", header: "Semana 4", width: "w-8rem flex-none"},
-      { field: "evidenceTypeW5", header: "Semana 5", width: "w-8rem flex-none"},
-      { field: "evidenceTypeW6", header: "Semana 6", width: "w-8rem flex-none"},
-    ];
-    
-    this.getProperties();
-
     this.getCenters();
+    this.isLoading = true;
+
+    this.getProperties();
   }
   
   getCenters() {
     this.centerService.findAll().subscribe( res => {
       this.localizaciones = res
-      if (this.filterCenter == null)
-        setTimeout(() => {this.getUserCenter();}, 1);
+      if (this.filterCenter == null) setTimeout(() => {
+        this.getUserCenter();
+        this.loadData();            
+      }, 1);      
+      
     });
   }
     
@@ -92,27 +90,28 @@ export class EvidenceListComponent implements OnInit {
     if (userCenter.includes("VLC")) {
       this.localizaciones.forEach(e => {
         if (e.name == "Valencia")
-          this.filterCenter = e;
+          this.filterCenter = [e];
       });
     }
     if (userCenter.includes("BCN")) {
       this.localizaciones.forEach(e => {
         if (e.name == "Barcelona")
-          this.filterCenter = e;
+          this.filterCenter = [e];
       });
     }
     if (userCenter.includes("MAD")) {
       this.localizaciones.forEach(e => {
         if (e.name == "Madrid")
-          this.filterCenter = e;
+          this.filterCenter = [e];
       });
-    }
-    
-    this.onSearch();
+    }        
   }
 
-  onSearch(): void {
-    let centerId = this.filterCenter != null ? this.filterCenter.id : null;
+  loadData(): void {
+
+    console.log(this.filterCenter);
+
+    let centerId : string = this.filterCenter != null && this.filterCenter.length > 0 ? this.filterCenter.map(item => item.id).toString() : null;
     this.isLoading = true;
     this.evidenceService.getEvidences(centerId).subscribe({
       next: (res: Evidence[]) => {
@@ -123,7 +122,7 @@ export class EvidenceListComponent implements OnInit {
       complete: ()  => {
         this.isLoading = false;
         this.evidenceList.forEach(e => {
-          this.data.push({
+          this.data.push({ 
             personId: e.person.id,
             name: e.person.name, 
             lastName: e.person.lastName, 
@@ -148,14 +147,21 @@ export class EvidenceListComponent implements OnInit {
       },
       error: () => {},
       complete: () => {
+
+        let actualYear = new Date().getFullYear();
+
+
         this.properties.forEach(res => {
+
           if (res.key == "LOAD_WEEKS") {
             this.loadWeeks = parseInt(res.value);
           }
-          if (res.key == "LOAD_USERNAME") {
+
+          else if (res.key == "LOAD_USERNAME") {
             this.loadUser = res.value;
           }
-          if (res.key == "LOAD_DATE") {
+
+          else if (res.key == "LOAD_DATE") {
             let auxDate = res.value.split(" ");
             let dd = parseInt(auxDate[0].split("/")[0]);
             let mm = parseInt(auxDate[0].split("/")[1]) - 1;
@@ -164,10 +170,39 @@ export class EvidenceListComponent implements OnInit {
             let m = parseInt(auxDate[1].split(":")[1]);
             this.loadDate = new Date(yy, mm, dd, h, m);
           }
+
+          else if (res.key.startsWith("WEEK_")) {
+
+            let weekNumber = parseInt(res.key.substring("WEEK_".length));
+
+            let value = res.value;
+
+            /*
+            if (value != null) {
+              value = this.replaceAll(value, "-"+(actualYear), "");
+              value = this.replaceAll(value, "-"+(actualYear+1), "");
+              value = this.replaceAll(value, "-"+(actualYear-1), "");
+             
+              value = value.replace(" - ", "  ");
+
+             this.weeks[weekNumber-1].header = value;
+            }
+            */
+
+          }
+
         });
-        this.cols = this.cols.concat(this.weeks.slice(0, this.loadWeeks));
+        //this.cols = this.cols.concat(this.weeks.slice(0, this.loadWeeks));
       }
     });
+  }
+
+  private escapeRegExp(string: string) : string{
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  }
+
+  private replaceAll(str: string, find: string, replace: string): string {
+    return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
   }
 
   showComment(personId: number, name: String, lastName: String, comment?: Comment) {
@@ -180,7 +215,8 @@ export class EvidenceListComponent implements OnInit {
     });
 
     ref.onClose.subscribe( res => {
-      this.findAll();
+      if (res)
+        this.loadData();
     });
   }
 
@@ -192,7 +228,7 @@ export class EvidenceListComponent implements OnInit {
   importarDatos(): void {
     const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
     dialogRef.onClose.subscribe( res => {
-      this.findAll();
+      this.loadData();
     });
   }
 

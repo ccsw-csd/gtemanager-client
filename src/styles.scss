@@ -7,7 +7,7 @@ body { margin: 0; font-family: "Source Sans Pro", sans-serif; }
 /* Estilos de la ventana fileupload */ 
 .p-fileupload-buttonbar {
     border: 0px !important;
-}
+}ç
 
 .p-fileupload {
     display: flex !important;
@@ -23,3 +23,6 @@ body { margin: 0; font-family: "Source Sans Pro", sans-serif; }
     flex: content !important;
 }
 
+.comment-fill:before {
+    content: url('/assets/images/comments.png');
+}

@@ -17,8 +17,10 @@ import { InputTextareaModule }  from 'primeng/inputtextarea';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { EvidenceEmailComponent } from './views/evidence-email/evidence-email.component';
 import { DropdownModule } from 'primeng/dropdown';
+import {MultiSelectModule} from 'primeng/multiselect';
 import { CalendarModule } from 'primeng/calendar';
 import { ErrorListComponent } from './views/error-list/error-list.component';
+import {InputTextModule} from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -41,9 +43,11 @@ import { ErrorListComponent } from './views/error-list/error-list.component';
     ToastModule,
     HttpClientModule,
     InputTextareaModule,
+    InputTextModule,
     DropdownModule,
     ProgressSpinnerModule,
     DropdownModule,
+    MultiSelectModule,
     CalendarModule,
     HttpClientModule
   ]
