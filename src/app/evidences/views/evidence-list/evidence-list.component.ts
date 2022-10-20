@@ -208,7 +208,7 @@ export class EvidenceListComponent implements OnInit {
   showComment(personId: number, name: String, lastName: String, comment?: Comment) {
     const ref = this.dialogService.open(CommentComponent, {
       header: "Editar comentario de " + name + " " + lastName,
-      height: "300px",
+      height: "370px",
       width: "40%",
       data: {commentData: (comment != null) ? comment : null, id: personId},
       closable: false

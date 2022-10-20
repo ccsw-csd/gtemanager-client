@@ -1,3 +1,9 @@
+<div class="mb-3" [disabled]="this.isLoading" *ngIf="data.lastEditAuthor || data.lastEditDate">
+    <span *ngIf="data.lastEditAuthor">Última edición realizada por: {{data.lastEditAuthor}}</span>
+    <br>
+    <span *ngIf="data.lastEditDate">Con fecha de: {{data.lastEditDate|date: 'dd/MM/YYYY'}}</span>
+</div>
+
 <textarea class="flex w-12" pInputTextarea [(ngModel)]="data.comment" rows="7" [disabled]="this.isLoading"></textarea>
 
 <div class="flex justify-content-end gap-3 mt-3">
