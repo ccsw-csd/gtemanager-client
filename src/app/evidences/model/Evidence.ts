@@ -12,6 +12,7 @@ export class Evidence {
     evidenceTypeW4: EvidenceType;
     evidenceTypeW5: EvidenceType;
     evidenceTypeW6: EvidenceType;
+    emailNotificationSent: boolean;
 
     public constructor(init?:Partial<Evidence>) {
         Object.assign(this, init);
