@@ -108,9 +108,6 @@ export class EvidenceListComponent implements OnInit {
   }
 
   loadData(): void {
-
-    console.log(this.filterCenter);
-
     let centerId : string = this.filterCenter != null && this.filterCenter.length > 0 ? this.filterCenter.map(item => item.id).toString() : null;
     this.isLoading = true;
     this.evidenceService.getEvidences(centerId).subscribe({
@@ -134,7 +131,8 @@ export class EvidenceListComponent implements OnInit {
             evidenceTypeW4: (e.evidenceTypeW4 != null) ? e.evidenceTypeW4.name : "", 
             evidenceTypeW5: (e.evidenceTypeW5 != null) ? e.evidenceTypeW5.name : "",
             evidenceTypeW6: (e.evidenceTypeW6 != null) ? e.evidenceTypeW6.name : "",
-            comment: e.comment});
+            comment: e.comment,
+            emailNotificationSent: e.emailNotificationSent});
         });
       }
     });
@@ -239,6 +237,9 @@ export class EvidenceListComponent implements OnInit {
    */
   evidenceEmails(): void {
     const dialogRef = this.dialogService.open(EvidenceEmailComponent, { header: "Notificar evidencias pendientes", width: "25%", closable: false });
+    dialogRef.onClose.subscribe( res => {
+      this.loadData();
+    });
   }
 
 }
