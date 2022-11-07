@@ -3,5 +3,5 @@
  */
 export class Reminder {
     closingDate: Date;
-    centerId: number;
+    centerId: string;
 }

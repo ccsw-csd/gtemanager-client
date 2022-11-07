@@ -26,3 +26,7 @@ body { margin: 0; font-family: "Source Sans Pro", sans-serif; }
 .comment-fill:before {
     content: url('/assets/images/comments.png');
 }
+
+.p-multiselect-header {
+    display: none !important;
+}

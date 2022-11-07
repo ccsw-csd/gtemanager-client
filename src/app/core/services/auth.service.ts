@@ -73,17 +73,22 @@ export class AuthService {
 
 
   isTokenValid() : boolean {
-    let token = this.getSSOToken();
-    if (token == null) return false;
-  
-    let expired = this.jwtHelper.isTokenExpired(token);
-    if (expired) return false;
+    try {
 
-    let roles = this.getRoles();
-    if (roles == null || roles.length == 0) return false;
+      let token = this.getSSOToken();
+      if (token == null) return false;
+      
+      let expired = this.jwtHelper.isTokenExpired(token);
+      if (expired) return false;
+      
+      let roles = this.getRoles();
+      if (roles == null || roles.length == 0) return false;
+      
+      
+      return true;
+    }
+    catch (e) {return false;}
 
-
-    return true;
   }
   
 
@@ -91,8 +96,13 @@ export class AuthService {
   public getUserInfo() : UserInfoSSO {
 
     if (this.userInfoSSO == null) {
-      let data = this.jwtHelper.decodeToken(this.getSSOToken());
-      if (data == null) return null;
+      let data;
+
+      try {
+        data = this.jwtHelper.decodeToken(this.getSSOToken());
+        if (data == null) return null;
+      }
+      catch (e) {return null;}
 
       this.userInfoSSO = {
         displayName: data.displayName,

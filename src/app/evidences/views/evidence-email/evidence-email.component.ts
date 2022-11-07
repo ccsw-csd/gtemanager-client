@@ -17,6 +17,7 @@ import { Reminder } from '../../models/Reminder';
 export class EvidenceEmailComponent implements OnInit {
 
   centers: Center[];
+  filterCenter: Center[];
 
   closingDate: Date;
   center: Center;
@@ -70,7 +71,7 @@ export class EvidenceEmailComponent implements OnInit {
 
     let reminder = new Reminder();
     reminder.closingDate = new Date(Date.UTC(this.closingDate.getFullYear(), this.closingDate.getMonth(), this.closingDate.getDate()));
-    reminder.centerId = this.center.id;
+    reminder.centerId = this.filterCenter.map(item => item.id).toString() 
 
     this.emailService.sendEmails(reminder).subscribe({
       next: result => {
