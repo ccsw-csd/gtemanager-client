@@ -53,7 +53,7 @@ export class EvidenceEmailComponent implements OnInit {
       error: error => {
         this.snackbarService.error("Error obteniendo lista de centros. " + error);
         this.isLoading = false;
-        this.close();
+        this.close(false);
       }
     }
     );
@@ -80,7 +80,7 @@ export class EvidenceEmailComponent implements OnInit {
         else
           this.snackbarService.showMessage("Recordatorios enviados.");
         this.isLoading = false;
-        this.close();
+        this.close(true);
       },
       error: error => {
         this.snackbarService.error(error);
@@ -93,13 +93,13 @@ export class EvidenceEmailComponent implements OnInit {
     * En caso de cancelar el proceso, cerrar el diálogo.
     */
   onCancel() {
-    this.close();
+    this.close(false);
   }
 
   /**
    * Cerrar diálogo.
    */
-  close() {
-    this.dialogRef.close();
+  close(isSendNotification: boolean) {
+    this.dialogRef.close(isSendNotification);
   }
 }
