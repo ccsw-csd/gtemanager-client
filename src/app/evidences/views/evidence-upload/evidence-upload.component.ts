@@ -78,7 +78,7 @@ export class EvidenceUploadComponent implements OnInit {
                 else
                     this.snackbarService.showMessage("Archivo subido correctamente.");
                 this.isLoading = false;
-                this.close();
+                this.close(true);
             },
             error: error => {
                 this.snackbarService.error(error);
@@ -91,13 +91,13 @@ export class EvidenceUploadComponent implements OnInit {
      * En caso de cancelar el proceso, cerrar el diálogo.
      */
     onCancel() {
-        this.close();
+        this.close(false);
     }
 
     /**
      * Cerrar diálogo.
      */
-    close() {
-        this.dialogRef.close();
+    close(isUpload: boolean) {
+        this.dialogRef.close(isUpload);
     }
 }

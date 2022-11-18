@@ -1,33 +1,22 @@
 <div class="flex-column">
-    
-    <div class="flex justify-content-between align-content-center mb-4"> <!-- Filtros y botones - top -->
-        <div class="flex flex-row"> 
-            <p-multiSelect [options]="localizaciones" [(ngModel)]="filterCenter" placeholder="Seleccione geografía" 
-            optionLabel="name" [showClear]="true" selectedItemsLabel="{0} items selected" (onClear)="filterCenter=[];loadData()" (onChange)="loadData()" [showToggleAll]="false" [filter]="false"></p-multiSelect>
-            
-            <span class="p-input-icon-left ml-auto">
-                <i class="pi pi-search" style="top:22px"></i>
-                <input pInputText type="text" (input)="el.filterGlobal($event.target.value, 'contains')" placeholder="Búsqueda" />
-            </span>
-        </div>
 
-        <div class="flex flex-row">
+    <div class="flex align-content-center justify-content-between">
+        <div>
             <p> Última carga: {{loadDate | date:'dd/LL/YYYY HH:mm:ss'}} - {{loadUser}} </p>
         </div>
-
-        <div class="gap-3 flex flex-row"> <!-- Botones de acción -->
-            <button #b pButton type="button" class="p-button-outlined" (click)="importarDatos()">Importar datos</button>
-            <button #b pButton type="button" class="p-button-outlined" (click)="evidenceEmails()">Notificar pendientes</button>
+        <div class="flex">
+            <!-- Botones de acción -->
+            <button #b pButton type="button" class="p-button-outlined mr-2" (click)="importarDatos()">Importar datos</button>
+            <button #b pButton type="button" class="p-button-outlined" (click)="evidenceEmails()">Notificar
+                pendientes</button>
         </div>
-
     </div>
+    <div class="mt-3 flex-1 flex-row justify-content-start">
+        <!-- Tabla - center -->
+        <p-table #el class="flex-1" [columns]="cols" [value]="data" [loading]="isLoading" [scrollable]="true"
+            [autoLayout]="true" scrollHeight="calc(100vh - 200px)" responsiveLayout="scroll" sortField="email"
+            [sortOrder]="1" styleClass="p-datatable-striped" [globalFilterFields]="['name','lastName', 'email']">
 
-
-    <div class="mt-3 flex-1 flex-row justify-content-start"> <!-- Tabla - center -->
-        <p-table #el class="flex-1" [columns]="cols" [value]="data" [loading]="isLoading" [scrollable]="true" 
-            [autoLayout]="true" scrollHeight="calc(100vh - 200px)" responsiveLayout="scroll" sortField="email" [sortOrder]="1"
-            styleClass="p-datatable-striped" [globalFilterFields]="['name','lastName', 'email']">
-            
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th *ngFor="let col of columns" pSortableColumn="{{col.field}}" class="{{col.width}}">
@@ -37,23 +26,57 @@
                     <th style="flex: 0 0 68px"></th>
                     <th style="flex: 0 0 45px"></th>
                 </tr>
+                <tr>
+                    <th>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="el.filter($event.target.value, 'name', 'contains')"
+                                placeholder="Buscar" [style]="{'width':'145px'}" />
+                        </span>
+                    </th>
+                    <th class="-ml-3">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="el.filter($event.target.value, 'lastName', 'contains')"
+                                placeholder="Buscar" [style]="{'width':'238px'}" class="" />
+                        </span>
+                    </th>
+                    <th></th>
+                    <th>
+                        <p-multiSelect [options]="localizaciones" [(ngModel)]="filterCenter" placeholder="Seleccionar"
+                        optionLabel="name" [showClear]="true" selectedItemsLabel="{0} items selected"
+                        (onClear)="filterCenter=[];loadData()" (onChange)="loadData()" [showToggleAll]="false"
+                        [filter]="false"></p-multiSelect>
+                    </th>
+                    <th>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
             </ng-template>
 
             <ng-template pTemplate="body" let-evidenceItem let-columns="columns">
                 <tr>
-                    <td *ngFor="let col of columns" [style.color]="evidenceItem.id % 2 == 0 ? red : green" class="{{col.width}} h-1rem white-space-normal overflow-hidden text-overflow-clip">
+                    <td *ngFor="let col of columns" [style.color]="evidenceItem.id % 2 == 0 ? red : green"
+                        class="{{col.width}} h-1rem white-space-normal overflow-hidden text-overflow-clip">
                         {{evidenceItem[col.field]}}
                     </td>
                     <td style="flex: 0 0 68px" class="h-1rem">
-                        <button pButton icon="pi comment-fill" class="p-button-rounded p-button-plain p-button-text icon pi-comments-fill"
+                        <button pButton icon="pi comment-fill"
+                            class="p-button-rounded p-button-plain p-button-text icon pi-comments-fill"
                             *ngIf="evidenceItem.comment != null; else noComments" (click)="showComment(evidenceItem.personId, 
                             evidenceItem.name, evidenceItem.lastName, evidenceItem.comment)"></button>
                         <ng-template #noComments><button pButton icon="pi pi-comment" class="p-button-rounded p-button-plain 
-                            p-button-text icon" (click)="showComment(evidenceItem.personId, evidenceItem.name, evidenceItem.lastName)">
-                        </button></ng-template>
+                            p-button-text icon"
+                                (click)="showComment(evidenceItem.personId, evidenceItem.name, evidenceItem.lastName)">
+                            </button></ng-template>
                     </td>
                     <td style="flex: 0 0 45px" class="h-1rem">
-                        <i *ngIf="evidenceItem.emailNotificationSent" class="pi pi-send icon-center" data-toggle="tooltip" data-placement="top" title="Notificado por email"></i>
+                        <i *ngIf="evidenceItem.emailNotificationSent" class="pi pi-send icon-center"
+                            data-toggle="tooltip" data-placement="top" title="Notificado por email"></i>
                     </td>
                 </tr>
             </ng-template>

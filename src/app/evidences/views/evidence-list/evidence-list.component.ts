@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Evidence } from '../../model/Evidence';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EvidenceEmailComponent } from '../evidence-email/evidence-email.component';
@@ -12,6 +12,9 @@ import { Center } from '../../model/Center';
 import { PropertiesService } from '../../services/properties.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { EvidenceItemList } from '../../model/EvidenceItemList';
+import { Table } from 'primeng/table';
+import { forkJoin } from 'rxjs';
+import * as moment from 'moment';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -35,21 +38,20 @@ export class EvidenceListComponent implements OnInit {
   loadWeeks: number;
   loadDate: Date;
   loadUser: String;
+  weeks = [];
 
   cols = [
     { field: "name", header: "Nombre", width: "w-10rem flex-none", filter: true},
     { field: "lastName", header: "Apellidos", width: "w-15rem flex-none", filter: true},
     { field: "email", header: "Email", width: "flex-1", filter: true},
     { field: "geografia", field3: "name", header: "Geografía", width: "w-10rem flex-none"},
-    { field: "evidenceTypeW1", header: "Semana 1", width: "w-8rem flex-none"},
-    { field: "evidenceTypeW2", header: "Semana 2", width: "w-8rem flex-none"},
-    { field: "evidenceTypeW3", header: "Semana 3", width: "w-8rem flex-none"},
-    { field: "evidenceTypeW4", header: "Semana 4", width: "w-8rem flex-none"},
-    { field: "evidenceTypeW5", header: "Semana 5", width: "w-8rem flex-none"},
-    { field: "evidenceTypeW6", header: "Semana 6", width: "w-8rem flex-none"},
+    { field: "evidenceTypeW1", header: "Semana 1", width: "w-9rem flex-none"},
+    { field: "evidenceTypeW2", header: "Semana 2", width: "w-9rem flex-none"},
+    { field: "evidenceTypeW3", header: "Semana 3", width: "w-9rem flex-none"},
+    { field: "evidenceTypeW4", header: "Semana 4", width: "w-9rem flex-none"},
+    { field: "evidenceTypeW5", header: "Semana 5", width: "w-9rem flex-none"},
+    { field: "evidenceTypeW6", header: "Semana 6", width: "w-9rem flex-none"},
   ];
-
-
 
   /**
    * Constructor: inicializa servicio DialogService para componente EvidenceUpload.
@@ -65,6 +67,10 @@ export class EvidenceListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getData();
+  }
+
+  getData() {
     this.getCenters();
     this.isLoading = true;
 
@@ -76,7 +82,7 @@ export class EvidenceListComponent implements OnInit {
       this.localizaciones = res
       if (this.filterCenter == null) setTimeout(() => {
         this.getUserCenter();
-        this.loadData();            
+        this.loadData();
       }, 1);      
       
     });
@@ -133,11 +139,11 @@ export class EvidenceListComponent implements OnInit {
             evidenceTypeW6: (e.evidenceTypeW6 != null) ? e.evidenceTypeW6.name : "",
             comment: e.comment,
             emailNotificationSent: e.emailNotificationSent});
+            
         });
       }
     });
   }
-
   getProperties() {
     this.propertiesService.findAll().subscribe({
       next: (res: Properties[]) => {
@@ -145,9 +151,7 @@ export class EvidenceListComponent implements OnInit {
       },
       error: () => {},
       complete: () => {
-
         let actualYear = new Date().getFullYear();
-
 
         this.properties.forEach(res => {
 
@@ -175,22 +179,19 @@ export class EvidenceListComponent implements OnInit {
 
             let value = res.value;
 
-            /*
             if (value != null) {
               value = this.replaceAll(value, "-"+(actualYear), "");
               value = this.replaceAll(value, "-"+(actualYear+1), "");
               value = this.replaceAll(value, "-"+(actualYear-1), "");
              
               value = value.replace(" - ", "  ");
-
-             this.weeks[weekNumber-1].header = value;
+              value = `${moment(value.split(" ")[0]).format('DD/MM')} - ${moment(value.split(" ")[2]).format('DD/MM')}`
+              this.weeks = this.cols.slice(4, this.cols.length);
+              this.weeks[weekNumber-1].header = value;
             }
-            */
-
           }
-
         });
-        //this.cols = this.cols.concat(this.weeks.slice(0, this.loadWeeks));
+        this.cols = this.cols.slice(0, 4).concat(this.weeks);
       }
     });
   }
@@ -214,7 +215,7 @@ export class EvidenceListComponent implements OnInit {
 
     ref.onClose.subscribe( res => {
       if (res)
-        this.loadData();
+        this.getData();
     });
   }
 
@@ -225,8 +226,11 @@ export class EvidenceListComponent implements OnInit {
    */
   importarDatos(): void {
     const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
-    dialogRef.onClose.subscribe( res => {
-      this.loadData();
+    dialogRef.onClose.subscribe(res => {
+      if(res){
+        this.getProperties();
+        this.loadData();
+      } 
     });
   }
 
@@ -237,8 +241,11 @@ export class EvidenceListComponent implements OnInit {
    */
   evidenceEmails(): void {
     const dialogRef = this.dialogService.open(EvidenceEmailComponent, { header: "Notificar evidencias pendientes", width: "25%", closable: false });
-    dialogRef.onClose.subscribe( res => {
-      this.loadData();
+    dialogRef.onClose.subscribe(res => {
+      if(res) {
+        this.getProperties();
+        this.loadData();
+      }
     });
   }
 
