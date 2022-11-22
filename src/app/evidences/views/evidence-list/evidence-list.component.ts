@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Evidence } from '../../model/Evidence';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EvidenceEmailComponent } from '../evidence-email/evidence-email.component';
@@ -15,6 +15,7 @@ import { EvidenceItemList } from '../../model/EvidenceItemList';
 import { Table } from 'primeng/table';
 import { forkJoin } from 'rxjs';
 import * as moment from 'moment';
+import { NavigatorService } from 'src/app/core/services/navigator.service';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -28,6 +29,7 @@ import * as moment from 'moment';
 export class EvidenceListComponent implements OnInit {
 
   @ViewChild('el') table: Table;
+  contentWindowClass: String = "content-menu-close";
 
   evidenceList: Evidence[];
   data: EvidenceItemList[];
@@ -45,15 +47,15 @@ export class EvidenceListComponent implements OnInit {
 
   cols = [
     { field: "name", header: "Nombre", class: "w-9rem flex-none", filter: true},
-    { field: "lastName", header: "Apellidos", class: "w-14rem flex-none", filter: true},
+    { field: "lastName", header: "Apellidos", class: "w-12rem flex-none", filter: true},
     { field: "email", header: "Email", class: "flex-1", filter: true},
-    { field: "geografia", field3: "name", header: "Geografía", class: "w-7rem flex-none", filter: true},
-    { field: "evidenceTypeW1", header: "Semana 1", class: "w-9rem flex-none"},
-    { field: "evidenceTypeW2", header: "Semana 2", class: "w-9rem flex-none"},
-    { field: "evidenceTypeW3", header: "Semana 3", class: "w-9rem flex-none"},
-    { field: "evidenceTypeW4", header: "Semana 4", class: "w-9rem flex-none"},
-    { field: "evidenceTypeW5", header: "Semana 5", class: "w-9rem flex-none"},
-    { field: "evidenceTypeW6", header: "Semana 6", class: "w-9rem flex-none"},
+    { field: "geografia", field3: "name", header: "Geografía", class: "max-w-7rem flex-none", filter: true},
+    { field: "evidenceTypeW1", header: "Semana 1", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW2", header: "Semana 2", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW3", header: "Semana 3", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW4", header: "Semana 4", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW5", header: "Semana 5", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW6", header: "Semana 6", class: "w-7rem flex-none"},
   ];
 
   /**
@@ -63,11 +65,19 @@ export class EvidenceListComponent implements OnInit {
    */
   constructor(
     private evidenceService: EvidenceService,
-    private centerService: CenterService,
+    navigatorService : NavigatorService,
     private propertiesService: PropertiesService,
     public dialogService: DialogService,
     public authService: AuthService
-  ) { }
+  ) { 
+
+    let me = this;
+
+    navigatorService.getNavivagorChangeEmitter().subscribe(menuVisible => { 
+      if (menuVisible) me.contentWindowClass = 'content-menu-open';
+      else me.contentWindowClass = 'content-menu-close';
+    });
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -179,7 +189,7 @@ export class EvidenceListComponent implements OnInit {
               value = this.replaceAll(value, "-"+(actualYear-1), "");
              
               value = value.replace(" - ", "  ");
-              value = `${moment(value.split(" ")[0], "DD-MMM-YYYY").format('DD/MM')} - ${moment(value.split(" ")[2], "DD-MMM-YYYY").format('DD/MM')}`
+              value = `${moment(value.split(" ")[0], "DD-MMM-YYYY").format('DD')}-${moment(value.split(" ")[2], "DD-MMM-YYYY").format('DD MMM')}`
               this.weeks = this.cols.slice(4, this.cols.length);
               this.weeks[weekNumber-1].header = value;
             }

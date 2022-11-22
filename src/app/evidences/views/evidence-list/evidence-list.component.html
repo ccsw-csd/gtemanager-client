@@ -1,4 +1,4 @@
-<div class="flex-column">
+<div class="flex-column {{contentWindowClass}}">
 
     <div class="flex align-content-center justify-content-between">
         <div class="border-dashed border-1 border-500 px-5 py-2 align-self-center">
@@ -21,7 +21,7 @@
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th *ngFor="let col of columns" pSortableColumn="{{col.field}}" class="{{col.class}}">
-                        {{col.header}} <p-sortIcon field="{{col.field}}"></p-sortIcon>
+                        {{col.header}} <p-sortIcon field="{{col.field}}" style="width: 20px;"></p-sortIcon>
                     </th>
                     <th style="flex: 0 0 68px;"></th>
                 </tr>
@@ -38,11 +38,24 @@
                     <th class="{{cols[3].class}}">
                         <input class="w-full h-1_5rem" pInputText [value]="centerSelected" type="text" (input)="el.filter($event.target.value, 'geografia', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[4].class}}"></th>
-                    <th class="{{cols[5].class}}"></th>
-                    <th class="{{cols[6].class}}"></th>
-                    <th class="{{cols[7].class}}"></th>
-                    <th class="{{cols[8].class}}"></th>
+                    <th class="{{cols[4].class}}">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW1', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[5].class}}">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW2', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[6].class}}">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW3', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[7].class}}">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW4', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[8].class}}">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW5', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[9].class}}">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW6', 'contains')" placeholder="Buscar" />
+                    </th>
                     <th style="flex: 0 0 68px;"></th>
                 </tr>
             </ng-template>

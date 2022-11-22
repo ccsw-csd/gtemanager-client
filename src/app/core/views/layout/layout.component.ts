@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { NavigatorService } from '../../services/navigator.service';
 
 @Component({
   selector: 'app-layout',
@@ -9,11 +10,14 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LayoutComponent implements OnInit {
 
+  @Output() toggleMenuEmitter: EventEmitter<any> = new EventEmitter();
+
   visibleSideBar = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
+    private navigatorService : NavigatorService,
     public router: Router
   ) { }
 
@@ -40,6 +44,8 @@ export class LayoutComponent implements OnInit {
 
   public toggleMenu() : void {
     this.visibleSideBar = !this.visibleSideBar;
+
+    this.navigatorService.emitNavigatorChangeEvent(this.visibleSideBar);
   }
 
 }
