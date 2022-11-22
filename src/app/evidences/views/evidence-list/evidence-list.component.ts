@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Evidence } from '../../model/Evidence';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EvidenceEmailComponent } from '../evidence-email/evidence-email.component';
@@ -27,11 +27,12 @@ import * as moment from 'moment';
 })
 export class EvidenceListComponent implements OnInit {
 
+  @ViewChild('el') table: Table;
+
   evidenceList: Evidence[];
   data: EvidenceItemList[];
   isLoading: boolean = false;
 
-  filterCenter: Center[];
   localizaciones: Center[];
   
   properties: Properties[];
@@ -40,17 +41,19 @@ export class EvidenceListComponent implements OnInit {
   loadUser: String;
   weeks = [];
 
+  centerSelected: String = "";
+
   cols = [
-    { field: "name", header: "Nombre", width: "w-10rem flex-none", filter: true},
-    { field: "lastName", header: "Apellidos", width: "w-15rem flex-none", filter: true},
-    { field: "email", header: "Email", width: "flex-1", filter: true},
-    { field: "geografia", field3: "name", header: "Geografía", width: "w-10rem flex-none"},
-    { field: "evidenceTypeW1", header: "Semana 1", width: "w-9rem flex-none"},
-    { field: "evidenceTypeW2", header: "Semana 2", width: "w-9rem flex-none"},
-    { field: "evidenceTypeW3", header: "Semana 3", width: "w-9rem flex-none"},
-    { field: "evidenceTypeW4", header: "Semana 4", width: "w-9rem flex-none"},
-    { field: "evidenceTypeW5", header: "Semana 5", width: "w-9rem flex-none"},
-    { field: "evidenceTypeW6", header: "Semana 6", width: "w-9rem flex-none"},
+    { field: "name", header: "Nombre", class: "w-9rem flex-none", filter: true},
+    { field: "lastName", header: "Apellidos", class: "w-14rem flex-none", filter: true},
+    { field: "email", header: "Email", class: "flex-1", filter: true},
+    { field: "geografia", field3: "name", header: "Geografía", class: "w-7rem flex-none", filter: true},
+    { field: "evidenceTypeW1", header: "Semana 1", class: "w-9rem flex-none"},
+    { field: "evidenceTypeW2", header: "Semana 2", class: "w-9rem flex-none"},
+    { field: "evidenceTypeW3", header: "Semana 3", class: "w-9rem flex-none"},
+    { field: "evidenceTypeW4", header: "Semana 4", class: "w-9rem flex-none"},
+    { field: "evidenceTypeW5", header: "Semana 5", class: "w-9rem flex-none"},
+    { field: "evidenceTypeW6", header: "Semana 6", class: "w-9rem flex-none"},
   ];
 
   /**
@@ -67,56 +70,41 @@ export class EvidenceListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getData();
-  }
-
-  getData() {
-    this.getCenters();
-    this.isLoading = true;
-
-    this.getProperties();
   }
   
-  getCenters() {
-    this.centerService.findAll().subscribe( res => {
-      this.localizaciones = res
-      if (this.filterCenter == null) setTimeout(() => {
-        this.getUserCenter();
-        this.loadData();
-      }, 1);      
-      
-    });
+  ngAfterViewInit() {    
+    this.getData();
   }
-    
+  
+  getData() {
+    this.isLoading = true;
+    this.getProperties();
+    this.getUserCenter();
+    this.loadData();
+  }
+  
+  
   getUserCenter() {
     let userCenter : String;
-
+    
     userCenter = this.authService.getUserInfo().officeName;
-
+    
     if (userCenter.includes("VLC")) {
-      this.localizaciones.forEach(e => {
-        if (e.name == "Valencia")
-          this.filterCenter = [e];
-      });
+      this.centerSelected = "Valencia";
     }
-    if (userCenter.includes("BCN")) {
-      this.localizaciones.forEach(e => {
-        if (e.name == "Barcelona")
-          this.filterCenter = [e];
-      });
+    else if (userCenter.includes("BCN")) {
+      this.centerSelected = "Barcelona";
     }
-    if (userCenter.includes("MAD")) {
-      this.localizaciones.forEach(e => {
-        if (e.name == "Madrid")
-          this.filterCenter = [e];
-      });
-    }        
+    else if (userCenter.includes("MAD")) {
+      this.centerSelected = "Madrid";
+    }    
+
+    this.table.filter(this.centerSelected, 'geografia', 'contains');
   }
 
   loadData(): void {
-    let centerId : string = this.filterCenter != null && this.filterCenter.length > 0 ? this.filterCenter.map(item => item.id).toString() : null;
     this.isLoading = true;
-    this.evidenceService.getEvidences(centerId).subscribe({
+    this.evidenceService.getEvidences().subscribe({
       next: (res: Evidence[]) => {
         this.evidenceList = res;
         this.data = [];
@@ -157,6 +145,11 @@ export class EvidenceListComponent implements OnInit {
 
           if (res.key == "LOAD_WEEKS") {
             this.loadWeeks = parseInt(res.value);
+            let indexOfWeek1 = 4;
+
+            for (let i = this.loadWeeks; i < 6; i++) {
+              this.cols[indexOfWeek1+i].class += ' hidden';
+            }
           }
 
           else if (res.key == "LOAD_USERNAME") {
