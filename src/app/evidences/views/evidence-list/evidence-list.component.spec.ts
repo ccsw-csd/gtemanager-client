@@ -43,7 +43,9 @@ describe('EvidenceListComponent', () => {
           grade:null,
           active:null
           },
-        comment:"comment1"
+        comment:"comment1",
+        lastEditDate: new Date(),
+        lastEditAuthor: "author"
       },
       evidenceTypeW1:null,
       evidenceTypeW2:null,
@@ -103,7 +105,7 @@ describe('EvidenceListComponent', () => {
     mockCenterService.findAll.and.returnValue(of(CENTER_LIST));
     mockEvidenceService.getEvidences.and.returnValue(of(DATA_LIST));
 
-    evidenceListComponent.findAll();
+    evidenceListComponent.loadData();
 
     expect(evidenceListComponent.evidenceList).toEqual(DATA_LIST);
   });

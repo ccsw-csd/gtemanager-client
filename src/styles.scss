@@ -9,7 +9,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: "Source Sans Pro", sans-serif; }
 
 .material-icons {
-    font-family: 'Material Icons Outlined'; 
+    font-family: 'Material Icons'; 
     font-weight: normal;
     font-style: normal;
     font-size: 24px;  /* Preferred icon size */
@@ -134,4 +134,9 @@ body { margin: 0; font-family: "Source Sans Pro", sans-serif; }
     font-family: Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
     font-size: 0.85rem !important;
     font-weight: 400;
+}
+
+
+.p-sidebar .p-sidebar-content {
+    padding: 0rem; 
 }

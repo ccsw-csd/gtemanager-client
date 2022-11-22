@@ -41,7 +41,7 @@ export class EvidenceListComponent implements OnInit {
   loadUser: String;
   weeks = [];
 
-  centerSelected: String = "";
+  centerSelected: String;
 
   cols = [
     { field: "name", header: "Nombre", class: "w-9rem flex-none", filter: true},
@@ -70,16 +70,17 @@ export class EvidenceListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getData();
   }
   
   ngAfterViewInit() {    
-    this.getData();
+    this.table.filter(this.centerSelected, 'geografia', 'contains');
   }
   
   getData() {
     this.isLoading = true;
-    this.getProperties();
     this.getUserCenter();
+    this.getProperties();
     this.loadData();
   }
   
@@ -89,6 +90,8 @@ export class EvidenceListComponent implements OnInit {
     
     userCenter = this.authService.getUserInfo().officeName;
     
+    this.centerSelected = "";
+
     if (userCenter.includes("VLC")) {
       this.centerSelected = "Valencia";
     }
@@ -98,8 +101,6 @@ export class EvidenceListComponent implements OnInit {
     else if (userCenter.includes("MAD")) {
       this.centerSelected = "Madrid";
     }    
-
-    this.table.filter(this.centerSelected, 'geografia', 'contains');
   }
 
   loadData(): void {
@@ -178,7 +179,7 @@ export class EvidenceListComponent implements OnInit {
               value = this.replaceAll(value, "-"+(actualYear-1), "");
              
               value = value.replace(" - ", "  ");
-              value = `${moment(value.split(" ")[0]).format('DD/MM')} - ${moment(value.split(" ")[2]).format('DD/MM')}`
+              value = `${moment(value.split(" ")[0], "DD-MMM-YYYY").format('DD/MM')} - ${moment(value.split(" ")[2], "DD-MMM-YYYY").format('DD/MM')}`
               this.weeks = this.cols.slice(4, this.cols.length);
               this.weeks[weekNumber-1].header = value;
             }
