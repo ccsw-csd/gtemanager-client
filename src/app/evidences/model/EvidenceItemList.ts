@@ -16,6 +16,7 @@ export class EvidenceItemList {
     evidenceTypeW5: string;
     evidenceTypeW6: string;
     emailNotificationSent: boolean;
+    rowColor: String;
 
     public constructor(init?:Partial<EvidenceItemList>) {
         Object.assign(this, init);

@@ -1,0 +1,36 @@
+<div class="flex flex-column mb-5">
+
+    <div class="flex flex-row gap-5">
+        <div class="flex flex-column flex-1">
+            <p>Persona (excel):</p>
+            <input type="text" pInputText [(ngModel)]="data.name" readonly/>
+        </div>
+        <div class="flex flex-column flex-1">
+            <p>Empleado:</p>
+            <p-autoComplete [(ngModel)]="filterPerson" [suggestions]="groupPerson"
+                [forceSelection]="true" [showEmptyMessage]="true" [emptyMessage]="message"
+                (completeMethod)="searchPerson($event)" (onSelect)="selectedPerson = $event.value" field="field" appendTo="body" class="w-full"></p-autoComplete>
+        </div>
+    </div>
+
+
+    <div class="flex flex-row gap-5">
+        <div class="flex flex-column flex-1">
+            <p>Saga (excel):</p>
+            <input type="text" pInputText [(ngModel)]="data.saga" readonly/>
+        </div>
+        <div class="flex flex-column flex-1">
+            <p>Periodo (excel):</p>
+            <input type="text" pInputText [(ngModel)]="data.period" readonly/>
+        </div>
+    </div>
+
+
+    <p>Email (excel):</p>
+    <input type="text" pInputText [(ngModel)]="data.email" readonly/>
+</div>
+
+<div class="flex justify-content-end gap-3 mt-3">
+    <button type="button" pButton label="Cerrar" class="p-button-secondary" (click)="onClose()"></button>
+    <button type="button" pButton label="Guardar" class="p-button-primary" [disabled]='!selectedPerson' (click)="onSave()"></button>
+</div>

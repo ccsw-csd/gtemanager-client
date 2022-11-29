@@ -12,11 +12,14 @@
         </div>
     </div>
     <div class="mt-3 flex-1 flex-row justify-content-start">
+
+        <p-contextMenu #cm [model]="items"></p-contextMenu> 
+
         <!-- Tabla - center -->
         <p-table #el class="flex-1" [columns]="cols" [value]="data" [loading]="isLoading" [scrollable]="true"
             [autoLayout]="true" scrollHeight="calc(100vh - 200px)" responsiveLayout="scroll" sortField="email"
             [sortOrder]="1" styleClass="p-datatable-striped" [globalFilterFields]="['name','lastName', 'email']"
-            selectionMode="single">
+            selectionMode="single" [contextMenu]="cm" [(contextMenuSelection)]="selectedEvidenceItem">
 
             <ng-template pTemplate="header" let-columns>
                 <tr>
@@ -61,7 +64,7 @@
             </ng-template>
 
             <ng-template pTemplate="body" let-evidenceItem let-columns="columns">
-                <tr>
+                <tr [pContextMenuRow]="evidenceItem" class="{{evidenceItem.rowColor}}">
                     <td *ngFor="let col of columns" [style.color]="evidenceItem.id % 2 == 0 ? red : green"
                         class="{{col.class}} h-2_5rem white-space-normal overflow-hidden text-overflow-clip">
                         {{evidenceItem[col.field]}}

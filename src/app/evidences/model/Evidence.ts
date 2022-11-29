@@ -13,6 +13,7 @@ export class Evidence {
     evidenceTypeW5: EvidenceType;
     evidenceTypeW6: EvidenceType;
     emailNotificationSent: boolean;
+    rowColor: String;
 
     public constructor(init?:Partial<Evidence>) {
         Object.assign(this, init);

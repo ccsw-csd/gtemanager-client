@@ -143,3 +143,10 @@ body {
 .p-sidebar .p-sidebar-content {
     padding: 0rem; 
 }
+
+p-autocomplete {
+    span {
+        width: 100%;
+        input { width: 100%; }
+    }
+}

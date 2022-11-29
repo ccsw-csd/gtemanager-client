@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DialogService } from 'primeng/dynamicdialog';
 import { EvidenceError } from '../../model/EvidenceError';
 import { ErrorService } from '../../services/error.service';
+import { ParseErrorComponent } from './parse-error/parse-error.component';
 
 @Component({
   selector: 'app-error-list',
@@ -15,6 +17,7 @@ export class ErrorListComponent implements OnInit {
   
   constructor(
     private errorService: ErrorService,
+    public dialogService: DialogService,
   ) { }
   
   ngOnInit(): void {
@@ -33,5 +36,25 @@ export class ErrorListComponent implements OnInit {
       }
     })
   }
+
+  validateError(error: EvidenceError): void {
+
+    const ref = this.dialogService.open(ParseErrorComponent, {
+      header: "Mapeo de datos de Excel",
+      height: "425px",
+      width: "800px",
+      data: {evidenceError: error},
+      closable: true
+    });
+
+    ref.onClose.subscribe( res => {
+      if (res)
+       this.findAll();
+    });
+
+  }
+
+
+  
 
 }

@@ -21,6 +21,9 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import { CalendarModule } from 'primeng/calendar';
 import { ErrorListComponent } from './views/error-list/error-list.component';
 import {InputTextModule} from 'primeng/inputtext';
+import {ContextMenuModule} from 'primeng/contextmenu';
+import { ParseErrorComponent } from './views/error-list/parse-error/parse-error.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import {InputTextModule} from 'primeng/inputtext';
     EvidenceUploadComponent,
     CommentComponent,
     EvidenceEmailComponent,
-    ErrorListComponent
+    ErrorListComponent,
+    ParseErrorComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +53,8 @@ import {InputTextModule} from 'primeng/inputtext';
     DropdownModule,
     MultiSelectModule,
     CalendarModule,
-    HttpClientModule
+    AutoCompleteModule,
+    ContextMenuModule
   ]
 })
 export class EvidencesModule { }

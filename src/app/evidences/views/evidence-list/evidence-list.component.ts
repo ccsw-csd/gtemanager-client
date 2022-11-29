@@ -16,6 +16,8 @@ import { Table } from 'primeng/table';
 import { forkJoin } from 'rxjs';
 import * as moment from 'moment';
 import { NavigatorService } from 'src/app/core/services/navigator.service';
+import { MenuItem } from 'primeng/api';
+import { EvidenceColorService } from '../../services/evidence-color.service';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -34,6 +36,7 @@ export class EvidenceListComponent implements OnInit {
   evidenceList: Evidence[];
   data: EvidenceItemList[];
   isLoading: boolean = false;
+  selectedEvidenceItem: EvidenceItemList;
 
   localizaciones: Center[];
   
@@ -42,6 +45,8 @@ export class EvidenceListComponent implements OnInit {
   loadDate: Date;
   loadUser: String;
   weeks = [];
+
+  items: MenuItem[];
 
   centerSelected: String;
 
@@ -68,7 +73,8 @@ export class EvidenceListComponent implements OnInit {
     navigatorService : NavigatorService,
     private propertiesService: PropertiesService,
     public dialogService: DialogService,
-    public authService: AuthService
+    public authService: AuthService,
+    private evidenceColorService: EvidenceColorService,
   ) { 
 
     let me = this;
@@ -76,6 +82,26 @@ export class EvidenceListComponent implements OnInit {
     navigatorService.getNavivagorChangeEmitter().subscribe(menuVisible => { 
       if (menuVisible) me.contentWindowClass = 'content-menu-open';
       else me.contentWindowClass = 'content-menu-close';
+    });
+
+    this.items = [
+      {label: '', icon: 'pi pi-fw pi-times', command: (e) => {this.clickColorMenu(0);}},
+      {label: '', icon: 'pi pi-fw context-menu-color-1', command: (e) => {this.clickColorMenu(1);}},
+      {label: '', icon: 'pi pi-fw context-menu-color-2', command: (e) => {this.clickColorMenu(2);}},
+      {label: '', icon: 'pi pi-fw context-menu-color-3', command: (e) => {this.clickColorMenu(3);}},
+      {label: '', icon: 'pi pi-fw context-menu-color-4', command: (e) => {this.clickColorMenu(4);}},
+      {label: '', icon: 'pi pi-fw context-menu-color-5', command: (e) => {this.clickColorMenu(5);}},
+      {label: '', icon: 'pi pi-fw context-menu-color-6', command: (e) => {this.clickColorMenu(6);}},
+      {label: '', icon: 'pi pi-fw context-menu-color-7', command: (e) => {this.clickColorMenu(7);}}
+  ];
+  }
+
+  clickColorMenu(e) {    
+    let cssRow = 'row-color-'+e;
+    if (e == 0) cssRow = 'row-color-none';
+    
+    this.evidenceColorService.modifyColor(this.selectedEvidenceItem.personId, cssRow).subscribe(()=>{
+      this.selectedEvidenceItem.rowColor = cssRow;
     });
   }
 
@@ -137,7 +163,8 @@ export class EvidenceListComponent implements OnInit {
             evidenceTypeW5: (e.evidenceTypeW5 != null) ? e.evidenceTypeW5.name : "",
             evidenceTypeW6: (e.evidenceTypeW6 != null) ? e.evidenceTypeW6.name : "",
             comment: e.comment,
-            emailNotificationSent: e.emailNotificationSent});
+            emailNotificationSent: e.emailNotificationSent, 
+            rowColor: e.rowColor});
             
         });
       }

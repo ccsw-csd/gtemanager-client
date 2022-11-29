@@ -1,7 +1,91 @@
-:host ::ng-deep .p-multiselect {
-    min-width: 9.7rem;
-    width: 9.7rem;
-    margin-left: 122px;
+:host ::ng-deep {
+
+    .p-contextmenu {
+        width: 50px !important;
+    }
+
+    .p-menuitem-link {
+        height: 30px;
+    }
+
+    .p-multiselect {
+        min-width: 9.7rem;
+        width: 9.7rem;
+        margin-left: 122px;
+    }
+
+
+    .context-menu-color-0 {
+        height: 20px;
+        width: 25px;
+        /*background-color: #FFFFFF;*/
+        border: solid 1px #909090;
+        content: "\274c"; /* use the hex value here... */
+    }
+
+    .context-menu-color-0:after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        font-size: 50px; 
+        color: #909090;
+        line-height: 100px;
+        text-align: center;
+    }
+
+    .context-menu-color-1 {
+        height: 20px;
+        width: 25px;
+        background-color: #7F7F7F;
+        border: solid 1px #5F5F5F;
+    }
+    
+    .context-menu-color-2 {
+        height: 20px;
+        background-color: #A1B8E1;
+        border: solid 1px #8198C1;
+    }
+    
+    .context-menu-color-3 {
+        height: 20px;
+        background-color: #F6BE98;
+        border: solid 1px #D69E78;
+    }
+    
+    .context-menu-color-4 {
+        height: 20px;
+        background-color: #D2D2D2;
+        border: solid 1px #B2B2B2;
+    }
+    
+    .context-menu-color-5 {
+        height: 20px;
+        background-color: #FFDF7F;
+        border: solid 1px #DFBF5F;
+    }
+    
+    .context-menu-color-6 {
+        height: 20px;
+        background-color: #ADCDEA;
+        border: solid 1px #8DADCA;
+    }
+    
+    .context-menu-color-7 {
+        height: 20px;
+        background-color: #B7D6A3;
+        border: solid 1px #97B683;
+    }   
+    
+    .row-color-1 { background-color: #7F7F7F !important; }
+    .row-color-2 { background-color: #A1B8E1 !important; }
+    .row-color-3 { background-color: #F6BE98 !important; }
+    .row-color-4 { background-color: #D2D2D2 !important; }
+    .row-color-5 { background-color: #FFDF7F !important; }
+    .row-color-6 { background-color: #ADCDEA !important; }
+    .row-color-7 { background-color: #B7D6A3 !important; }
+
 }
 
 .icon-center{
@@ -16,3 +100,6 @@
 .content-menu-close {
     width: calc(100vw - 50px);
 }
+
+
+

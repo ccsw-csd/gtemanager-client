@@ -30,6 +30,15 @@ export class EvidenceService {
         return this.http.get<Evidence[]>(environment.server + "/evidence-view/");
     }
 
+
+    mapPerson(personId: number, saga: string): Observable<void> {
+
+        return this.http.put<void>(environment.server + "/evidence/mapPerson/"+personId+"/"+saga, null);
+    }
+
+    
+
+
     getEvidences(center?: string): Observable<Evidence[]> {
 
         let path = "/evidence-view/";
@@ -43,6 +52,10 @@ export class EvidenceService {
     getPersonById(idPerson: number): Observable<Person> {
         return this.http.get<Person>(environment.server + "/person?id=" + idPerson);
     }
+
+    searchPerson(filter: string): Observable<Person[]> {
+        return this.http.get<Person[]>(environment.server + "/person/filter/" + filter)
+      }
 
     /**
      * POST: Enviar archivo y variable de borrado de comentarios al backend a través del endpoint en /evidence.
