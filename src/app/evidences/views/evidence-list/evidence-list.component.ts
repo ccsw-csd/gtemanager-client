@@ -4,7 +4,6 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { EvidenceEmailComponent } from '../evidence-email/evidence-email.component';
 import { EvidenceUploadComponent } from '../evidence-upload/evidence-upload.component';
 import { EvidenceService } from '../../services/evidence.service';
-import { CenterService } from '../../services/center.service';
 import { Properties } from '../../model/Properties';
 import { Comment } from '../../model/Comment';
 import { CommentComponent } from '../comment/comment.component'; 
@@ -13,11 +12,12 @@ import { PropertiesService } from '../../services/properties.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { EvidenceItemList } from '../../model/EvidenceItemList';
 import { Table } from 'primeng/table';
-import { forkJoin } from 'rxjs';
-import * as moment from 'moment';
 import { NavigatorService } from 'src/app/core/services/navigator.service';
 import { MenuItem } from 'primeng/api';
 import { EvidenceColorService } from '../../services/evidence-color.service';
+import * as moment from 'moment';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx-js-style'; 
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -85,14 +85,14 @@ export class EvidenceListComponent implements OnInit {
     });
 
     this.items = [
-      {label: '', icon: 'pi pi-fw pi-times', command: (e) => {this.clickColorMenu(0);}},
+      {label: 'Sin color', icon: 'pi pi-fw pi-times', command: (e) => {this.clickColorMenu(0);}},
       {label: '', icon: 'pi pi-fw context-menu-color-1', command: (e) => {this.clickColorMenu(1);}},
-      {label: '', icon: 'pi pi-fw context-menu-color-2', command: (e) => {this.clickColorMenu(2);}},
-      {label: '', icon: 'pi pi-fw context-menu-color-3', command: (e) => {this.clickColorMenu(3);}},
-      {label: '', icon: 'pi pi-fw context-menu-color-4', command: (e) => {this.clickColorMenu(4);}},
-      {label: '', icon: 'pi pi-fw context-menu-color-5', command: (e) => {this.clickColorMenu(5);}},
-      {label: '', icon: 'pi pi-fw context-menu-color-6', command: (e) => {this.clickColorMenu(6);}},
-      {label: '', icon: 'pi pi-fw context-menu-color-7', command: (e) => {this.clickColorMenu(7);}}
+      {label: 'Baja médica', icon: 'pi pi-fw context-menu-color-2', command: (e) => {this.clickColorMenu(2);}},
+      {label: 'Contactar', icon: 'pi pi-fw context-menu-color-3', command: (e) => {this.clickColorMenu(3);}},
+      {label: 'Errores GTE', icon: 'pi pi-fw context-menu-color-4', command: (e) => {this.clickColorMenu(4);}},
+      {label: 'Sin código proyecto', icon: 'pi pi-fw context-menu-color-5', command: (e) => {this.clickColorMenu(5);}},
+      {label: 'Problemas PON', icon: 'pi pi-fw context-menu-color-6', command: (e) => {this.clickColorMenu(6);}},
+      {label: 'Corregido', icon: 'pi pi-fw context-menu-color-7', command: (e) => {this.clickColorMenu(7);}}
   ];
   }
 
@@ -115,11 +115,117 @@ export class EvidenceListComponent implements OnInit {
   
   getData() {
     this.isLoading = true;
+    
     this.getUserCenter();
     this.getProperties();
     this.loadData();
   }
   
+
+  changeRowColor(worksheet, rowIndex: number, rowColor: String) : void {
+    let color : string = '';
+    
+    if (rowColor == 'row-color-1') color = '7F7F7F';
+    else if (rowColor == 'row-color-2') color = '4472C4';
+    else if (rowColor == 'row-color-3') color = 'FFC000';
+    else if (rowColor == 'row-color-4') color = 'FF0000';
+    else if (rowColor == 'row-color-5') color = 'FFFF00';
+    else if (rowColor == 'row-color-6') color = 'CCCCFF';
+    else if (rowColor == 'row-color-7') color = '00B050';
+    else return;
+
+    let style = {
+      fill: {
+        fgColor: {rgb: color},
+      },
+    };
+
+
+    worksheet['A'+rowIndex].s = style;
+    worksheet['B'+rowIndex].s = style;
+    worksheet['C'+rowIndex].s = style;
+    worksheet['D'+rowIndex].s = style;
+    worksheet['E'+rowIndex].s = style;
+    worksheet['F'+rowIndex].s = style;
+    worksheet['G'+rowIndex].s = style;
+    worksheet['H'+rowIndex].s = style;
+    worksheet['I'+rowIndex].s = style;
+    worksheet['J'+rowIndex].s = style;
+    worksheet['K'+rowIndex].s = style;
+
+  }
+
+  exportarDatos() : void {
+    
+
+    let json = this.table.dataToRender.map(item => ({
+        Nombre: item.name,
+        Apellidos: item.lastName,
+        Email: item.email,
+        Geografia: item.geografia,
+        Semana1: item.evidenceTypeW1,
+        Semana2: item.evidenceTypeW2,
+        Semana3: item.evidenceTypeW3,
+        Semana4: item.evidenceTypeW4,
+        Semana5: item.evidenceTypeW5,
+        Semana6: item.evidenceTypeW6,
+        Commentario: item.comment,
+    }));
+    
+
+    let objectMaxLength = []; 
+    for (let i = 0; i < json.length; i++) {
+      let value = <any>Object.values(json[i]);
+      for (let j = 0; j < value.length; j++) {
+        if (typeof value[j] == "number") {
+          objectMaxLength[j] = 10;
+        } else if (value[j] != null) {
+          objectMaxLength[j] =
+            objectMaxLength[j] >= value[j].length
+              ? objectMaxLength[j]
+              : value[j].length;
+        }
+      }
+    }
+    
+    var wscols = [
+      { width: objectMaxLength[0] }, 
+      { width: objectMaxLength[1] }, 
+      { width: objectMaxLength[2] }, 
+      { width: 12 }, 
+      { width: 9 },
+      { width: 9 }, 
+      { width: 9 }, 
+      { width: 9 }, 
+      { width: 9 },
+      { width: objectMaxLength[9] }
+    ];
+
+
+      const worksheet = XLSX.utils.json_to_sheet(json);
+      worksheet["!cols"] = wscols;
+
+      for (let i = 0; i < this.table.dataToRender.length; i++) {
+        let rowColor = this.table.dataToRender[i].rowColor;
+        if (rowColor) this.changeRowColor(worksheet, i+2, rowColor);
+      }
+
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, "evidencias");
+
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+    });
+
+    let time = new Date().toISOString().slice(0,16).replace(':','-').replace('T', '_');
+    FileSaver.saveAs(data, fileName + '_export_' + (time) + EXCEL_EXTENSION);
+}
   
   getUserCenter() {
     let userCenter : String;
@@ -167,9 +273,12 @@ export class EvidenceListComponent implements OnInit {
             rowColor: e.rowColor});
             
         });
+
+        this.table.filter(this.centerSelected, 'geografia', 'contains');
       }
     });
   }
+
   getProperties() {
     this.propertiesService.findAll().subscribe({
       next: (res: Properties[]) => {

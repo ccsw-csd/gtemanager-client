@@ -1,9 +1,5 @@
 :host ::ng-deep {
 
-    .p-contextmenu {
-        width: 50px !important;
-    }
-
     .p-menuitem-link {
         height: 30px;
     }
@@ -18,73 +14,60 @@
     .context-menu-color-0 {
         height: 20px;
         width: 25px;
-        /*background-color: #FFFFFF;*/
         border: solid 1px #909090;
         content: "\274c"; /* use the hex value here... */
     }
 
-    .context-menu-color-0:after {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        font-size: 50px; 
-        color: #909090;
-        line-height: 100px;
-        text-align: center;
-    }
-
     .context-menu-color-1 {
         height: 20px;
-        width: 25px;
         background-color: #7F7F7F;
         border: solid 1px #5F5F5F;
     }
     
     .context-menu-color-2 {
         height: 20px;
-        background-color: #A1B8E1;
-        border: solid 1px #8198C1;
+        background-color: #4472C4;
+        border: solid 1px #2452A4;
     }
     
     .context-menu-color-3 {
         height: 20px;
-        background-color: #F6BE98;
-        border: solid 1px #D69E78;
+        background-color: #FFC000;
+        border: solid 1px #CF9000;
     }
     
+
     .context-menu-color-4 {
         height: 20px;
-        background-color: #D2D2D2;
-        border: solid 1px #B2B2B2;
+        background-color: #FF0000;
+        border: solid 1px #CF0000;
     }
     
     .context-menu-color-5 {
         height: 20px;
-        background-color: #FFDF7F;
-        border: solid 1px #DFBF5F;
+        background-color: #FFFF00;
+        border: solid 1px #CFCF00;
     }
     
     .context-menu-color-6 {
         height: 20px;
-        background-color: #ADCDEA;
-        border: solid 1px #8DADCA;
+        background-color: #CCCCFF;
+        border: solid 1px #ACACCF;
     }
     
     .context-menu-color-7 {
         height: 20px;
-        background-color: #B7D6A3;
-        border: solid 1px #97B683;
+        background-color: #00B050;
+        border: solid 1px #009030;
     }   
     
     .row-color-1 { background-color: #7F7F7F !important; }
-    .row-color-2 { background-color: #A1B8E1 !important; }
-    .row-color-3 { background-color: #F6BE98 !important; }
-    .row-color-4 { background-color: #D2D2D2 !important; }
-    .row-color-5 { background-color: #FFDF7F !important; }
-    .row-color-6 { background-color: #ADCDEA !important; }
-    .row-color-7 { background-color: #B7D6A3 !important; }
+    .row-color-2 { background-color: #4472C4 !important; }
+    .row-color-3 { background-color: #FFC000 !important; }
+    .row-color-4 { background-color: #FF0000 !important; }
+    .row-color-5 { background-color: #FFFF00 !important; }
+    .row-color-6 { background-color: #CCCCFF !important; }
+    .row-color-7 { background-color: #00B050 !important; }
 
 }
 
