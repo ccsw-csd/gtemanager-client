@@ -39,7 +39,7 @@
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'email', 'contains')" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[3].class}}">
-                        <input class="w-full h-1_5rem" pInputText [value]="centerSelected" type="text" (input)="el.filter($event.target.value, 'geografia', 'contains')" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText [value]="centerSelected" type="text" (input)="el.filter($event.target.value, 'geografia', 'contains'); centerSelected=$event.target.value" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[4].class}}">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW1', 'contains')" placeholder="Buscar" />
@@ -59,7 +59,21 @@
                     <th class="{{cols[9].class}}">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW6', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th style="flex: 0 0 68px;"></th>
+                    <th style="flex: 0 0 68px;">
+                        <span class="material-icons" style="cursor:pointer"  data-toggle="tooltip" data-placement="top" title="Filtrar color" 
+                            (click)="op.toggle($event)">app_registration</span>
+
+                        <p-overlayPanel #op>
+                            <ng-template pTemplate>
+
+                                <div class="field-checkbox" *ngFor="let color of filterColours">                                
+                                    <p-checkbox (click)="selectColor(color)" name="group1" value="{{color.code}}" [(ngModel)]="selectedColours" inputId="{{color.code}}"></p-checkbox>
+                                    <label for="{{color.code}}"><span [ngClass]="color.color">&nbsp;&nbsp;&nbsp;&nbsp;</span> {{color.name}}</label>
+                                    
+                                </div>
+                            </ng-template>
+                        </p-overlayPanel>                   
+                    </th>
                 </tr>
             </ng-template>
 
@@ -82,5 +96,6 @@
             </ng-template>
         </p-table>
     </div>
+    
 </div>
 <p-toast position="top-center"></p-toast>

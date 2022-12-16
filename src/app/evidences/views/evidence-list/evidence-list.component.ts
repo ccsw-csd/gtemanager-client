@@ -18,6 +18,7 @@ import { EvidenceColorService } from '../../services/evidence-color.service';
 import * as moment from 'moment';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx-js-style'; 
+import { OverlayPanel } from 'primeng/overlaypanel';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -48,19 +49,35 @@ export class EvidenceListComponent implements OnInit {
 
   items: MenuItem[];
 
+
+  filterColours = [
+    {code: 'row-color-none', name: 'Sin color', color: 'context-menu-color-none'},
+    {code: 'row-color-1', name: 'Otros', color: 'context-menu-color-1'},
+    {code: 'row-color-2', name: 'Baja médica', color: 'context-menu-color-2'},
+    {code: 'row-color-3', name: 'Contactar', color: 'context-menu-color-3'},
+    {code: 'row-color-4', name: 'Errores GTE', color: 'context-menu-color-4'},
+    {code: 'row-color-5', name: 'Sin código proyecto', color: 'context-menu-color-5'},
+    {code: 'row-color-6', name: 'Problemas PON', color: 'context-menu-color-6'},
+    {code: 'row-color-7', name: 'Corregido', color: 'context-menu-color-7'},
+  ];
+  selectedColours: string[] = ['row-color-none', 'row-color-1', 'row-color-2', 'row-color-3', 'row-color-4', 'row-color-5', 'row-color-6', 'row-color-7'];
+
   centerSelected: String;
+
+
+  @ViewChild('op') op: OverlayPanel;
 
   cols = [
     { field: "name", header: "Nombre", class: "w-9rem flex-none", filter: true},
     { field: "lastName", header: "Apellidos", class: "w-12rem flex-none", filter: true},
     { field: "email", header: "Email", class: "flex-1", filter: true},
     { field: "geografia", field3: "name", header: "Geografía", class: "max-w-7rem flex-none", filter: true},
-    { field: "evidenceTypeW1", header: "Semana 1", class: "w-7rem flex-none"},
-    { field: "evidenceTypeW2", header: "Semana 2", class: "w-7rem flex-none"},
-    { field: "evidenceTypeW3", header: "Semana 3", class: "w-7rem flex-none"},
-    { field: "evidenceTypeW4", header: "Semana 4", class: "w-7rem flex-none"},
-    { field: "evidenceTypeW5", header: "Semana 5", class: "w-7rem flex-none"},
-    { field: "evidenceTypeW6", header: "Semana 6", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW1", header: "", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW2", header: "", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW3", header: "", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW4", header: "", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW5", header: "", class: "w-7rem flex-none"},
+    { field: "evidenceTypeW6", header: "", class: "w-7rem flex-none"},
   ];
 
   /**
@@ -96,6 +113,7 @@ export class EvidenceListComponent implements OnInit {
   ];
   }
 
+
   clickColorMenu(e) {    
     let cssRow = 'row-color-'+e;
     if (e == 0) cssRow = 'row-color-none';
@@ -106,19 +124,28 @@ export class EvidenceListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUserCenter();
+    this.getProperties();
     this.getData();
   }
   
   ngAfterViewInit() {    
     this.table.filter(this.centerSelected, 'geografia', 'contains');
   }
+
+  selectColor(color) : void {
+    let filterValues = this.selectedColours.concat([]);
+
+    if (this.selectedColours.indexOf('row-color-none') >= 0) {
+      filterValues = filterValues.concat([null]);
+    }
+
+    this.table.filter(filterValues,'rowColor', 'in');
+  }
   
   getData() {
-    this.isLoading = true;
-    
-    this.getUserCenter();
-    this.getProperties();
-    this.loadData();
+    this.isLoading = true;    
+    this.loadData();        
   }
   
 
@@ -157,19 +184,18 @@ export class EvidenceListComponent implements OnInit {
 
   exportarDatos() : void {
     
-
     let json = this.table.dataToRender.map(item => ({
         Nombre: item.name,
         Apellidos: item.lastName,
         Email: item.email,
         Geografia: item.geografia,
-        Semana1: item.evidenceTypeW1,
-        Semana2: item.evidenceTypeW2,
-        Semana3: item.evidenceTypeW3,
-        Semana4: item.evidenceTypeW4,
-        Semana5: item.evidenceTypeW5,
-        Semana6: item.evidenceTypeW6,
-        Commentario: item.comment,
+        [this.cols[4].header]: item.evidenceTypeW1,
+        [this.cols[5].header]: item.evidenceTypeW2,
+        [this.cols[6].header]: item.evidenceTypeW3,
+        [this.cols[7].header]: item.evidenceTypeW4,
+        [this.cols[8].header]: item.evidenceTypeW5,
+        [this.cols[9].header]: item.evidenceTypeW6,
+        Comentario: item.comment != null ? item.comment.comment : null,
     }));
     
 
@@ -198,12 +224,14 @@ export class EvidenceListComponent implements OnInit {
       { width: 9 }, 
       { width: 9 }, 
       { width: 9 },
-      { width: objectMaxLength[9] }
+      { width: objectMaxLength[9] },
+      { width: objectMaxLength[10] }
     ];
 
 
       const worksheet = XLSX.utils.json_to_sheet(json);
       worksheet["!cols"] = wscols;
+      
 
       for (let i = 0; i < this.table.dataToRender.length; i++) {
         let rowColor = this.table.dataToRender[i].rowColor;
@@ -251,6 +279,8 @@ export class EvidenceListComponent implements OnInit {
       next: (res: Evidence[]) => {
         this.evidenceList = res;
         this.data = [];
+
+               
       },
       error: () => {},
       complete: ()  => {
@@ -274,7 +304,9 @@ export class EvidenceListComponent implements OnInit {
             
         });
 
-        this.table.filter(this.centerSelected, 'geografia', 'contains');
+        if (this.table && this.table.filter){
+          this.table.filter(this.centerSelected, 'geografia', 'contains');
+        } 
       }
     });
   }

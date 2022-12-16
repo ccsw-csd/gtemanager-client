@@ -24,6 +24,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import { ParseErrorComponent } from './views/error-list/parse-error/parse-error.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     ButtonModule,
     FileUploadModule,
     DynamicDialogModule,
+    OverlayPanelModule,
     CheckboxModule,
     FormsModule,
     MessagesModule,
