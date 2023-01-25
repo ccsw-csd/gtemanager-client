@@ -58,7 +58,7 @@ export class ParseErrorComponent implements OnInit {
 
   onSave(): void {
 
-    this.evidenceService.mapPerson(this.selectedPerson.id, this.data.saga).subscribe({
+    this.evidenceService.mapPerson(this.selectedPerson.id, this.data.email).subscribe({
       next:() => {this.ref.close(true);}
     });
   }

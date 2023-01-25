@@ -72,7 +72,7 @@ export class EvidenceListComponent implements OnInit {
     { field: "name", header: "Nombre", class: "w-9rem flex-none", filter: true},
     { field: "lastName", header: "Apellidos", class: "w-12rem flex-none", filter: true},
     { field: "email", header: "Email", class: "flex-1", filter: true},
-    { field: "manager", header: "Gestor", class: "w-12rem flex-none white-space-nowrap", filter: true},
+    { field: "manager", header: "Responsable", class: "w-12rem flex-none white-space-nowrap", filter: true},
     { field: "geografia", header: "Geografía", class: "w-7rem flex-none", filter: true},
     { field: "evidenceTypeW1", header: "", class: "w-7rem flex-none"},
     { field: "evidenceTypeW2", header: "", class: "w-7rem flex-none"},
@@ -189,7 +189,7 @@ export class EvidenceListComponent implements OnInit {
         Nombre: item.name,
         Apellidos: item.lastName,
         Email: item.email,
-        Gestor: item.manager,
+        Responsable: item.manager,
         Geografia: item.geografia,
         [this.cols[5].header]: item.evidenceTypeW1,
         [this.cols[6].header]: item.evidenceTypeW2,
@@ -416,7 +416,7 @@ export class EvidenceListComponent implements OnInit {
    * Se ajusta título del diálogo y anchura al 50% del espacio disponible.
    */
     importarManagers(): void {
-      const dialogRef = this.dialogService.open(EvidenceManagerUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
+      const dialogRef = this.dialogService.open(EvidenceManagerUploadComponent, { header: "Importar datos de Responsables-GTE", width: "50%", closable: false });
       dialogRef.onClose.subscribe(res => {
         if(res){
           this.getProperties();

@@ -31,9 +31,9 @@ export class EvidenceService {
     }
 
 
-    mapPerson(personId: number, saga: string): Observable<void> {
+    mapPerson(personId: number, email: string): Observable<void> {
 
-        return this.http.put<void>(environment.server + "/evidence/mapPerson/"+personId+"/"+saga, null);
+        return this.http.put<void>(environment.server + "/evidence/mapPerson/"+personId+"/"+email, null);
     }
 
     
