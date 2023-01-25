@@ -19,6 +19,7 @@ import * as moment from 'moment';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx-js-style'; 
 import { OverlayPanel } from 'primeng/overlaypanel';
+import { EvidenceManagerUploadComponent } from '../evidence-manager-upload/evidence-manager-upload.component';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -71,7 +72,8 @@ export class EvidenceListComponent implements OnInit {
     { field: "name", header: "Nombre", class: "w-9rem flex-none", filter: true},
     { field: "lastName", header: "Apellidos", class: "w-12rem flex-none", filter: true},
     { field: "email", header: "Email", class: "flex-1", filter: true},
-    { field: "geografia", field3: "name", header: "Geografía", class: "max-w-7rem flex-none", filter: true},
+    { field: "manager", header: "Gestor", class: "w-12rem flex-none white-space-nowrap", filter: true},
+    { field: "geografia", header: "Geografía", class: "w-7rem flex-none", filter: true},
     { field: "evidenceTypeW1", header: "", class: "w-7rem flex-none"},
     { field: "evidenceTypeW2", header: "", class: "w-7rem flex-none"},
     { field: "evidenceTypeW3", header: "", class: "w-7rem flex-none"},
@@ -110,9 +112,8 @@ export class EvidenceListComponent implements OnInit {
       {label: 'Sin código proyecto', icon: 'pi pi-fw context-menu-color-5', command: (e) => {this.clickColorMenu(5);}},
       {label: 'Problemas PON', icon: 'pi pi-fw context-menu-color-6', command: (e) => {this.clickColorMenu(6);}},
       {label: 'Corregido', icon: 'pi pi-fw context-menu-color-7', command: (e) => {this.clickColorMenu(7);}}
-  ];
+    ];
   }
-
 
   clickColorMenu(e) {    
     let cssRow = 'row-color-'+e;
@@ -188,13 +189,14 @@ export class EvidenceListComponent implements OnInit {
         Nombre: item.name,
         Apellidos: item.lastName,
         Email: item.email,
+        Gestor: item.manager,
         Geografia: item.geografia,
-        [this.cols[4].header]: item.evidenceTypeW1,
-        [this.cols[5].header]: item.evidenceTypeW2,
-        [this.cols[6].header]: item.evidenceTypeW3,
-        [this.cols[7].header]: item.evidenceTypeW4,
-        [this.cols[8].header]: item.evidenceTypeW5,
-        [this.cols[9].header]: item.evidenceTypeW6,
+        [this.cols[5].header]: item.evidenceTypeW1,
+        [this.cols[6].header]: item.evidenceTypeW2,
+        [this.cols[7].header]: item.evidenceTypeW3,
+        [this.cols[8].header]: item.evidenceTypeW4,
+        [this.cols[9].header]: item.evidenceTypeW5,
+        [this.cols[10].header]: item.evidenceTypeW6,
         Comentario: item.comment != null ? item.comment.comment : null,
     }));
     
@@ -217,15 +219,16 @@ export class EvidenceListComponent implements OnInit {
     var wscols = [
       { width: objectMaxLength[0] }, 
       { width: objectMaxLength[1] }, 
-      { width: objectMaxLength[2] }, 
+      { width: objectMaxLength[2] },
+      { width: 50 },  
       { width: 12 }, 
       { width: 9 },
       { width: 9 }, 
       { width: 9 }, 
       { width: 9 }, 
       { width: 9 },
-      { width: objectMaxLength[9] },
-      { width: objectMaxLength[10] }
+      { width: 9 },
+      { width: objectMaxLength[11] }
     ];
 
 
@@ -291,7 +294,8 @@ export class EvidenceListComponent implements OnInit {
             name: e.person.name, 
             lastName: e.person.lastName, 
             email: e.person.email,
-            geografia: e.person.center.name, 
+            geografia: e.person.center?.name,
+            manager: e.manager, 
             evidenceTypeW1: (e.evidenceTypeW1 != null) ? e.evidenceTypeW1.name : "", 
             evidenceTypeW2: (e.evidenceTypeW2 != null) ? e.evidenceTypeW2.name : "",
             evidenceTypeW3: (e.evidenceTypeW3 != null) ? e.evidenceTypeW3.name : "", 
@@ -324,7 +328,7 @@ export class EvidenceListComponent implements OnInit {
 
           if (res.key == "LOAD_WEEKS") {
             this.loadWeeks = parseInt(res.value);
-            let indexOfWeek1 = 4;
+            let indexOfWeek1 = 5;
 
             for (let i = this.loadWeeks; i < 6; i++) {
               this.cols[indexOfWeek1+i].class += ' hidden';
@@ -358,12 +362,12 @@ export class EvidenceListComponent implements OnInit {
              
               value = value.replace(" - ", "  ");
               value = `${moment(value.split(" ")[0], "DD-MMM-YYYY").format('DD')}-${moment(value.split(" ")[2], "DD-MMM-YYYY").format('DD MMM')}`
-              this.weeks = this.cols.slice(4, this.cols.length);
+              this.weeks = this.cols.slice(5, this.cols.length);
               this.weeks[weekNumber-1].header = value;
             }
           }
         });
-        this.cols = this.cols.slice(0, 4).concat(this.weeks);
+        this.cols = this.cols.slice(0, 5).concat(this.weeks);
       }
     });
   }
@@ -405,6 +409,21 @@ export class EvidenceListComponent implements OnInit {
       } 
     });
   }
+
+    /**
+   * Inicia componente EvidenceManagerUpload tras pulsar botón de importación de gestores.
+   * 
+   * Se ajusta título del diálogo y anchura al 50% del espacio disponible.
+   */
+    importarManagers(): void {
+      const dialogRef = this.dialogService.open(EvidenceManagerUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
+      dialogRef.onClose.subscribe(res => {
+        if(res){
+          this.getProperties();
+          this.loadData();
+        } 
+      });
+    }
 
   /**
    * Inicia componente EvidenceEmail tras pulsar botón de envío de recordatorios.

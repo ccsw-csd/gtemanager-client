@@ -25,6 +25,7 @@ import {ContextMenuModule} from 'primeng/contextmenu';
 import { ParseErrorComponent } from './views/error-list/parse-error/parse-error.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
+import { EvidenceManagerUploadComponent } from './views/evidence-manager-upload/evidence-manager-upload.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
     CommentComponent,
     EvidenceEmailComponent,
     ErrorListComponent,
-    ParseErrorComponent
+    ParseErrorComponent,
+    EvidenceManagerUploadComponent
   ],
   imports: [
     CommonModule,

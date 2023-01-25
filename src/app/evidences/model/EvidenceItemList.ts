@@ -8,6 +8,7 @@ export class EvidenceItemList {
     lastName: string;
     email: string;
     geografia: string;
+    manager: String;
     comment: Comment;
     evidenceTypeW1: string;
     evidenceTypeW2: string;

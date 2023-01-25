@@ -6,6 +6,7 @@ export class Evidence {
     id: number;
     person: Person;
     comment: Comment;
+    manager: String;
     evidenceTypeW1: EvidenceType;
     evidenceTypeW2: EvidenceType;
     evidenceTypeW3: EvidenceType;
