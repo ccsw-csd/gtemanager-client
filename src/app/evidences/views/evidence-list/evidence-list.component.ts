@@ -20,6 +20,7 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx-js-style'; 
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { EvidenceManagerUploadComponent } from '../evidence-manager-upload/evidence-manager-upload.component';
+import { timer } from 'rxjs';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -128,6 +129,11 @@ export class EvidenceListComponent implements OnInit {
     this.getUserCenter();
     this.getProperties();
     this.getData();
+
+    const ticker = timer(0, 60000);
+    ticker.subscribe(() => {
+      this.refreshData();
+    });
   }
   
   ngAfterViewInit() {    
@@ -148,7 +154,6 @@ export class EvidenceListComponent implements OnInit {
     this.isLoading = true;    
     this.loadData();        
   }
-  
 
   changeRowColor(worksheet, rowIndex: number, rowColor: String) : void {
     let color : string = '';
@@ -281,9 +286,7 @@ export class EvidenceListComponent implements OnInit {
     this.evidenceService.getEvidences().subscribe({
       next: (res: Evidence[]) => {
         this.evidenceList = res;
-        this.data = [];
-
-               
+        this.data = [];               
       },
       error: () => {},
       complete: ()  => {
@@ -304,13 +307,33 @@ export class EvidenceListComponent implements OnInit {
             evidenceTypeW6: (e.evidenceTypeW6 != null) ? e.evidenceTypeW6.name : "",
             comment: e.comment,
             emailNotificationSent: e.emailNotificationSent, 
-            rowColor: e.rowColor});
-            
+            rowColor: e.rowColor});            
         });
 
         if (this.table && this.table.filter){
           this.table.filter(this.centerSelected, 'geografia', 'contains');
         } 
+      }
+    });
+  }
+
+  refreshData(): void {
+    this.evidenceService.getEvidences().subscribe({
+      next: (res: Evidence[]) => {
+        this.evidenceList = res;            
+      },
+      error: () => {},
+      complete: ()  => {
+        this.isLoading = false;
+        this.evidenceList.forEach(e => {
+
+          let person = this.data.filter(p => p.personId == e.person.id);
+
+          if(person[0] != null){
+            person[0].comment = e.comment;
+            person[0].rowColor = e.rowColor;
+          }
+        });
       }
     });
   }
