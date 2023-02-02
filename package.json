@@ -1,5 +1,5 @@
 {
-  "name": "gtemanager-client",
+  "name": "gtemanager",
   "version": "1.2.1",
   "scripts": {
     "ng": "ng",

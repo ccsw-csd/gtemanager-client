@@ -3,7 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UtilsService } from 'src/app/core/services/utils.service';
-
+import packageInfo from '../../../../../../package.json';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +12,7 @@ import { UtilsService } from 'src/app/core/services/utils.service';
 })
 export class NavComponent implements OnInit {
 
-  frontVersion : string = "1.0.0";
+  frontVersion : string = packageInfo.version;
   backVersion : string = "1.0.0";
   items: MenuItem[];
 
