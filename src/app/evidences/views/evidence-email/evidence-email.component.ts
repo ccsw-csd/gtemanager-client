@@ -5,6 +5,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { EmailService } from '../../services/email.service';
 import { CenterService } from '../../services/center.service';
 import { Reminder } from '../../models/Reminder';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 /**
  * Componente EvidenceEmail: diálogo de selección de geografía y fecha de cierre para envío de correos electrónicos recordatorios desde la aplicación.
@@ -19,7 +20,7 @@ export class EvidenceEmailComponent implements OnInit {
   centers: Center[];
   filterCenter: Center[];
 
-  closingDate: Date;
+  closingDate: Date = new Date();
   center: Center;
   isLoading: boolean;
 
@@ -35,6 +36,7 @@ export class EvidenceEmailComponent implements OnInit {
   constructor(
     public emailService: EmailService,
     public centerService: CenterService,
+    private clipboard: Clipboard,
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private snackbarService: SnackbarService
@@ -72,7 +74,29 @@ export class EvidenceEmailComponent implements OnInit {
     let reminder = new Reminder();
     reminder.closingDate = new Date(Date.UTC(this.closingDate.getFullYear(), this.closingDate.getMonth(), this.closingDate.getDate()));
     reminder.centerId = this.filterCenter.map(item => item.id).toString() 
+    
+    let geografias = [];
+    this.filterCenter.forEach(item => {
+      geografias.push(item.name);
+    });
 
+    let evidenceList = this.config.data.evidenceList;
+
+    evidenceList = evidenceList.filter(item => geografias.indexOf(item.geografia) >= 0);
+
+    let list = '';
+    evidenceList.forEach(item => {      
+      list += item.email + ";";
+    });
+
+    this.clipboard.copy(list.slice(0,-1));
+    this.snackbarService.showMessage('Se ha copiado la lista de correos al clipboard');
+
+    this.isLoading = false;
+    this.close(true);
+    
+
+    /*
     this.emailService.sendEmails(reminder).subscribe({
       next: result => {
         if (result)
@@ -87,6 +111,7 @@ export class EvidenceEmailComponent implements OnInit {
         this.isLoading = false;
       }
     });
+    */
   }
 
   /**

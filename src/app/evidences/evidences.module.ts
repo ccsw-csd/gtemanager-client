@@ -26,6 +26,8 @@ import { ParseErrorComponent } from './views/error-list/parse-error/parse-error.
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import { EvidenceManagerUploadComponent } from './views/evidence-manager-upload/evidence-manager-upload.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+
 
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ import { EvidenceManagerUploadComponent } from './views/evidence-manager-upload/
     MultiSelectModule,
     CalendarModule,
     AutoCompleteModule,
-    ContextMenuModule
+    ContextMenuModule,
+    ClipboardModule,
   ]
 })
 export class EvidencesModule { }

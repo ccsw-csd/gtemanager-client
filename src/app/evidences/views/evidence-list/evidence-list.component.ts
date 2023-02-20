@@ -454,7 +454,10 @@ export class EvidenceListComponent implements OnInit {
    * Se ajusta título del diálogo y anchura al 25% del espacio disponible.
    */
   evidenceEmails(): void {
-    const dialogRef = this.dialogService.open(EvidenceEmailComponent, { header: "Notificar evidencias pendientes", width: "25%", closable: false });
+    const dialogRef = this.dialogService.open(EvidenceEmailComponent, { 
+      header: "Notificar evidencias pendientes", width: "450px", closable: false ,
+      data: {"evidenceList": this.data}
+    });
     dialogRef.onClose.subscribe(res => {
       if(res) {
         this.getProperties();
