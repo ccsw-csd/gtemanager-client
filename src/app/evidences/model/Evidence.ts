@@ -3,10 +3,12 @@ import { Comment } from "./Comment";
 import { Person } from "./Person";
 
 export class Evidence {
+    saga: String;
     id: number;
     person: Person;
     comment: Comment;
     manager: String;
+    project: String;
     evidenceTypeW1: EvidenceType;
     evidenceTypeW2: EvidenceType;
     evidenceTypeW3: EvidenceType;

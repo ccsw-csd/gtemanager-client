@@ -23,8 +23,8 @@ export class EvidenceManagerService {
      * @param formData Elemento a subir
      * @returns Observable para manejo de la petición
      */
-    uploadEvidenceManager(formData: FormData): Observable<FormData> {
+    uploadEvidenceManager(formData: FormData): Observable<String> {
 
-        return this.http.post<FormData>(environment.server + "/evidence-manager", formData);
+        return this.http.post<String>(environment.server + "/evidence-manager", formData);
     }
 }

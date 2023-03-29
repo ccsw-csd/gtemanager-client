@@ -19,7 +19,7 @@
         <!-- Tabla - center -->
         <p-table #el class="flex-1" [columns]="cols" [value]="data" [loading]="isLoading" [scrollable]="true"
             [autoLayout]="true" scrollHeight="calc(100vh - 200px)" responsiveLayout="scroll" sortField="email"
-            [sortOrder]="1" styleClass="p-datatable-striped" [globalFilterFields]="['name','lastName', 'manager', 'email']"
+            [sortOrder]="1" styleClass="p-datatable-striped" [globalFilterFields]="['saga', 'name','lastName', 'manager','project', 'email']"
             selectionMode="single" [contextMenu]="cm" [(contextMenuSelection)]="selectedEvidenceItem">
 
             <ng-template pTemplate="header" let-columns>
@@ -31,36 +31,42 @@
                 </tr>
                 <tr class="filter">
                     <th class="{{cols[0].class}}">
-                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'name', 'contains')" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'saga', 'contains')" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[1].class}}">
-                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'lastName', 'contains')" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'name', 'contains')" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[2].class}}">
-                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'email', 'contains')" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'lastName', 'contains')" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[3].class}}">
-                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'manager', 'contains')" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'email', 'contains')" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[4].class}}">
-                        <input class="w-full h-1_5rem" pInputText [value]="centerSelected" type="text" (input)="el.filter($event.target.value, 'geografia', 'contains'); centerSelected=$event.target.value" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'manager', 'contains')" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[5].class}}">
-                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW1', 'contains')" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'project', 'contains')" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[6].class}}">
-                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW2', 'contains')" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText [value]="centerSelected" type="text" (input)="el.filter($event.target.value, 'geografia', 'contains'); centerSelected=$event.target.value" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[7].class}}">
-                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW3', 'contains')" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW1', 'contains')" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[8].class}}">
-                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW4', 'contains')" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW2', 'contains')" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[9].class}}">
-                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW5', 'contains')" placeholder="Buscar" />
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW3', 'contains')" placeholder="Buscar" />
                     </th>
                     <th class="{{cols[10].class}}">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW4', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[11].class}}">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW5', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[12].class}}">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW6', 'contains')" placeholder="Buscar" />
                     </th>
                     <th style="flex: 0 0 68px;">
@@ -83,7 +89,7 @@
 
             <ng-template pTemplate="body" let-evidenceItem let-columns="columns">
                 <tr [pContextMenuRow]="evidenceItem" class="{{evidenceItem.rowColor}}">
-                    <td *ngFor="let col of columns" [pTooltip]="col.field === 'manager' ? evidenceItem[col.field] : null" [style.color]="evidenceItem.id % 2 == 0 ? red : green"
+                    <td *ngFor="let col of columns" [pTooltip]="col.field === 'manager' || col.field === 'project' ? evidenceItem[col.field] : null" [style.color]="evidenceItem.id % 2 == 0 ? red : green"
                         class="{{col.class}} h-2_5rem white-space-normal overflow-hidden text-overflow-clip">
                         {{evidenceItem[col.field]}}
                     </td>

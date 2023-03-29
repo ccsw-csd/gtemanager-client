@@ -8,8 +8,15 @@
         chooseLabel="Seleccionar archivo" [disabled]="this.isLoading">
     </p-fileUpload>
 
-    <p-checkbox name="deleteComments" class="mt-3" label="Eliminar comentarios y colores de las evidencias"
+    <div>
+        <p-checkbox name="deleteComments" class="mt-3" label="Eliminar comentarios de las evidencias"
         [(ngModel)]="deleteComments" [binary]="true" [disabled]="this.file == null || this.isLoading"></p-checkbox>
+    </div>
+
+    <div>
+        <p-checkbox name="deleteColors" class="mt-3" label="Eliminar colores de las evidencias"
+        [(ngModel)]="deleteColors" [binary]="true" [disabled]="this.file == null || this.isLoading"></p-checkbox>
+    </div>
 </div>
 
 <!-- Sección botones de acción -->

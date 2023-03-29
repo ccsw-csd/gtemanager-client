@@ -30,14 +30,10 @@ export class EvidenceService {
         return this.http.get<Evidence[]>(environment.server + "/evidence-view/");
     }
 
-
     mapPerson(personId: number, email: string): Observable<void> {
 
         return this.http.put<void>(environment.server + "/evidence/mapPerson/"+personId+"/"+email, null);
     }
-
-    
-
 
     getEvidences(center?: string): Observable<Evidence[]> {
 
@@ -50,15 +46,17 @@ export class EvidenceService {
     }
 
     getPersonById(idPerson: number): Observable<Person> {
+
         return this.http.get<Person>(environment.server + "/person?id=" + idPerson);
     }
 
     searchPerson(filter: string): Observable<Person[]> {
+
         return this.http.get<Person[]>(environment.server + "/person/filter/" + filter)
-      }
+    }
 
     /**
-     * POST: Enviar archivo y variable de borrado de comentarios al backend a través del endpoint en /evidence.
+     * Enviar archivo y variable de borrado de comentarios al backend a través del endpoint en /evidence.
      * 
      * @param formData Elemento a subir
      * @returns Observable para manejo de la petición

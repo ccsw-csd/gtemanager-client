@@ -70,10 +70,12 @@ export class EvidenceListComponent implements OnInit {
   @ViewChild('op') op: OverlayPanel;
 
   cols = [
-    { field: "name", header: "Nombre", class: "w-9rem flex-none", filter: true},
-    { field: "lastName", header: "Apellidos", class: "w-12rem flex-none", filter: true},
+    { field: "saga", header: "Saga", class: "w-7rem flex-none", filter: true},
+    { field: "name", header: "Nombre", class: "w-8rem flex-none", filter: true},
+    { field: "lastName", header: "Apellidos", class: "w-10rem flex-none", filter: true},
     { field: "email", header: "Email", class: "flex-1", filter: true},
-    { field: "manager", header: "Responsable", class: "w-12rem flex-none white-space-nowrap", filter: true},
+    { field: "manager", header: "Responsables", class: "w-10rem flex-none white-space-nowrap", filter: true},
+    { field: "project", header: "Proyectos", class: "w-10rem flex-none white-space-nowrap", filter: true},
     { field: "geografia", header: "Geografía", class: "w-7rem flex-none", filter: true},
     { field: "evidenceTypeW1", header: "", class: "w-7rem flex-none"},
     { field: "evidenceTypeW2", header: "", class: "w-7rem flex-none"},
@@ -185,23 +187,28 @@ export class EvidenceListComponent implements OnInit {
     worksheet['I'+rowIndex].s = style;
     worksheet['J'+rowIndex].s = style;
     worksheet['K'+rowIndex].s = style;
+    worksheet['L'+rowIndex].s = style;
+    worksheet['M'+rowIndex].s = style;
+    worksheet['N'+rowIndex].s = style;
 
   }
 
   exportarDatos() : void {
     
     let json = this.table.dataToRender.map(item => ({
+        Saga: item.saga,
         Nombre: item.name,
         Apellidos: item.lastName,
         Email: item.email,
-        Responsable: item.manager,
+        Responsables: item.manager,
+        Proyectos: item.project,
         Geografia: item.geografia,
-        [this.cols[5].header]: item.evidenceTypeW1,
-        [this.cols[6].header]: item.evidenceTypeW2,
-        [this.cols[7].header]: item.evidenceTypeW3,
-        [this.cols[8].header]: item.evidenceTypeW4,
-        [this.cols[9].header]: item.evidenceTypeW5,
-        [this.cols[10].header]: item.evidenceTypeW6,
+        [this.cols[7].header]: item.evidenceTypeW1,
+        [this.cols[8].header]: item.evidenceTypeW2,
+        [this.cols[9].header]: item.evidenceTypeW3,
+        [this.cols[10].header]: item.evidenceTypeW4,
+        [this.cols[11].header]: item.evidenceTypeW5,
+        [this.cols[12].header]: item.evidenceTypeW6,
         Comentario: item.comment != null ? item.comment.comment : null,
     }));
     
@@ -224,16 +231,18 @@ export class EvidenceListComponent implements OnInit {
     var wscols = [
       { width: objectMaxLength[0] }, 
       { width: objectMaxLength[1] }, 
-      { width: objectMaxLength[2] },
-      { width: 50 },  
-      { width: 12 }, 
-      { width: 9 },
-      { width: 9 }, 
-      { width: 9 }, 
-      { width: 9 }, 
+      { width: objectMaxLength[2] }, 
+      { width: objectMaxLength[3] },
+      { width: 50 },
+      { width: 50 },
+      { width: 12 },
       { width: 9 },
       { width: 9 },
-      { width: objectMaxLength[11] }
+      { width: 9 },
+      { width: 9 },
+      { width: 9 },
+      { width: 9 },
+      { width: objectMaxLength[13] }
     ];
 
 
@@ -261,7 +270,7 @@ export class EvidenceListComponent implements OnInit {
 
     let time = new Date().toISOString().slice(0,16).replace(':','-').replace('T', '_');
     FileSaver.saveAs(data, fileName + '_export_' + (time) + EXCEL_EXTENSION);
-}
+  }
   
   getUserCenter() {
     let userCenter : String;
@@ -292,13 +301,15 @@ export class EvidenceListComponent implements OnInit {
       complete: ()  => {
         this.isLoading = false;
         this.evidenceList.forEach(e => {
-          this.data.push({ 
+          this.data.push({
+            saga: e.saga,
             personId: e.person.id,
-            name: e.person.name, 
-            lastName: e.person.lastName, 
+            name: e.person.name,
+            lastName: e.person.lastName,
             email: e.person.email,
             geografia: e.person.center?.name,
-            manager: e.manager, 
+            manager: e.manager,
+            project: e.project,
             evidenceTypeW1: (e.evidenceTypeW1 != null) ? e.evidenceTypeW1.name : "", 
             evidenceTypeW2: (e.evidenceTypeW2 != null) ? e.evidenceTypeW2.name : "",
             evidenceTypeW3: (e.evidenceTypeW3 != null) ? e.evidenceTypeW3.name : "", 
@@ -351,7 +362,7 @@ export class EvidenceListComponent implements OnInit {
 
           if (res.key == "LOAD_WEEKS") {
             this.loadWeeks = parseInt(res.value);
-            let indexOfWeek1 = 5;
+            let indexOfWeek1 = 7;
 
             for (let i = this.loadWeeks; i < 6; i++) {
               this.cols[indexOfWeek1+i].class += ' hidden';
@@ -385,12 +396,12 @@ export class EvidenceListComponent implements OnInit {
              
               value = value.replace(" - ", "  ");
               value = `${moment(value.split(" ")[0], "DD-MMM-YYYY").format('DD')}-${moment(value.split(" ")[2], "DD-MMM-YYYY").format('DD MMM')}`
-              this.weeks = this.cols.slice(5, this.cols.length);
+              this.weeks = this.cols.slice(7, this.cols.length);
               this.weeks[weekNumber-1].header = value;
             }
           }
         });
-        this.cols = this.cols.slice(0, 5).concat(this.weeks);
+        this.cols = this.cols.slice(0, 7).concat(this.weeks);
       }
     });
   }
@@ -406,7 +417,7 @@ export class EvidenceListComponent implements OnInit {
   showComment(personId: number, name: String, lastName: String, comment?: Comment) {
     const ref = this.dialogService.open(CommentComponent, {
       header: "Editar comentario de " + name + " " + lastName,
-      height: "370px",
+      height: "410px",
       width: "40%",
       data: {commentData: (comment != null) ? comment : null, id: personId},
       closable: false
@@ -439,7 +450,7 @@ export class EvidenceListComponent implements OnInit {
    * Se ajusta título del diálogo y anchura al 50% del espacio disponible.
    */
     importarManagers(): void {
-      const dialogRef = this.dialogService.open(EvidenceManagerUploadComponent, { header: "Importar datos de Responsables-GTE", width: "50%", closable: false });
+      const dialogRef = this.dialogService.open(EvidenceManagerUploadComponent, { header: "Importar datos de Responsables/Proyectos-GTE", width: "50%", closable: false });
       dialogRef.onClose.subscribe(res => {
         if(res){
           this.getProperties();

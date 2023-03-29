@@ -15,6 +15,7 @@ export class EvidenceUploadComponent implements OnInit {
 
     file: File;
     deleteComments: boolean;
+    deleteColors: boolean;
     isLoading: boolean;
 
     /**
@@ -37,6 +38,7 @@ export class EvidenceUploadComponent implements OnInit {
      */
     ngOnInit(): void {
         this.deleteComments = false;
+        this.deleteColors = false;
         this.isLoading = false;
     }
 
@@ -48,6 +50,7 @@ export class EvidenceUploadComponent implements OnInit {
     onSelect(event: { currentFiles: File[]; }) {
         this.file = event.currentFiles[0];
         this.deleteComments = false;
+        this.deleteColors = false;
     }
 
     /**
@@ -56,6 +59,7 @@ export class EvidenceUploadComponent implements OnInit {
     onRemove() {
         this.file = null;
         this.deleteComments = false;
+        this.deleteColors = false;
     }
 
     /**
@@ -70,6 +74,7 @@ export class EvidenceUploadComponent implements OnInit {
         let formData = new FormData;
         formData.append("file", this.file);
         formData.append("deleteComments", JSON.stringify(this.deleteComments));
+        formData.append("deleteColors", JSON.stringify(this.deleteColors));
         this.isLoading = true;
         this.evidenceService.uploadEvidence(formData).subscribe({
             next: result => {
