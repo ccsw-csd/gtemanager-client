@@ -21,6 +21,7 @@ import * as XLSX from 'xlsx-js-style';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { EvidenceManagerUploadComponent } from '../evidence-manager-upload/evidence-manager-upload.component';
 import { timer } from 'rxjs';
+import { RecurrenceService } from '../../services/recurrence.service';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -61,8 +62,9 @@ export class EvidenceListComponent implements OnInit {
     {code: 'row-color-5', name: 'Sin código proyecto', color: 'context-menu-color-5'},
     {code: 'row-color-6', name: 'Problemas PON', color: 'context-menu-color-6'},
     {code: 'row-color-7', name: 'Corregido', color: 'context-menu-color-7'},
+    {code: 'row-color-8', name: 'Bench', color: 'context-menu-color-8'},
   ];
-  selectedColours: string[] = ['row-color-none', 'row-color-1', 'row-color-2', 'row-color-3', 'row-color-4', 'row-color-5', 'row-color-6', 'row-color-7'];
+  selectedColours: string[] = ['row-color-none', 'row-color-1', 'row-color-2', 'row-color-3', 'row-color-4', 'row-color-5', 'row-color-6', 'row-color-7', 'row-color-8'];
 
   centerSelected: String;
 
@@ -70,12 +72,14 @@ export class EvidenceListComponent implements OnInit {
   @ViewChild('op') op: OverlayPanel;
 
   cols = [
+    { field: "recurrence", header: "history", class: "w-2_5rem flex-none", filter: true, icon: true}, 
     { field: "saga", header: "Saga", class: "w-7rem flex-none", filter: true},
     { field: "name", header: "Nombre", class: "w-8rem flex-none", filter: true},
     { field: "lastName", header: "Apellidos", class: "w-10rem flex-none", filter: true},
     { field: "email", header: "Email", class: "flex-1", filter: true},
     { field: "manager", header: "Responsables", class: "w-10rem flex-none white-space-nowrap", filter: true},
     { field: "project", header: "Proyectos", class: "w-10rem flex-none white-space-nowrap", filter: true},
+    { field: "client", header: "Clientes", class: "w-10rem flex-none white-space-nowrap", filter: true},    
     { field: "geografia", header: "Geografía", class: "w-7rem flex-none", filter: true},
     { field: "evidenceTypeW1", header: "", class: "w-7rem flex-none"},
     { field: "evidenceTypeW2", header: "", class: "w-7rem flex-none"},
@@ -97,6 +101,7 @@ export class EvidenceListComponent implements OnInit {
     public dialogService: DialogService,
     public authService: AuthService,
     private evidenceColorService: EvidenceColorService,
+    private recurrenceService: RecurrenceService,
   ) { 
 
     let me = this;
@@ -108,13 +113,14 @@ export class EvidenceListComponent implements OnInit {
 
     this.items = [
       {label: 'Sin color', icon: 'pi pi-fw pi-times', command: (e) => {this.clickColorMenu(0);}},
-      {label: '', icon: 'pi pi-fw context-menu-color-1', command: (e) => {this.clickColorMenu(1);}},
+      {label: 'Otros', icon: 'pi pi-fw context-menu-color-1', command: (e) => {this.clickColorMenu(1);}},
       {label: 'Baja médica', icon: 'pi pi-fw context-menu-color-2', command: (e) => {this.clickColorMenu(2);}},
       {label: 'Contactar', icon: 'pi pi-fw context-menu-color-3', command: (e) => {this.clickColorMenu(3);}},
       {label: 'Errores GTE', icon: 'pi pi-fw context-menu-color-4', command: (e) => {this.clickColorMenu(4);}},
       {label: 'Sin código proyecto', icon: 'pi pi-fw context-menu-color-5', command: (e) => {this.clickColorMenu(5);}},
       {label: 'Problemas PON', icon: 'pi pi-fw context-menu-color-6', command: (e) => {this.clickColorMenu(6);}},
-      {label: 'Corregido', icon: 'pi pi-fw context-menu-color-7', command: (e) => {this.clickColorMenu(7);}}
+      {label: 'Corregido', icon: 'pi pi-fw context-menu-color-7', command: (e) => {this.clickColorMenu(7);}},
+      {label: 'Bench', icon: 'pi pi-fw context-menu-color-8', command: (e) => {this.clickColorMenu(8);}}
     ];
   }
 
@@ -129,6 +135,7 @@ export class EvidenceListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserCenter();
+    
     this.getProperties();
     this.getData();
 
@@ -167,6 +174,7 @@ export class EvidenceListComponent implements OnInit {
     else if (rowColor == 'row-color-5') color = 'FFFF00';
     else if (rowColor == 'row-color-6') color = 'CCCCFF';
     else if (rowColor == 'row-color-7') color = '00B050';
+    else if (rowColor == 'row-color-8') color = 'bebebe';
     else return;
 
     let style = {
@@ -190,26 +198,30 @@ export class EvidenceListComponent implements OnInit {
     worksheet['L'+rowIndex].s = style;
     worksheet['M'+rowIndex].s = style;
     worksheet['N'+rowIndex].s = style;
+    worksheet['O'+rowIndex].s = style;
+    worksheet['P'+rowIndex].s = style;
 
   }
 
   exportarDatos() : void {
     
     let json = this.table.dataToRender.map(item => ({
+        Recurrente: item.recurrence ? 'Si' : '',
         Saga: item.saga,
         Nombre: item.name,
         Apellidos: item.lastName,
         Email: item.email,
         Responsables: item.manager,
         Proyectos: item.project,
+        Clientes: item.client,
         Geografia: item.geografia,
-        [this.cols[7].header]: item.evidenceTypeW1,
-        [this.cols[8].header]: item.evidenceTypeW2,
-        [this.cols[9].header]: item.evidenceTypeW3,
-        [this.cols[10].header]: item.evidenceTypeW4,
-        [this.cols[11].header]: item.evidenceTypeW5,
-        [this.cols[12].header]: item.evidenceTypeW6,
-        Comentario: item.comment != null ? item.comment.comment : null,
+        [this.cols[8].header]: item.evidenceTypeW1,
+        [this.cols[9].header]: item.evidenceTypeW2,
+        [this.cols[10].header]: item.evidenceTypeW3,
+        [this.cols[11].header]: item.evidenceTypeW4,
+        [this.cols[12].header]: item.evidenceTypeW5,
+        [this.cols[13].header]: item.evidenceTypeW6,
+        Comentario: item.comment != null ? item.comment.comment : '',
     }));
     
 
@@ -229,10 +241,12 @@ export class EvidenceListComponent implements OnInit {
     }
     
     var wscols = [
-      { width: objectMaxLength[0] }, 
+      { width: 10 },
       { width: objectMaxLength[1] }, 
       { width: objectMaxLength[2] }, 
-      { width: objectMaxLength[3] },
+      { width: objectMaxLength[3] }, 
+      { width: objectMaxLength[4] },
+      { width: 50 },
       { width: 50 },
       { width: 50 },
       { width: 12 },
@@ -310,6 +324,8 @@ export class EvidenceListComponent implements OnInit {
             geografia: e.person.center?.name,
             manager: e.manager,
             project: e.project,
+            client: e.client,
+            recurrence: e.recurrence,
             evidenceTypeW1: (e.evidenceTypeW1 != null) ? e.evidenceTypeW1.name : "", 
             evidenceTypeW2: (e.evidenceTypeW2 != null) ? e.evidenceTypeW2.name : "",
             evidenceTypeW3: (e.evidenceTypeW3 != null) ? e.evidenceTypeW3.name : "", 
@@ -362,7 +378,7 @@ export class EvidenceListComponent implements OnInit {
 
           if (res.key == "LOAD_WEEKS") {
             this.loadWeeks = parseInt(res.value);
-            let indexOfWeek1 = 7;
+            let indexOfWeek1 = 9;
 
             for (let i = this.loadWeeks; i < 6; i++) {
               this.cols[indexOfWeek1+i].class += ' hidden';
@@ -370,7 +386,7 @@ export class EvidenceListComponent implements OnInit {
           }
 
           else if (res.key == "LOAD_USERNAME") {
-            this.loadUser = res.value;
+            this.loadUser = res.value; 
           }
 
           else if (res.key == "LOAD_DATE") {
@@ -396,12 +412,12 @@ export class EvidenceListComponent implements OnInit {
              
               value = value.replace(" - ", "  ");
               value = `${moment(value.split(" ")[0], "DD-MMM-YYYY").format('DD')}-${moment(value.split(" ")[2], "DD-MMM-YYYY").format('DD MMM')}`
-              this.weeks = this.cols.slice(7, this.cols.length);
+              this.weeks = this.cols.slice(9, this.cols.length);
               this.weeks[weekNumber-1].header = value;
             }
           }
         });
-        this.cols = this.cols.slice(0, 7).concat(this.weeks);
+        this.cols = this.cols.slice(0, 9).concat(this.weeks);
       }
     });
   }
@@ -477,4 +493,23 @@ export class EvidenceListComponent implements OnInit {
     });
   }
 
+
+  enableRecurrencePerson(personId, enable: boolean): void {
+    console.log(personId, enable);
+  }
+
+  cellClick(evidenceItem: EvidenceItemList, colName: string) {
+    
+    if (colName === 'recurrence') {
+      evidenceItem.recurrence = !evidenceItem.recurrence;
+      this.recurrenceService.save(evidenceItem.personId, evidenceItem.recurrence).subscribe();
+      return;
+    }
+
+    if (colName === 'comment') {
+      this.showComment(evidenceItem.personId, evidenceItem.name, evidenceItem.lastName, evidenceItem.comment);
+      return;
+    }
+
+  }
 }

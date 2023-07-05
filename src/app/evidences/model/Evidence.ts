@@ -9,6 +9,8 @@ export class Evidence {
     comment: Comment;
     manager: String;
     project: String;
+    client: String;
+    recurrence: boolean;
     evidenceTypeW1: EvidenceType;
     evidenceTypeW2: EvidenceType;
     evidenceTypeW3: EvidenceType;

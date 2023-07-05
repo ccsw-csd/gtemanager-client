@@ -47,7 +47,7 @@ body {
 /* Estilos de la ventana fileupload */ 
 .p-fileupload-buttonbar {
     border: 0px !important;
-}ç
+}
 
 .p-fileupload {
     display: flex !important;
@@ -92,6 +92,10 @@ body {
 
 .h-2_5rem {
     height: 2.5rem;
+}
+
+.w-2_5rem {
+    width: 2.5rem;
 }
 
 .p-datatable-scrollable .p-datatable-wrapper {
@@ -215,6 +219,14 @@ p-autocomplete {
     border: solid 1px #009030;
 }   
 
+.context-menu-color-8 {
+    height: 20px;
+    background-color: #bebebe;
+    border: solid 1px #888888;
+}   
+
+
+
 .row-color-1 { background-color: #7F7F7F !important; }
 .row-color-2 { background-color: #4472C4 !important; }
 .row-color-3 { background-color: #FFC000 !important; }
@@ -222,3 +234,4 @@ p-autocomplete {
 .row-color-5 { background-color: #FFFF00 !important; }
 .row-color-6 { background-color: #CCCCFF !important; }
 .row-color-7 { background-color: #00B050 !important; }
+.row-color-8 { background-color: #bebebe !important; }

@@ -11,7 +11,9 @@ export class EvidenceItemList {
     geografia: string;
     manager: String;
     project: String;
+    client: String;
     comment: Comment;
+    recurrence: boolean;
     evidenceTypeW1: string;
     evidenceTypeW2: string;
     evidenceTypeW3: string;

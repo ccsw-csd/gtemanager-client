@@ -16,6 +16,8 @@ export class EvidenceUploadComponent implements OnInit {
     file: File;
     deleteComments: boolean;
     deleteColors: boolean;
+    deleteColorsGrey: boolean;
+    deleteRecurrence: boolean;
     isLoading: boolean;
 
     /**
@@ -39,6 +41,8 @@ export class EvidenceUploadComponent implements OnInit {
     ngOnInit(): void {
         this.deleteComments = false;
         this.deleteColors = false;
+        this.deleteColorsGrey = false;
+        this.deleteRecurrence = false;
         this.isLoading = false;
     }
 
@@ -51,6 +55,8 @@ export class EvidenceUploadComponent implements OnInit {
         this.file = event.currentFiles[0];
         this.deleteComments = false;
         this.deleteColors = false;
+        this.deleteColorsGrey = false;
+        this.deleteRecurrence = false;
     }
 
     /**
@@ -60,6 +66,8 @@ export class EvidenceUploadComponent implements OnInit {
         this.file = null;
         this.deleteComments = false;
         this.deleteColors = false;
+        this.deleteColorsGrey = false;
+        this.deleteRecurrence = false;
     }
 
     /**
@@ -75,6 +83,8 @@ export class EvidenceUploadComponent implements OnInit {
         formData.append("file", this.file);
         formData.append("deleteComments", JSON.stringify(this.deleteComments));
         formData.append("deleteColors", JSON.stringify(this.deleteColors));
+        formData.append("deleteColorsGrey", JSON.stringify(this.deleteColorsGrey));
+        formData.append("deleteRecurrence", JSON.stringify(this.deleteRecurrence));
         this.isLoading = true;
         this.evidenceService.uploadEvidence(formData).subscribe({
             next: result => {

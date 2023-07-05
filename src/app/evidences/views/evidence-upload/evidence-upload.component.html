@@ -8,14 +8,24 @@
         chooseLabel="Seleccionar archivo" [disabled]="this.isLoading">
     </p-fileUpload>
 
-    <div>
+    <div class="ml-3">
+        <p-checkbox name="deleteRecurrence" class="mt-3" label="Eliminar los marcadores de incumplimiento de fecha recurrente"
+        [(ngModel)]="deleteRecurrence" [binary]="true" [disabled]="this.file == null || this.isLoading"></p-checkbox>
+    </div>
+
+    <div class="ml-3">
         <p-checkbox name="deleteComments" class="mt-3" label="Eliminar comentarios de las evidencias"
         [(ngModel)]="deleteComments" [binary]="true" [disabled]="this.file == null || this.isLoading"></p-checkbox>
     </div>
 
-    <div>
+    <div class="ml-3">
         <p-checkbox name="deleteColors" class="mt-3" label="Eliminar colores de las evidencias"
         [(ngModel)]="deleteColors" [binary]="true" [disabled]="this.file == null || this.isLoading"></p-checkbox>
+    </div>
+
+    <div class="ml-3">
+        <p-checkbox name="deleteColors" class="mt-3 ml-4" label="Eliminar también el color gris"
+        [(ngModel)]="deleteColorsGrey" [binary]="true" [disabled]="deleteColors == false"></p-checkbox>
     </div>
 </div>
 
