@@ -215,12 +215,12 @@ export class EvidenceListComponent implements OnInit {
         Proyectos: item.project,
         Clientes: item.client,
         Geografia: item.geografia,
-        [this.cols[8].header]: item.evidenceTypeW1,
-        [this.cols[9].header]: item.evidenceTypeW2,
-        [this.cols[10].header]: item.evidenceTypeW3,
-        [this.cols[11].header]: item.evidenceTypeW4,
-        [this.cols[12].header]: item.evidenceTypeW5,
-        [this.cols[13].header]: item.evidenceTypeW6,
+        [this.cols[9].header]: item.evidenceTypeW1,
+        [this.cols[10].header]: item.evidenceTypeW2,
+        [this.cols[11].header]: item.evidenceTypeW3,
+        [this.cols[12].header]: item.evidenceTypeW4,
+        [this.cols[13].header]: item.evidenceTypeW5,
+        [this.cols[14].header]: item.evidenceTypeW6,
         Comentario: item.comment != null ? item.comment.comment : '',
     }));
     
