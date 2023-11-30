@@ -1,15 +1,15 @@
 <div class="flex-column {{contentWindowClass}}">
 
-    <div class="flex align-content-center justify-content-between">
+    <div class="flex align-content-center justify-content-between gap-5">
         <div class="border-dashed border-1 border-500 px-5 py-2 align-self-center">
             <div> Última carga: {{loadDate | date:'dd/LL/YYYY HH:mm:ss'}} - {{loadUser}} </div>
         </div>
-        <div class="flex">
+        <div class="flex flex-wrap gap-2">
             <!-- Botones de acción -->
-            <button #b pButton type="button" class="p-button-outlined mr-2" (click)="importarDatos()">Importar datos</button>
-            <button #b pButton type="button" class="p-button-outlined mr-2" (click)="importarManagers()">Importar responsables</button>
-            <button #b pButton type="button" class="p-button-outlined mr-2" (click)="evidenceEmails()">Notificar pendientes</button>
-            <button #b pButton type="button" class="p-button-outlined" (click)="exportarDatos()">Exportar Excel</button>
+            <button #b pButton type="button" class="p-button mr-2" (click)="importarDatos()">Importar datos</button>
+            <button #b pButton type="button" class="p-button mr-2" (click)="importarManagers()">Importar responsables</button>
+            <button #b pButton type="button" class="p-button mr-2" (click)="evidenceEmails()">Notificar pendientes</button>
+            <button #b pButton type="button" class="p-button" (click)="exportarDatos()">Exportar Excel</button>
         </div>
     </div>
     <div class="mt-3 flex-1 flex-row justify-content-start">
@@ -24,62 +24,62 @@
 
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th *ngFor="let col of columns" pSortableColumn="{{col.field}}" class="{{col.class}}">
+                    <th *ngFor="let col of columns" pSortableColumn="{{col.field}}" class="{{col.class}} top-header">
 
                         <span *ngIf="col.icon" class="material-icons outlined size-18 color-gray" data-toggle="tooltip" data-placement="top" title="Es recurrente">{{col.header}}</span>
                         <span *ngIf="!col.icon">
                             {{col.header}}
                         </span>
-                         <p-sortIcon field="{{col.field}}" style="width: 20px;"></p-sortIcon>
+                         <p-sortIcon field="{{col.field}}"></p-sortIcon>
                     </th>
                     <th style="flex: 0 0 68px;"></th>
                 </tr>
                 <tr class="filter">
-                    <th class="{{cols[0].class}}">
+                    <th class="{{cols[0].class}} foot-header">
                     </th>
-                    <th class="{{cols[1].class}}">
+                    <th class="{{cols[1].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'saga', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[2].class}}">
+                    <th class="{{cols[2].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'name', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[3].class}}">
+                    <th class="{{cols[3].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'lastName', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[4].class}}">
+                    <th class="{{cols[4].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'email', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[5].class}}">
+                    <th class="{{cols[5].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'manager', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[6].class}}">
+                    <th class="{{cols[6].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'project', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[7].class}}">
+                    <th class="{{cols[7].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'client', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[8].class}}">
+                    <th class="{{cols[8].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText [value]="centerSelected" type="text" (input)="el.filter($event.target.value, 'geografia', 'contains'); centerSelected=$event.target.value" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[9].class}}">
+                    <th class="{{cols[9].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW1', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[10].class}}">
+                    <th class="{{cols[10].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW2', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[11].class}}">
+                    <th class="{{cols[11].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW3', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[12].class}}">
+                    <th class="{{cols[12].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW4', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[13].class}}">
+                    <th class="{{cols[13].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW5', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th class="{{cols[14].class}}">
+                    <th class="{{cols[14].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'evidenceTypeW6', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th style="flex: 0 0 68px;">
+                    <th style="flex: 0 0 68px; justify-content: flex-end;" class="foot-header">
                         <span class="material-icons" style="cursor:pointer"  data-toggle="tooltip" data-placement="top" title="Filtrar color" 
                             (click)="op.toggle($event)">app_registration</span>
 
@@ -100,11 +100,11 @@
             <ng-template pTemplate="body" let-evidenceItem let-columns="columns">
                 <tr [pContextMenuRow]="evidenceItem" class="{{evidenceItem.rowColor}}">
                     <td *ngFor="let col of columns" [pTooltip]="col.field === 'manager' || col.field === 'project' || col.field === 'client' ? evidenceItem[col.field] : null" [style.color]="evidenceItem.id % 2 == 0 ? red : green"
-                        class="{{col.class}} h-2_5rem white-space-normal overflow-hidden text-overflow-clip" (click)="cellClick(evidenceItem, col.field)">
+                        class="{{col.class}} h-2_5rem white-space-normal overflow-hidden text-overflow-clip" style="min-width: 50px;"  (click)="cellClick(evidenceItem, col.field)">
                         <span *ngIf="col.field === 'recurrence' && evidenceItem[col.field] == true" class="material-icons outlined size-18 color-gray" data-toggle="tooltip" data-placement="top" title="Es recurrente">history</span>
                         <span *ngIf="col.field !== 'recurrence'">{{evidenceItem[col.field]}}</span>
                     </td>
-                    <td style="flex: 0 0 68px" class=" h-2_5rem">
+                    <td style="flex: 0 0 68px; justify-content: flex-end;" class=" h-2_5rem">
                         <span *ngIf="evidenceItem.comment == null" class="material-icons outlined size-18 color-gray" data-toggle="tooltip" data-placement="top" 
                             title="Crear comentario" (click)="cellClick(evidenceItem, 'comment')">chat_bubble_outline</span>
                         

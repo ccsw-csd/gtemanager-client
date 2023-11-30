@@ -1,14 +1,14 @@
 <div class="mt-3 flex-1 flex-row justify-content-start">
-    <p-table class="flex-1" [value]="errors" [loading]="isLoading" [scrollable]="true" 
+    <p-table class="flex-1" styleClass="p-datatable-striped" [value]="errors" [loading]="isLoading" [scrollable]="true" 
         scrollHeight="calc(100vh - 200px)" responsiveLayout="scroll" sortField="email" [sortOrder]="1" selectionMode="single">
         <ng-template pTemplate="header" let-columns>
             <tr>
-                <th pSortableColumn="name" class="w-25rem flex-none"> Nombre <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="saga" class="w-5rem flex-none"> Saga <p-sortIcon field="saga"></p-sortIcon></th>
-                <th pSortableColumn="email" class="w-25rem flex-none"> Email <p-sortIcon field="email"></p-sortIcon></th>
-                <th pSortableColumn="period" class="w-14rem flex-none"> Periodo <p-sortIcon field="period"></p-sortIcon></th>
-                <th pSortableColumn="period" class="w-6rem flex-none"> Tipo <p-sortIcon field="status"></p-sortIcon></th>
-                <th pSortableColumn="error_message" class="flex-1"> Mensaje <p-sortIcon field="error_message"></p-sortIcon></th>
+                <th pSortableColumn="name" class="w-25rem flex-none top-header"><span>Nombre</span><p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="saga" class="w-5rem flex-none top-header"><span>Saga</span><p-sortIcon field="saga"></p-sortIcon></th>
+                <th pSortableColumn="email" class="w-25rem flex-none top-header"><span>Email</span><p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="period" class="w-14rem flex-none top-header"><span>Periodo</span><p-sortIcon field="period"></p-sortIcon></th>
+                <th pSortableColumn="period" class="w-6rem flex-none top-header"><span>Tipo</span><p-sortIcon field="status"></p-sortIcon></th>
+                <th pSortableColumn="error_message" class="flex-1 top-header"><span>Mensaje</span><p-sortIcon field="error_message"></p-sortIcon></th>
                 <th style="flex: 0 0 34px;"></th>
             </tr>
         </ng-template>
@@ -20,7 +20,7 @@
                 <td class="w-14rem flex-none">{{error.period}}</td>
                 <td class="w-6rem flex-none">{{error.status}}</td>
                 <td class="flex-1">{{error.message}}</td>
-                <td style="flex: 0 0 68px" class=" h-2_5rem">
+                <td style="flex: 0 0 68px; justify-content: flex-end;" class=" h-2_5rem">
                     <span class="material-icons outlined size-18 color-gray" data-toggle="tooltip" data-placement="top" title="Corregir datos" (click)="validateError(error)">start</span>
                 </td>                
             </tr>

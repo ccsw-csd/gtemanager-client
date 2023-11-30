@@ -11,5 +11,18 @@
     width: calc(100vw - 50px);
 }
 
+.top-header{
+    min-width: 50px;
+    display: flex;
+    justify-content: flex-end;
+}
 
+.top-header>span{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 
+.foot-header{
+    min-width: 50px;
+}

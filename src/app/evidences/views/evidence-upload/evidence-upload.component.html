@@ -31,8 +31,8 @@
 
 <!-- Sección botones de acción -->
 <div class="flex justify-content-end gap-3">
-    <button pButton label="Cancelar" class="p-button-secondary" (click)="onCancel()" [disabled]="this.isLoading"></button>
-    <button pButton label="Importar" class="p-button-primary" (click)="onImport()" [disabled]="this.file == null || this.deleteComments == null || this.isLoading"></button>
+    <button pButton label="Cancelar" class="p-button-secondary p-button-outlined" (click)="onCancel()" [disabled]="this.isLoading"></button>
+    <button pButton label="Importar" class="p-button" (click)="onImport()" [disabled]="this.file == null || this.deleteComments == null || this.isLoading"></button>
 </div>
 
 <!-- Mostrar animación en proceso de carga -->
