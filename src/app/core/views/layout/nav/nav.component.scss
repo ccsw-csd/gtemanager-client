@@ -15,9 +15,10 @@
     .p-menuitem {
       .p-menuitem-link {
         box-shadow: none;
+        height: 40px;
 
         .p-menuitem-text {
-          color: white;
+          color: #15011D !important;
         }
       }
       .p-menuitem-link:not(.p-disabled):hover {
@@ -30,8 +31,12 @@
       }
       .p-menuitem-link-active {
         background-color: transparent;
-        font-weight: bold;
-        border-left: 6px solid $background;
+        font-weight: 700;
+        border-left: 6px solid #0070AD !important;
+
+        .p-menuitem-text{
+          color: #0070AD !important;
+        }
      }
     }   
   }
