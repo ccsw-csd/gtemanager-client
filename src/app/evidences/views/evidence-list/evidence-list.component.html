@@ -6,10 +6,9 @@
         </div>
         <div class="flex flex-wrap gap-2">
             <!-- Botones de acción -->
-            <button #b pButton type="button" class="p-button mr-2" (click)="importarDatos()">Importar datos</button>
-            <button #b pButton type="button" class="p-button mr-2" (click)="importarManagers()">Importar responsables</button>
-            <button #b pButton type="button" class="p-button mr-2" (click)="evidenceEmails()">Notificar pendientes</button>
-            <button #b pButton type="button" class="p-button" (click)="exportarDatos()">Exportar Excel</button>
+            <button #b pButton label="Importar datos" type="button" class="p-button-secondary p-button-outlined mr-2" (click)="importarDatos()"></button>
+            <button #b pButton label="Importar responsables" type="button" class="p-button-secondary p-button-outlined mr-2" (click)="importarManagers()"></button>
+            <button #b pButton label="Exportar Excel" type="button" class="p-button-secondary p-button-outlined" (click)="exportarDatos()"></button>
         </div>
     </div>
     <div class="mt-3 flex-1 flex-row justify-content-start">
