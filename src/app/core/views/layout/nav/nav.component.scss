@@ -12,10 +12,14 @@
     .p-submenu-icon, .p-slidemenu-backward{
       color: white;
     }
+    .p-slidemenu-wrapper, .p-slidemenu-wrapper ul{
+      width: 100% !important;
+    }
     .p-menuitem {
       .p-menuitem-link {
         box-shadow: none;
         height: 40px;
+        border-left: 6px solid #F2F2F2 !important;
 
         .p-menuitem-text {
           color: #15011D !important;
@@ -23,11 +27,6 @@
       }
       .p-menuitem-link:not(.p-disabled):hover {
         background-color: rgba(0,0,0,.04);
-
-        .p-menuitem-text, .p-submenu-icon, .p-slidemenu-backward {
-          color: white;
-          padding-left: 2px;
-        }
       }
       .p-menuitem-link-active {
         background-color: transparent;
