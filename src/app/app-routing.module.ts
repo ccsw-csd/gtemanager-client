@@ -5,6 +5,7 @@ import { LayoutComponent } from './core/views/layout/layout.component';
 import { LoginComponent } from './login/views/login/login.component';
 import { EvidenceListComponent } from './evidences/views/evidence-list/evidence-list.component';
 import { ErrorListComponent } from './evidences/views/error-list/error-list.component';
+import { DashboardMainComponent } from './dashboard/views/dashboard-main/dashboard-main.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
     children: [
       { path: 'main', component: EvidenceListComponent },
       { path: 'errors', component: ErrorListComponent},
+      { path: 'dashboard', component: DashboardMainComponent},
       { path: '**', redirectTo: 'main', pathMatch: 'full' },
     ]
   },  

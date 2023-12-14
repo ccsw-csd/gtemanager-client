@@ -8,6 +8,7 @@ import { LoginModule } from './login/login.module';
 import { EvidencesModule } from './evidences/evidences.module';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 
 registerLocaleData(localeEs,'es');
@@ -22,7 +23,8 @@ registerLocaleData(localeEs,'es');
     BrowserAnimationsModule,
     CoreModule,
     LoginModule,
-    EvidencesModule
+    EvidencesModule,
+    DashboardModule,
   ],
   providers: [
     DatePipe
