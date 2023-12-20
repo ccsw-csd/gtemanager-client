@@ -29,12 +29,15 @@ export class DashboardMainComponent implements OnInit {
 
     Chart.register(ChartDataLabels);
 
+    /*
     setTimeout(() => {
 
       this.generateDataChart(this.dataRaw.clients, true);
-      this.generateDataChart(this.dataRaw.persons, false);
+      //this.generateDataChart(this.dataRaw.persons, false);
     }, 100);
     return;
+    */
+   
     this.dashboardService.getData().subscribe((res) => {
       this.generateDataChart(res.clients, true);
     });
