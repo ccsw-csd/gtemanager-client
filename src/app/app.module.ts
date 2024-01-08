@@ -9,6 +9,12 @@ import { EvidencesModule } from './evidences/evidences.module';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { RefreshTokenResolverService } from './core/services/refresh-token-resolver.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
+import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+import { HttpInterceptorService } from './core/services/http-interceptor.service';
 
 
 registerLocaleData(localeEs,'es');
@@ -27,6 +33,13 @@ registerLocaleData(localeEs,'es');
     DashboardModule,
   ],
   providers: [
+    HttpClientModule,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService,
+    DialogService,
+    MessageService,
+    RefreshTokenResolverService,
     DatePipe
   ],
   bootstrap: [AppComponent]

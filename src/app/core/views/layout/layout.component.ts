@@ -25,7 +25,8 @@ export class LayoutComponent implements OnInit {
     this.authService.registerAccess().subscribe();
 
     this.activatedRoute.data.subscribe(response => { 
-      this.loadDetailedUserInfo(response);
+      this.authService.refreshToken(response.credentials);
+      //this.loadDetailedUserInfo(response);
     }); 
   }
 

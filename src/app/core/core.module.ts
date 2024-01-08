@@ -2,24 +2,22 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HttpInterceptorService } from './services/http-interceptor.service';
-import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { SidebarModule } from 'primeng/sidebar';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import {MenuModule} from 'primeng/menu';
-import { MessageService } from 'primeng/api';
 
 import { LayoutComponent } from './views/layout/layout.component';
 import { HeaderComponent } from './views/layout/header/header.component';
 import { NavComponent } from './views/layout/nav/nav.component';
-
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 
 @NgModule({
@@ -40,15 +38,10 @@ import { NavComponent } from './views/layout/nav/nav.component';
     ButtonModule,
     TooltipModule,
     MenuModule,
-    SlideMenuModule
+    SlideMenuModule,
+    PanelMenuModule,
+    OverlayPanelModule
   ],
-  providers: [
-    HttpClientModule,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-    JwtHelperService,
-    DialogService,
-    MessageService
-  ],
+  providers: [],
 })
 export class CoreModule { }

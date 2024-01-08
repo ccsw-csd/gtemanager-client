@@ -6,12 +6,14 @@ import { LoginComponent } from './login/views/login/login.component';
 import { EvidenceListComponent } from './evidences/views/evidence-list/evidence-list.component';
 import { ErrorListComponent } from './evidences/views/error-list/error-list.component';
 import { DashboardMainComponent } from './dashboard/views/dashboard-main/dashboard-main.component';
+import { RefreshTokenResolverService } from './core/services/refresh-token-resolver.service';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: '',
     component: LayoutComponent,
+    resolve: {credentials: RefreshTokenResolverService},
     canActivate: [AuthGuard],
     children: [
       { path: 'main', component: EvidenceListComponent },
