@@ -1,0 +1,27 @@
+<p-table #el class="flex-1" [value]="data" [scrollable]="true" [autoLayout]="true" scrollHeight="calc(90vh - 150px)" responsiveLayout="scroll" sortField="dataRaw"
+    [sortOrder]="1" styleClass="p-datatable-striped" selectionMode="single">
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th class="top-header flex-none w-8rem pl-3"><span>Alta</span></th>
+            <th class="top-header flex flex-1 pl-3"><span>Comentarios</span></th>
+            <th class="top-header flex-none w-14rem pl-3"><span>Responsables</span></th>
+            <th class="top-header flex-none w-14rem pl-3"><span>Proyectos</span></th>
+            <th class="top-header flex-none w-14rem pl-3"><span>Clientes</span></th>
+        </tr>        
+    </ng-template>
+
+    <ng-template pTemplate="body" let-item let-columns="columns">
+        <tr>
+            <td class="flex-none w-8rem h-2_5rem white-space-nowrap overflow-hidden text-overflow-clip"><span>{{item.dateRaw | date:'dd/LL/YYYY'}}</span></td>
+            <td class="flex flex-1 h-2_5rem white-space-nowrap overflow-hidden text-overflow-clip" [pTooltip]="item.comment"><span>{{item.comment}}</span></td>
+            <td class="flex-none w-14rem h-2_5rem white-space-nowrap overflow-hidden text-overflow-clip" [pTooltip]="item.manager"><span>{{item.manager}}</span></td>
+            <td class="flex-none w-14rem h-2_5rem white-space-nowrap overflow-hidden text-overflow-clip" [pTooltip]="item.project"><span>{{item.project}}</span></td>
+            <td class="flex-none w-14rem h-2_5rem white-space-nowrap overflow-hidden text-overflow-clip" [pTooltip]="item.client"><span>{{item.client}}</span></td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<div class="flex justify-content-end gap-3 mt-3">
+    <button type="button" pButton label="Cerrar" class="p-button" (click)="onClose()"></button>
+</div>

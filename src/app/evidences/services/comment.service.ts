@@ -21,4 +21,9 @@ export class CommentService {
     saveComment(comment: Comment): Observable<void> {
         return this.http.put<void>(environment.server + "/comment", comment);
     }
+
+
+    deleteComment(id: number): Observable<void> {
+        return this.http.delete<void>(environment.server + "/comment/"+id);
+    }
 }

@@ -22,6 +22,7 @@ import { OverlayPanel } from 'primeng/overlaypanel';
 import { EvidenceManagerUploadComponent } from '../evidence-manager-upload/evidence-manager-upload.component';
 import { timer } from 'rxjs';
 import { RecurrenceService } from '../../services/recurrence.service';
+import { EvidenceRecurrenceSaveComponent } from '../evidence-recurrence-save/evidence-recurrence-save.component';
 
 /**
  * EvidenceListComponent: componente de lista de evidencias.
@@ -34,6 +35,8 @@ import { RecurrenceService } from '../../services/recurrence.service';
 })
 export class EvidenceListComponent implements OnInit {
 
+  totalPersons: number;
+
   @ViewChild('el') table: Table;
   contentWindowClass: String = "content-menu-close";
 
@@ -42,8 +45,6 @@ export class EvidenceListComponent implements OnInit {
   isLoading: boolean = false;
   selectedEvidenceItem: EvidenceItemList;
 
-  localizaciones: Center[];
-  
   properties: Properties[];
   loadWeeks: number;
   loadDate: Date;
@@ -55,16 +56,17 @@ export class EvidenceListComponent implements OnInit {
 
   filterColours = [
     {code: 'row-color-none', name: 'Sin color', color: 'context-menu-color-none'},
-    {code: 'row-color-1', name: 'Otros', color: 'context-menu-color-1'},
+    {code: 'row-color-1', name: 'Baja compañía', color: 'context-menu-color-1'},
     {code: 'row-color-2', name: 'Baja médica', color: 'context-menu-color-2'},
-    {code: 'row-color-3', name: 'Contactar', color: 'context-menu-color-3'},
+    {code: 'row-color-3', name: 'Pdte. contactar', color: 'context-menu-color-3'},
+    {code: 'row-color-3b', name: 'Avisado', color: 'context-menu-color-3b'},
     {code: 'row-color-4', name: 'Errores GTE', color: 'context-menu-color-4'},
     {code: 'row-color-5', name: 'Sin código proyecto', color: 'context-menu-color-5'},
     {code: 'row-color-6', name: 'Problemas PON', color: 'context-menu-color-6'},
     {code: 'row-color-7', name: 'Corregido', color: 'context-menu-color-7'},
     {code: 'row-color-8', name: 'Bench', color: 'context-menu-color-8'},
   ];
-  selectedColours: string[] = ['row-color-none', 'row-color-1', 'row-color-2', 'row-color-3', 'row-color-4', 'row-color-5', 'row-color-6', 'row-color-7', 'row-color-8'];
+  selectedColours: string[] = ['row-color-none', 'row-color-1', 'row-color-2', 'row-color-3', 'row-color-3b', 'row-color-4', 'row-color-5', 'row-color-6', 'row-color-7', 'row-color-8'];
 
   centerSelected: String;
 
@@ -113,9 +115,10 @@ export class EvidenceListComponent implements OnInit {
 
     this.items = [
       {label: 'Sin color', icon: 'pi pi-fw pi-times', command: (e) => {this.clickColorMenu(0);}},
-      {label: 'Otros', icon: 'pi pi-fw context-menu-color-1', command: (e) => {this.clickColorMenu(1);}},
+      {label: 'Baja compañía', icon: 'pi pi-fw context-menu-color-1', command: (e) => {this.clickColorMenu(1);}},
       {label: 'Baja médica', icon: 'pi pi-fw context-menu-color-2', command: (e) => {this.clickColorMenu(2);}},
-      {label: 'Contactar', icon: 'pi pi-fw context-menu-color-3', command: (e) => {this.clickColorMenu(3);}},
+      {label: 'Pdte. contactar', icon: 'pi pi-fw context-menu-color-3', command: (e) => {this.clickColorMenu(3);}},
+      {label: 'Avisado', icon: 'pi pi-fw context-menu-color-3b', command: (e) => {this.clickColorMenu('3b');}},
       {label: 'Errores GTE', icon: 'pi pi-fw context-menu-color-4', command: (e) => {this.clickColorMenu(4);}},
       {label: 'Sin código proyecto', icon: 'pi pi-fw context-menu-color-5', command: (e) => {this.clickColorMenu(5);}},
       {label: 'Problemas PON', icon: 'pi pi-fw context-menu-color-6', command: (e) => {this.clickColorMenu(6);}},
@@ -170,6 +173,7 @@ export class EvidenceListComponent implements OnInit {
     if (rowColor == 'row-color-1') color = '7F7F7F';
     else if (rowColor == 'row-color-2') color = '4472C4';
     else if (rowColor == 'row-color-3') color = 'FFC000';
+    else if (rowColor == 'row-color-3b') color = 'FFC099';
     else if (rowColor == 'row-color-4') color = 'FF0000';
     else if (rowColor == 'row-color-5') color = 'FFFF00';
     else if (rowColor == 'row-color-6') color = 'CCCCFF';
@@ -211,9 +215,9 @@ export class EvidenceListComponent implements OnInit {
         Nombre: item.name,
         Apellidos: item.lastName,
         Email: item.email,
-        Responsables: item.manager,
-        Proyectos: item.project,
-        Clientes: item.client,
+        Responsables: item.manager ? item.manager : '',
+        Proyectos: item.project ? item.project : '',
+        Clientes: item.client ? item.client: '',
         Geografia: item.geografia,
         [this.cols[9].header]: item.evidenceTypeW1,
         [this.cols[10].header]: item.evidenceTypeW2,
@@ -260,18 +264,18 @@ export class EvidenceListComponent implements OnInit {
     ];
 
 
-      const worksheet = XLSX.utils.json_to_sheet(json);
-      worksheet["!cols"] = wscols;
-      
+    const worksheet = XLSX.utils.json_to_sheet(json);
+    worksheet["!cols"] = wscols;
+    
 
-      for (let i = 0; i < this.table.dataToRender.length; i++) {
-        let rowColor = this.table.dataToRender[i].rowColor;
-        if (rowColor) this.changeRowColor(worksheet, i+2, rowColor);
-      }
+    for (let i = 0; i < this.table.dataToRender.length; i++) {
+      let rowColor = this.table.dataToRender[i].rowColor;
+      if (rowColor) this.changeRowColor(worksheet, i+2, rowColor);
+    }
 
-      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, "evidencias");
+    const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, "evidencias");
 
   }
 
@@ -313,6 +317,7 @@ export class EvidenceListComponent implements OnInit {
       },
       error: () => {},
       complete: ()  => {
+        this.totalPersons = this.evidenceList.length;
         this.isLoading = false;
         this.evidenceList.forEach(e => {
           this.data.push({
@@ -342,6 +347,12 @@ export class EvidenceListComponent implements OnInit {
         } 
       }
     });
+  }
+
+  onFilter(event) {
+    setTimeout(() => {
+      this.totalPersons = event.filteredValue.length;
+    }, 0);
   }
 
   refreshData(): void {
@@ -494,10 +505,6 @@ export class EvidenceListComponent implements OnInit {
   }
 
 
-  enableRecurrencePerson(personId, enable: boolean): void {
-    console.log(personId, enable);
-  }
-
   cellClick(evidenceItem: EvidenceItemList, colName: string) {
     
     if (colName === 'recurrence') {
@@ -510,6 +517,21 @@ export class EvidenceListComponent implements OnInit {
       this.showComment(evidenceItem.personId, evidenceItem.name, evidenceItem.lastName, evidenceItem.comment);
       return;
     }
+
+  }
+
+
+  guardarBlacklist(): void {
+
+    let filterData = this.data.filter(item => item.recurrence);
+
+    const ref = this.dialogService.open(EvidenceRecurrenceSaveComponent, {
+      header: "Guardar información en la Blacklist",
+      height: "220px",
+      width: "550px",
+      data: {persons: filterData, loadDate: this.loadDate},
+      closable: false
+    });
 
   }
 }

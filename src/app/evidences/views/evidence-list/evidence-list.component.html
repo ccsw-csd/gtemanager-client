@@ -1,23 +1,40 @@
 <div class="flex-column {{contentWindowClass}}">
 
-    <div class="flex align-content-center justify-content-between gap-5">
+    <h3 class="mt-0">Evidencias del mes</h3>
+
+    <div class="flex align-content-center gap-5">
+
         <div class="border-dashed border-1 border-500 px-5 py-2 align-self-center">
             <div> Última carga: {{loadDate | date:'dd/LL/YYYY HH:mm:ss'}} - {{loadUser}} </div>
         </div>
+
+        <div class="flex h-2rem gap-2 border-round-2xl align-items-center mt-2" style="background-color:#e7edef">
+            <div class="pl-3">
+                <i class="pi pi-users text-xl text-primary"></i>
+            </div>
+            <div class="flex flex-row align-items-center gap-1 text-sm mr-4">
+                <p>{{totalPersons}}</p>Personas
+            </div>
+        </div>
+
+        <div class="flex flex-1"></div>
+
         <div class="flex flex-wrap gap-2">
             <!-- Botones de acción -->
-            <button #b pButton label="Importar datos" type="button" class="p-button-secondary p-button-outlined mr-2" (click)="importarDatos()"></button>
+            <button #b pButton label="Importar datos" type="button" class="p-button p-button-outlined mr-2" (click)="importarDatos()"></button>
             <button #b pButton label="Importar responsables" type="button" class="p-button-secondary p-button-outlined mr-2" (click)="importarManagers()"></button>
             <button #b pButton label="Exportar Excel" type="button" class="p-button-secondary p-button-outlined" (click)="exportarDatos()"></button>
+            <button #b pButton label="Guardar Blacklist" type="button" class="p-button-secondary p-button-outlined mr-2" (click)="guardarBlacklist()"></button>
         </div>
+
     </div>
     <div class="mt-3 flex-1 flex-row justify-content-start">
 
         <p-contextMenu #cm [model]="items"></p-contextMenu> 
 
         <!-- Tabla - center -->
-        <p-table #el class="flex-1" [columns]="cols" [value]="data" [loading]="isLoading" [scrollable]="true"
-            [autoLayout]="true" scrollHeight="calc(100vh - 170px)" responsiveLayout="scroll" sortField="email"
+        <p-table #el class="flex-1" [columns]="cols" [value]="data" [loading]="isLoading" [scrollable]="true" (onFilter)="onFilter($event)" 
+            [autoLayout]="true" scrollHeight="calc(100vh - 210px)" responsiveLayout="scroll" sortField="email"
             [sortOrder]="1" styleClass="p-datatable-striped" [globalFilterFields]="['saga', 'name','lastName', 'manager','project', 'email']"
             selectionMode="single" [contextMenu]="cm" [(contextMenuSelection)]="selectedEvidenceItem">
 
@@ -84,11 +101,12 @@
 
                         <p-overlayPanel #op>
                             <ng-template pTemplate>
-
-                                <div class="field-checkbox" *ngFor="let color of filterColours">                                
-                                    <p-checkbox (click)="selectColor(color)" name="group1" value="{{color.code}}" [(ngModel)]="selectedColours" inputId="{{color.code}}"></p-checkbox>
-                                    <label for="{{color.code}}"><span [ngClass]="color.color">&nbsp;&nbsp;&nbsp;&nbsp;</span> {{color.name}}</label>
-                                    
+                                <div class="m-3">
+                                    <div class="field-checkbox" *ngFor="let color of filterColours">                                
+                                        <p-checkbox (click)="selectColor(color)" name="group1" value="{{color.code}}" [(ngModel)]="selectedColours" inputId="{{color.code}}"></p-checkbox>
+                                        <label for="{{color.code}}"><span [ngClass]="color.color">&nbsp;&nbsp;&nbsp;&nbsp;</span> {{color.name}}</label>
+                                        
+                                    </div>
                                 </div>
                             </ng-template>
                         </p-overlayPanel>                   

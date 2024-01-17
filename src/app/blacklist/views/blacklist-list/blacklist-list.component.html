@@ -1,0 +1,98 @@
+
+
+<div class="flex-column {{contentWindowClass}}">
+
+    <h3 class="mt-0">Blacklist de recurrencias</h3>
+
+
+    <div class="flex align-content-center gap-5">
+
+        <div class="flex h-2rem gap-2 border-round-2xl align-items-center mt-2" style="background-color:#e7edef">
+            <div class="pl-3">
+                <i class="pi pi-users text-xl text-primary"></i>
+            </div>
+            <div class="flex flex-row align-items-center gap-1 text-sm mr-4">
+                <p>{{totalPersons}}</p>Personas
+            </div>
+        </div>
+
+        <div class="flex flex-1"></div>
+
+        <div class="flex flex-wrap gap-2">
+            <button #b pButton label="Exportar Excel" type="button" class="p-button-secondary p-button-outlined" (click)="exportarDatos()"></button>
+        </div>
+
+    </div>
+    <div class="mt-3 flex-1 flex-row justify-content-start">
+
+        <p-table #el class="flex-1" [columns]="cols" [value]="data" [loading]="isLoading" [scrollable]="true" (onFilter)="onFilter($event)" 
+            [autoLayout]="true" scrollHeight="calc(100vh - 220px)" responsiveLayout="scroll" sortField="email"
+            [sortOrder]="1" styleClass="p-datatable-striped" selectionMode="single">
+
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" pSortableColumn="{{col.fieldSort}}" class="{{col.class}} top-header">
+                        <span>
+                            {{col.header}}
+                        </span>
+                         <p-sortIcon field="{{col.field}}"></p-sortIcon>
+                    </th>
+                    <th style="flex: 0 0 68px;"></th>
+                </tr>
+                <tr class="filter">
+                    <th class="{{cols[0].class}} foot-header">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'saga', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[1].class}} foot-header">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'name', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[2].class}} foot-header">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'lastName', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[3].class}} foot-header">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'email', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[4].class}} foot-header">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'manager', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[5].class}} foot-header">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'project', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[6].class}} foot-header">
+                        <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'client', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[7].class}} foot-header">
+                        <input class="w-full h-1_5rem" pInputText [value]="centerSelected" type="text" (input)="el.filter($event.target.value, 'geografia', 'contains'); centerSelected=$event.target.value" placeholder="Buscar" />
+                    </th>
+                    <th class="{{cols[8].class}} foot-header">
+                        <input class="w-full h-1_5rem" pInputText [value]="monthSelected" type="text" (input)="el.filter($event.target.value, 'date', 'contains')" placeholder="Buscar" />
+                    </th>
+                    <th style="flex: 0 0 68px; justify-content: flex-end;" class="foot-header">
+                    </th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-item let-columns="columns">
+                <tr>
+                    <td *ngFor="let col of columns" [pTooltip]="col.field === 'manager' || col.field === 'project' || col.field === 'client' ? item[col.field] : null" [style.color]="item.id % 2 == 0 ? red : green"
+                        class="{{col.class}} h-2_5rem white-space-normal overflow-hidden text-overflow-clip" style="min-width: 50px;"  (click)="cellClick(item, col.field)">
+                        <span *ngIf="col.field === 'recurrence' && item[col.field] == true" class="material-icons outlined size-18 color-gray" data-toggle="tooltip" data-placement="top" title="Es recurrente">history</span>
+                        <span *ngIf="col.field !== 'recurrence'">{{item[col.field]}}</span>
+                    </td>
+                    <td style="flex: 0 0 68px; justify-content: flex-end;" class=" h-2_5rem gap-2">
+
+                        <span class="pi pi-eye" data-toggle="tooltip" data-placement="top" title="Ver historial" (click)="cellClick(item, 'history')"></span>
+
+                        <span *ngIf="item.comment == null" class="material-icons outlined size-18 color-gray" data-toggle="tooltip" data-placement="top" 
+                            title="Crear comentario" (click)="cellClick(item, 'comment')">chat_bubble_outline</span>
+                        
+                        <span *ngIf="item.comment != null" class="material-icons outlined size-18" data-toggle="tooltip" data-placement="top" 
+                            title="Editar comentario" (click)="cellClick(item, 'comment')">chat</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    
+</div>
+<p-toast position="top-center"></p-toast>

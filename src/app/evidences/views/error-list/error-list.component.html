@@ -1,6 +1,9 @@
-<div class="mt-3 flex-1 flex-row justify-content-start">
+<div class="flex-1 flex-row justify-content-start">
+
+    <h3 class="mt-0">Errores de carga</h3>
+
     <p-table class="flex-1" styleClass="p-datatable-striped" [value]="errors" [loading]="isLoading" [scrollable]="true" 
-        scrollHeight="calc(100vh - 200px)" responsiveLayout="scroll" sortField="email" [sortOrder]="1" selectionMode="single">
+        scrollHeight="calc(100vh - 150px)" responsiveLayout="scroll" sortField="email" [sortOrder]="1" selectionMode="single">
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th pSortableColumn="name" class="w-25rem flex-none top-header"><span>Nombre</span><p-sortIcon field="name"></p-sortIcon></th>

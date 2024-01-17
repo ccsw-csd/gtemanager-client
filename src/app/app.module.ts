@@ -15,6 +15,7 @@ import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { HttpInterceptorService } from './core/services/http-interceptor.service';
+import { BlacklistModule } from './blacklist/blacklist.module';
 
 
 registerLocaleData(localeEs,'es');
@@ -31,6 +32,7 @@ registerLocaleData(localeEs,'es');
     LoginModule,
     EvidencesModule,
     DashboardModule,
+    BlacklistModule,
   ],
   providers: [
     HttpClientModule,

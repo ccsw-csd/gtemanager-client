@@ -27,7 +27,8 @@ export class NavComponent implements OnInit {
     this.items = [
       {label: "Evidencias", routerLink: '/main'},
       {label: "Errores de carga", routerLink: '/errors'},
-      {label: "Dashboard", routerLink: '/dashboard'}
+      {label: "Dashboard", routerLink: '/dashboard'},
+      {label: "Blacklist", routerLink: '/blacklist'}
     ];
 
     this.utilsService.getAppVersion().subscribe((result: any) => {

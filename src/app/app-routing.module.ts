@@ -7,6 +7,7 @@ import { EvidenceListComponent } from './evidences/views/evidence-list/evidence-
 import { ErrorListComponent } from './evidences/views/error-list/error-list.component';
 import { DashboardMainComponent } from './dashboard/views/dashboard-main/dashboard-main.component';
 import { RefreshTokenResolverService } from './core/services/refresh-token-resolver.service';
+import { BlacklistListComponent } from './blacklist/views/blacklist-list/blacklist-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'main', component: EvidenceListComponent },
       { path: 'errors', component: ErrorListComponent},
       { path: 'dashboard', component: DashboardMainComponent},
+      { path: 'blacklist', component: BlacklistListComponent},
       { path: '**', redirectTo: 'main', pathMatch: 'full' },
     ]
   },  

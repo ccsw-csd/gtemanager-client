@@ -4,11 +4,12 @@
     <span *ngIf="data.lastEditDate">Con fecha de: {{data.lastEditDate|date: 'dd/MM/YYYY'}}</span>
 </div>
 
-<textarea class="flex w-12" pInputTextarea [(ngModel)]="data.comment" rows="12" [disabled]="this.isLoading"></textarea>
+<textarea *ngIf="data.lastEditAuthor" class="flex w-12" style="height:215px" pInputTextarea [(ngModel)]="data.comment" rows="12" [disabled]="this.isLoading"></textarea>
+<textarea *ngIf="!data.lastEditAuthor" class="flex w-12" style="height:260px" pInputTextarea [(ngModel)]="data.comment" rows="12" [disabled]="this.isLoading"></textarea>
 
 <div class="flex justify-content-end gap-3 mt-3">
     <button type="button" pButton label="Cerrar" class="p-button-secondary p-button-outlined" (click)="onClose()" [disabled]="this.isLoading"></button>
-    <button type="button" pButton label="Guardar" class="p-button" [disabled]='!data.comment || this.isLoading'
+    <button type="button" pButton label="Guardar" class="p-button" [disabled]='this.isLoading'
         (click)="editComment(data)"></button>
 </div>
 

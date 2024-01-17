@@ -27,6 +27,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import { EvidenceManagerUploadComponent } from './views/evidence-manager-upload/evidence-manager-upload.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { EvidenceRecurrenceSaveComponent } from './views/evidence-recurrence-save/evidence-recurrence-save.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     EvidenceEmailComponent,
     ErrorListComponent,
     ParseErrorComponent,
-    EvidenceManagerUploadComponent
+    EvidenceManagerUploadComponent,
+    EvidenceRecurrenceSaveComponent
   ],
   imports: [
     CommonModule,

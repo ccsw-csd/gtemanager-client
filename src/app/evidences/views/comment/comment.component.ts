@@ -53,6 +53,21 @@ export class CommentComponent implements OnInit {
         }
       });
     }
+    else if (this.data.id) {
+      this.isLoading = true;
+      this.commentService.deleteComment(this.data.id).subscribe({
+        next: () => {
+          this.snackbarService.showMessage("El registro se ha guardado con éxito");
+          this.isLoading = false;
+          this.ref.close(true);
+        },
+        error: () => {
+          this.snackbarService.error("El registro no se ha podido guardar correctamente");
+          this.isLoading = false;
+        }
+      });
+
+    }
   }
 
   onClose() {
