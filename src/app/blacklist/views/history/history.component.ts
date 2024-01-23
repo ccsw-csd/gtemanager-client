@@ -16,13 +16,7 @@ export class HistoryComponent implements OnInit {
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
   ) { 
-
-
     this.data = config.data;
-
-
-    console.log(this.data);
-
   }
 
   ngOnInit(): void {

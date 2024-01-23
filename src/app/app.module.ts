@@ -12,7 +12,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { RefreshTokenResolverService } from './core/services/refresh-token-resolver.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { HttpInterceptorService } from './core/services/http-interceptor.service';
 import { BlacklistModule } from './blacklist/blacklist.module';
@@ -42,7 +42,8 @@ registerLocaleData(localeEs,'es');
     DialogService,
     MessageService,
     RefreshTokenResolverService,
-    DatePipe
+    DatePipe,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

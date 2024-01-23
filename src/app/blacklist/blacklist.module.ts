@@ -23,7 +23,7 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { CommentBlacklistComponent } from './views/comment/comment-blacklist.component';
 import { HistoryComponent } from './views/history/history.component';
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 @NgModule({
@@ -55,6 +55,7 @@ import { HistoryComponent } from './views/history/history.component';
     AutoCompleteModule,
     ContextMenuModule,
     ClipboardModule,
+    ConfirmDialogModule,
   ]
 })
 export class BlacklistModule { }

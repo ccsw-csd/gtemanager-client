@@ -15,7 +15,7 @@ export class BlacklistService {
 
   saveComment(id: number, comment: string): Observable<void> {
     return this.http.put<void>(environment.server + "/blacklist/save-comment", {id: id, comment: comment});
-}
+  }
 
 
   getList(center?: string): Observable<Blacklist[]> {
@@ -37,6 +37,10 @@ export class BlacklistService {
     return this.http.put<void>(environment.server + "/blacklist", {month: month, year: year, day: day, persons: personId});
   }
 
+
+  delete(id: number): Observable<void> {    
+    return this.http.delete<void>(environment.server + "/blacklist/"+id);
+  }
 
 
 }

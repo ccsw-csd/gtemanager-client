@@ -10,6 +10,8 @@ import { CommentBlacklistComponent } from '../comment/comment-blacklist.componen
 import { HistoryComponent } from '../history/history.component';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx-js-style'; 
+import { ConfirmationService } from 'primeng/api';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 
 @Component({
@@ -50,6 +52,9 @@ export class BlacklistListComponent implements OnInit {
     public dialogService: DialogService,
     public authService: AuthService,
     private blacklistService: BlacklistService,
+    private confirmationService: ConfirmationService,
+    private snackbarService: SnackbarService,
+
     ) {
 
       let me = this;
@@ -108,7 +113,6 @@ export class BlacklistListComponent implements OnInit {
       },
       error: () => {},
       complete: ()  => {
-        //this.totalPersons = this.blacklistData.length;
         this.isLoading = false;
         this.blacklistData.forEach(e => {
 
@@ -259,5 +263,34 @@ export class BlacklistListComponent implements OnInit {
     let time = new Date().toISOString().slice(0,16).replace(':','-').replace('T', '_');
     FileSaver.saveAs(data, fileName + '_export_' + (time) + EXCEL_EXTENSION);
   }  
+
+  delete(item: BlacklistItemList) : void {
+
+    this.confirmationService.confirm({
+      message: 'Estás a punto de borrar de la Blacklist a '+item.name+' '+item.lastName+' para el mes de '+item.date+'. <br/><br/>¿Seguro/a que quieres borrar a esta persona de la Blacklist?',
+      rejectButtonStyleClass: 'p-button p-button-secondary p-button-outlined',
+      acceptIcon: 'false',
+      rejectIcon: 'false',      
+      accept: () => {
+        this.confirmationService.close();
+        
+        this.blacklistService.delete(item.id).subscribe({
+          next: () => {
+            this.snackbarService.showMessage('El registro se ha borrado con éxito');
+            this.loadData();
+          },
+          error: (errorResponse) => {
+            this.snackbarService.error(errorResponse['message']);
+          },
+        });
+        
+      },
+      reject: () => {
+        this.confirmationService.close();
+      },
+    });
+
+
+  }
 
 }

@@ -67,7 +67,7 @@
                     <th class="{{cols[8].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText [value]="monthSelected" type="text" (input)="el.filter($event.target.value, 'date', 'contains')" placeholder="Buscar" />
                     </th>
-                    <th style="flex: 0 0 68px; justify-content: flex-end;" class="foot-header">
+                    <th class="flex-none w-6rem foot-header">
                     </th>
                 </tr>
             </ng-template>
@@ -79,7 +79,7 @@
                         <span *ngIf="col.field === 'recurrence' && item[col.field] == true" class="material-icons outlined size-18 color-gray" data-toggle="tooltip" data-placement="top" title="Es recurrente">history</span>
                         <span *ngIf="col.field !== 'recurrence'">{{item[col.field]}}</span>
                     </td>
-                    <td style="flex: 0 0 68px; justify-content: flex-end;" class=" h-2_5rem gap-2">
+                    <td class="flex-none w-6rem gap-2" style="justify-content: flex-end;">
 
                         <span class="pi pi-eye" data-toggle="tooltip" data-placement="top" title="Ver historial" (click)="cellClick(item, 'history')"></span>
 
@@ -88,6 +88,9 @@
                         
                         <span *ngIf="item.comment != null" class="material-icons outlined size-18" data-toggle="tooltip" data-placement="top" 
                             title="Editar comentario" (click)="cellClick(item, 'comment')">chat</span>
+
+                        <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text p-button-plain icon" data-toggle="tooltip" 
+                            data-placement="top" title="Borrar persona" (click)="delete(item)"></button>
                     </td>
                 </tr>
             </ng-template>
@@ -96,3 +99,4 @@
     
 </div>
 <p-toast position="top-center"></p-toast>
+<p-confirmDialog [closable]="false" header="Confirmación" icon="pi pi-exclamation-triangle" #confirmDialog></p-confirmDialog>
