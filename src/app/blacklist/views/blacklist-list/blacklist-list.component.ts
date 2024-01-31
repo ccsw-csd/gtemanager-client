@@ -204,7 +204,7 @@ export class BlacklistListComponent implements OnInit {
         Geografia: item.geografia,
         Mes: item.date,
         Fecha: item.dateRaw,
-        Comentario: item.comment != null ? item.comment.comment : '',
+        Comentario: item.comment != null ? item.comment : '',
     }));
     
 
