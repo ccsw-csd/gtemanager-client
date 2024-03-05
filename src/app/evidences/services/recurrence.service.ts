@@ -21,4 +21,9 @@ export class RecurrenceService {
     save(personId, enabled): Observable<void> {
         return this.http.put<void>(environment.server + "/recurrence", {personId: personId, enabled: enabled});
     }
+
+    saveMultiple(personId, enabled): Observable<void> {
+        return this.http.put<void>(environment.server + "/recurrence/multiple", {personId: personId, enabled: enabled});
+    }
+
 }

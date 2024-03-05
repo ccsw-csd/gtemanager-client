@@ -13,6 +13,7 @@ export class EvidenceRecurrenceSaveComponent implements OnInit {
   MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   numPersonas: number = 0;
   month: string = "";
+  comment: string = "";
   isLoading: boolean = false;
 
   constructor(
@@ -41,7 +42,7 @@ export class EvidenceRecurrenceSaveComponent implements OnInit {
     let personId = this.config.data.persons.map(item => item.personId);
     let date = this.config.data.loadDate;
 
-    this.blacklistService.save(date, personId).subscribe({
+    this.blacklistService.save(date, personId, this.comment).subscribe({
       next: () => {
         this.snackbarService.showMessage("Los registros se han guardado con éxito");
         this.isLoading = false;

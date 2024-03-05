@@ -28,13 +28,13 @@ export class BlacklistService {
     return this.http.get<Blacklist[]>(environment.server + path);
   }
 
-  save(date: Date, personId: number[]): Observable<void> {    
+  save(date: Date, personId: number[], comment: string): Observable<void> {    
 
     let day = date.getDate();
     let month = date.getMonth();
     let year = date.getFullYear();
 
-    return this.http.put<void>(environment.server + "/blacklist", {month: month, year: year, day: day, persons: personId});
+    return this.http.put<void>(environment.server + "/blacklist", {month: month, year: year, day: day, persons: personId, comment: comment});
   }
 
 

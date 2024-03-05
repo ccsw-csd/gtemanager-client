@@ -52,6 +52,7 @@
                 </tr>
                 <tr class="filter">
                     <th class="{{cols[0].class}} foot-header">
+                        <span class="material-icons outlined size-18 color-gray" style="cursor:pointer"  data-toggle="tooltip" data-placement="top" title="Filtrar color" (click)="selectAllRecurrence()">library_add_check</span>
                     </th>
                     <th class="{{cols[1].class}} foot-header">
                         <input class="w-full h-1_5rem" pInputText type="text" (input)="el.filter($event.target.value, 'saga', 'contains')" placeholder="Buscar" />

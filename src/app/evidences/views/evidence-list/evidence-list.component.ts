@@ -520,6 +520,21 @@ export class EvidenceListComponent implements OnInit {
 
   }
 
+  selectAllRecurrence() : void {
+
+    let allActiveRecurrence = true;
+
+    this.table.dataToRender.forEach(item => allActiveRecurrence = allActiveRecurrence && item.recurrence);
+
+    let activateRecurrence = true;
+    if (allActiveRecurrence) activateRecurrence = false;
+
+    let ids = [];
+    this.table.dataToRender.forEach(item => {item.recurrence = activateRecurrence; ids.push(item.personId);});
+
+    this.recurrenceService.saveMultiple(ids, activateRecurrence).subscribe();
+
+  }
 
   guardarBlacklist(): void {
 
@@ -527,7 +542,7 @@ export class EvidenceListComponent implements OnInit {
 
     const ref = this.dialogService.open(EvidenceRecurrenceSaveComponent, {
       header: "Guardar información en la Blacklist",
-      height: "220px",
+      height: "450px",
       width: "550px",
       data: {persons: filterData, loadDate: this.loadDate},
       closable: false
